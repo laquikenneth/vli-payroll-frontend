@@ -1,31 +1,87 @@
 <template>
+
   <v-app>
-      <div class="d-flex align-center">
 
-      </div>
+    <v-app-bar
+      app
+      color="blue-grey lighten-5"
+      dense
+      flat
+    >
 
-      <v-spacer></v-spacer>
+      <v-spacer />
 
-    <v-main>
-      <Email/>
+        <!-- sigin home -->
+        <v-btn
+         small
+         text
+         v-if="signup"
+         :to="{ name: 'Signin' }"
+        >
+
+          Sign In
+
+        </v-btn>
+
+        <!-- signup -->
+        <v-btn
+         small
+         text
+         v-if="signup"
+         :to="{ name: 'Signup' }"
+        >
+
+          Create an Account
+
+        </v-btn>
+
+        <!-- sign after create-->
+        <v-btn
+         small
+         text
+         v-else
+         :to="{ name: 'Signin' }"
+        >
+
+          Sign in
+
+        </v-btn>
+
+    </v-app-bar>
+
+    <!-- start -->
+    <v-main class="blue-grey lighten-5">
+
+      <v-container>
+
+        <!-- <v-layout justify-center align-center> -->
+
+        <!-- if using vue-router -->
+        <router-view></router-view>
+
+        <!-- </v-layout> -->
+
+      </v-container>
+
     </v-main>
+
   </v-app>
+
 </template>
 
 <script>
-// import HelloWorld from './components/HelloWorld'
-import Email from './components/Email'
 
 export default {
   name: 'App',
-
-  components: {
-    // HelloWorld
-    Email
+  data () {
+    return {
+      test: ''
+    }
   },
-
-  data: () => ({
-    //
-  })
+  computed: {
+    signup () {
+      return this.$route.name !== 'Signup'
+    }
+  }
 }
 </script>
