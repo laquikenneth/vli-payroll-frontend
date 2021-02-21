@@ -71,13 +71,13 @@
                     <v-col>
 
                       <v-btn
-                          @click="submit"
-                          block
-                          medium
-                          rounded
-                          color="primary"
-                          :disabled="!formHasErrors || btn_disabled"
-                          form="login"
+                        @click="submit"
+                        block
+                        medium
+                        rounded
+                        color="primary"
+                        :disabled="!formHasErrors || btn_disabled"
+                        form="login"
                       >
 
                         Sign in
