@@ -67,6 +67,7 @@
 </template>
 
 <script>
+
 export default {
   name: 'Email',
   data () {
@@ -91,6 +92,8 @@ export default {
     },
     save () {
       this.loading = true
+      this.$store.commit('is_system_token_null')
+      // this.$store.commit('is_system_token_change')
       this.$router.push({ name: 'Register', params: { email: this.email } })
     }
   }

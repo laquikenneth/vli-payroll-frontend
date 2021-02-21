@@ -4,45 +4,121 @@ import axios from 'axios'
 
 Vue.use(Vuex)
 
-// axios.defaults.baseURL = 'http://localhost:8000/api'
-
 export default new Vuex.Store({
   state: {
-    systemToken: localStorage.getItem('system_token') || null
+    user: null,
+    token: localStorage.getItem('u_t') || null,
+    cacheToken: null,
+    systemToken: localStorage.getItem('s_t') || null,
+    cacheSystemToken: null
   },
   getters: {
+    authenticatedUser (state) {
+      return state.user
+    },
     systemLoggedIn (state) {
       return state.systemToken !== null
     }
   },
   mutations: {
-    systemToken (state, payload) {
+    authenticatedUser (state, payload) {
+      state.user = payload
+    },
+    systemLogout (state) {
+      state.systemToken = null
+    },
+    systemLogin (state, payload) {
       state.systemToken = payload
+      state.cacheSystemToken = payload
+    },
+    is_system_token_null (state) {
+      state.systemToken = localStorage.getItem('s_t')
+    },
+    is_system_token_change (state) {
+      if (state.cacheSystemToken !== state.systemToken) {
+        state.systemToken = null
+      }
     }
   },
   actions: {
+    async authenticatedUser (context, guard) {
+      try {
+        switch (guard) {
+          case 'System':
+            axios.defaults.headers.Authorization = 'Bearer ' + localStorage.getItem('s_t')
+            if (context.getters.systemLoggedIn) {
+              await new Promise((resolve, reject) => {
+                axios.get('s/user')
+                  .then(response => {
+                    context.commit('authenticatedUser', response.data)
+                    resolve(response)
+                  })
+                  .catch(error => {
+                    reject(error)
+                  })
+              })
+            }
+            break
+          // user
+          default:
+            axios.defaults.headers.Authorization = 'Bearer ' + localStorage.getItem('u_t')
+            if (context.getters.systemLoggedIn) {
+              await new Promise((resolve, reject) => {
+                axios.get('u/user')
+                  .then(response => {
+                    localStorage.removeItem('u_t')
+                    context.commit('logout')
+                    resolve(response)
+                  })
+                  .catch(error => {
+                    reject(error)
+                  })
+              })
+            }
+            break
+        }
+      } catch (error) {
+      }
+    },
+    async systemLogout (context) {
+      try {
+        axios.defaults.headers.common.Authorization = 'Bearer ' + localStorage.getItem('s_t')
+        if (context.getters.systemLoggedIn) {
+          await new Promise((resolve, reject) => {
+            axios.post('s/logout')
+              .then(response => {
+                localStorage.removeItem('s_t')
+                context.commit('systemLogout')
+                resolve(response)
+              })
+              .catch(error => {
+                reject(error)
+              })
+          })
+        }
+      } catch (error) {
+      }
+    },
     // system token
-    async systemToken (context, credentials) {
+    async systemLogin (context, payload) {
       try {
         await new Promise((resolve, reject) => {
           axios.post('s/login', {
-            email: credentials.email,
-            password: credentials.password
+            email: payload.email,
+            password: payload.password
           })
             .then(response => {
-              console.log(response)
-              this.systemToken = response.data.access_token
-              localStorage.setItem('system_token', this.systemToken)
-              context.commit('systemToken', this.systemToken)
+              localStorage.setItem('s_t', response.data.access_token)
+              context.commit('systemLogin', response.data.access_token)
               resolve(response)
             })
             .catch(error => {
-              localStorage.removeItem('system_token')
+              localStorage.removeItem('s_t')
               reject(error)
             })
         })
       } catch (error) {
-        localStorage.removeItem('system_token')
+        localStorage.removeItem('s_t')
       }
     }
   },

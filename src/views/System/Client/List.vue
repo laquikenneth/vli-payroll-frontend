@@ -2,9 +2,9 @@
 
   <div>
 
-    <Signin></Signin>
+    <clientList></clientList>
 
-    <v-row class="mt-1">
+    <!-- <v-row class="mt-1">
 
       <v-col
         align="center"
@@ -19,18 +19,18 @@
 
       </v-col>
 
-    </v-row>
+    </v-row> -->
 
   </div>
 
 </template>
 <script>
-import Signin from '@/components/Authentication/Signin.vue'
+import clientList from '@/components/System/Client/List.vue'
 
 export default {
-  name: 'View-Signin',
+  name: 'View-System-Client-List',
   components: {
-    Signin
+    clientList
   }
 }
 </script>

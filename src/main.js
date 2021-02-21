@@ -8,9 +8,23 @@ import axios from 'axios'
 
 Vue.config.productionTip = false
 
-// Vue.prototype.$http = axios
+axios.defaults.baseURL = 'http://host.docker.internal:8000/api'
 
-axios.defaults.baseURL = 'http://localhost:8000/api'
+// route guard
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    // system
+    if (to.meta.guard === 'System') {
+      !store.getters.systemLoggedIn ? next({ name: 'System-Signin' }) : next()
+    }
+    // user
+    // if (to.meta.guard === 'User') {
+    //   store.getters.LoggedIn ? next({ name: 'Signin' }) : next()
+    // }
+  } else {
+    next()
+  }
+})
 
 new Vue({
   router,

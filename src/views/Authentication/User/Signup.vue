@@ -8,7 +8,7 @@
 
 </template>
 <script>
-import Signup from '@/components/Authentication/Signup.vue'
+import Signup from '@/components/Authentication/User/Signup.vue'
 
 export default {
   name: 'View-Signup',

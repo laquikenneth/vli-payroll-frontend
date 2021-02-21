@@ -135,7 +135,7 @@ export default {
     login () {
       this.loading = true
       this.btn_disabled = true
-      this.$store.dispatch('systemToken', {
+      this.$store.dispatch('systemLogin', {
         email: this.form.email,
         password: this.form.password
       })

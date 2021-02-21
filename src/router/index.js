@@ -1,9 +1,12 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import App from '../App.vue'
-import Signup from '../views/Authentication/Signup.vue'
-import Register from '../views/Authentication/Register.vue'
-import Signin from '../views/Authentication/Signin.vue'
+import SystemDashboard from '../components/Dashboard/System'
+import UserSignup from '../views/Authentication/User/Signup.vue'
+import UserRegister from '../views/Authentication/User/Register.vue'
+import UserSignin from '../views/Authentication/User/Signin.vue'
+import SystemSignin from '../views/Authentication/System/Signin.vue'
+import SystemClientList from '../views/System/Client/List.vue'
 
 Vue.use(VueRouter)
 
@@ -14,19 +17,48 @@ const routes = [
     component: App
   },
   {
+    path: '/auth/signin',
+    name: 'Signin',
+    component: UserSignin
+  },
+  {
     path: '/auth/signup',
     name: 'Signup',
-    component: Signup
+    component: UserSignup
   },
   {
     path: '/auth/register/:email',
     name: 'Register',
-    component: Register
+    component: UserRegister
   },
   {
-    path: '/auth/signin',
-    name: 'Signin',
-    component: Signin
+    path: '/auth/system/signin',
+    name: 'System-Signin',
+    component: SystemSignin
+  },
+  {
+    path: '/system/register',
+    name: 'System-Register'
+  },
+  {
+    path: '/system/dashboard',
+    name: 'System-Dashboard',
+    component: SystemDashboard,
+    children: [
+      {
+        path: 'client/list',
+        name: 'System-Client-List',
+        component: SystemClientList,
+        meta: {
+          guard: 'System',
+          requiresAuth: true
+        }
+      }
+    ],
+    meta: {
+      guard: 'System',
+      requiresAuth: true
+    }
   }
 ]
 

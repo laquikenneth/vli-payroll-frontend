@@ -8,7 +8,7 @@
 
 </template>
 <script>
-import Regsiter from '@/components/Authentication/Register.vue'
+import Regsiter from '@/components/Authentication/User/Register.vue'
 
 export default {
   name: 'View-Regsiter',
