@@ -2,166 +2,186 @@
 
   <div>
 
-    <v-card
-      class='mx-auto mt-16'
-      width='450'
-      outlined
-      :loading='loading'
-      elevation='3'
-    >
+    <v-container>
 
-      <v-card-title>Register your company</v-card-title>
+      <v-card
+        class='mx-auto mt-16'
+        width='450'
+        outlined
+        :loading='loading'
+        elevation='3'
+      >
 
-      <v-card-text>
+        <v-card-title>Register your company</v-card-title>
 
-        <v-container>
+        <v-card-text>
 
-          <v-form
-            ref='form'
-            v-model="formHasErrors"
-            lazy-validation
-          >
+          <v-container>
 
-            <!-- Company Name -->
-            <v-row>
+            <v-form
+              ref='form'
+              v-model="formHasErrors"
+              lazy-validation
+            >
 
-              <v-col>
+              <!-- Email -->
+              <v-row class='mt-n5'>
 
-                <v-text-field
-                  v-model='form.co_name_'
-                  :rules='rules.co_name_'
-                  dense
-                  outlined
-                  label='Company Name'
-                  required
-                />
+                <v-col>
 
-              </v-col>
+                  <v-text-field
+                    v-model="form.email"
+                    label="Email"
+                    outlined
+                    readonly
+                    dense
+                    filled
+                  />
 
-            </v-row>
+                </v-col>
 
-            <!-- Address -->
-            <v-row class='mt-n5'>
+              </v-row>
 
-              <v-col cols='6'>
+              <!-- Company Name -->
+              <v-row class='mt-n5'>
 
-                <v-text-field
-                  v-model='form.address_'
-                  :rules='rules.address_'
-                  dense
-                  outlined
-                  label='Address'
-                  required
-                />
+                <v-col>
 
-              </v-col>
+                  <v-text-field
+                    v-model='form.co_name_'
+                    :rules='rules.co_name_'
+                    dense
+                    outlined
+                    label='Company Name'
+                    required
+                  />
 
-              <!-- Zip Code -->
-              <v-col cols='6'>
+                </v-col>
 
-                <v-text-field
-                  v-model='form.zip_code'
-                  :rules='rules.zip_code'
-                  dense
-                  outlined
-                  label='Zip Code'
-                  required
-                />
+              </v-row>
 
-              </v-col>
+              <!-- Address -->
+              <v-row class='mt-n5'>
 
-            </v-row>
+                <v-col cols='6'>
 
-            <!-- Employee Code -->
-            <v-row class='mt-n5'>
+                  <v-text-field
+                    v-model='form.address_'
+                    :rules='rules.address_'
+                    dense
+                    outlined
+                    label='Address'
+                    required
+                  />
 
-              <v-col>
+                </v-col>
 
-                <v-text-field
-                  v-model='form.empl_cde'
-                  :rules='rules.empl_cde'
-                  dense
-                  outlined
-                  label='Employee Code'
-                  required
-                />
+                <!-- Zip Code -->
+                <v-col cols='6'>
 
-              </v-col>
+                  <v-text-field
+                    v-model='form.zip_code'
+                    :rules='rules.zip_code'
+                    dense
+                    outlined
+                    label='Zip Code'
+                    required
+                  />
 
-            </v-row>
+                </v-col>
 
-            <!-- First name -->
-            <v-row class='mt-n5'>
+              </v-row>
 
-              <v-col cols='6'>
+              <!-- Employee Code -->
+              <v-row class='mt-n5'>
 
-                <v-text-field
-                  v-model='form.frst_nme'
-                  :rules='rules.frst_nme'
-                  dense
-                  outlined
-                  label='First Name'
-                  required
-                />
+                <v-col>
 
-              </v-col>
+                  <v-text-field
+                    v-model='form.empl_cde'
+                    :rules='rules.empl_cde'
+                    dense
+                    outlined
+                    label='Employee Code'
+                    required
+                  />
 
-              <!-- Last Name -->
-              <v-col cols='6'>
+                </v-col>
 
-                <v-text-field
-                  v-model='form.last_nme'
-                  :rules='rules.last_nme'
-                  dense
-                  outlined
-                  label='Last Name'
-                  required
-                />
+              </v-row>
 
-              </v-col>
+              <!-- First name -->
+              <v-row class='mt-n5'>
 
-            </v-row>
+                <v-col cols='6'>
 
-            <!-- Position -->
-            <v-row class='mt-n5'>
+                  <v-text-field
+                    v-model='form.frst_nme'
+                    :rules='rules.frst_nme'
+                    dense
+                    outlined
+                    label='First Name'
+                    required
+                  />
 
-              <v-col>
+                </v-col>
 
-                <v-text-field
-                  v-model='form.position'
-                  :rules='rules.position'
-                  dense
-                  outlined
-                  label='Position'
-                  required
-                />
+                <!-- Last Name -->
+                <v-col cols='6'>
 
-              </v-col>
+                  <v-text-field
+                    v-model='form.last_nme'
+                    :rules='rules.last_nme'
+                    dense
+                    outlined
+                    label='Last Name'
+                    required
+                  />
 
-            </v-row>
+                </v-col>
 
-            <!-- Mobile Number -->
-            <v-row class='mt-n5'>
+              </v-row>
 
-              <v-col>
+              <!-- Position -->
+              <v-row class='mt-n5'>
 
-                <v-text-field
-                  v-model='form.mobile__'
-                  :rules='rules.mobile__'
-                  dense
-                  outlined
-                  label='Mobile Number'
-                  required
-                  maxlength="11"
-                  counter
-                />
+                <v-col>
 
-              </v-col>
+                  <v-text-field
+                    v-model='form.position'
+                    :rules='rules.position'
+                    dense
+                    outlined
+                    label='Position'
+                    required
+                  />
 
-            </v-row>
+                </v-col>
 
-            <!-- Submit Button -->
-            <v-card-actions>
+              </v-row>
+
+              <!-- Mobile Number -->
+              <v-row class='mt-n5'>
+
+                <v-col>
+
+                  <v-text-field
+                    v-model='form.mobile__'
+                    :rules='rules.mobile__'
+                    dense
+                    outlined
+                    label='Mobile Number'
+                    required
+                    maxlength="11"
+                    counter
+                  />
+
+                </v-col>
+
+              </v-row>
+
+              <!-- Submit Button -->
+              <v-card-actions>
 
                 <v-btn
                   block
@@ -172,19 +192,21 @@
                   @click="submit"
                 >
 
-                Submit
+                  Submit
 
                 </v-btn>
 
-            </v-card-actions>
+              </v-card-actions>
 
-          </v-form>
+            </v-form>
 
-        </v-container>
+          </v-container>
 
-      </v-card-text>
+        </v-card-text>
 
-    </v-card>
+      </v-card>
+
+    </v-container>
 
     <!-- Snackbar -->
     <v-snackbar
@@ -256,10 +278,6 @@ export default {
           value => /^[0-9]+$/.test(value) || 'Input must be a number',
           value => !!value || 'Mobile number is required.',
           value => value.length === 11 || 'Mobile number must be 11 digits'
-        ],
-        email: [
-          value => !!value || 'Email is required',
-          value => /.+@.+\..+/.test(value) || 'Email must be valid'
         ]
       },
       btn_disabled: false,
@@ -292,8 +310,6 @@ export default {
         .then(response => {
           this.loading = false
           this.snackbar = true
-          // this.$refs.form.reset()
-          // response.status === 200 ? this.btn_disabled = false : this.btn_disabled = true
         })
         .catch(e => {
           this.btn_disabled = false
