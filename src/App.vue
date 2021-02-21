@@ -5,7 +5,6 @@
     <v-app-bar
       app
       color="blue-grey lighten-5"
-      dense
       flat
     >
 
@@ -13,10 +12,10 @@
 
         <!-- sigin home -->
         <v-btn
-         small
-         text
-         v-if="signup"
-         :to="{ name: 'Signin' }"
+          medium
+          text
+          v-if="signup"
+          :to="{ name: 'Signin' }"
         >
 
           Sign In
@@ -25,10 +24,10 @@
 
         <!-- signup -->
         <v-btn
-         small
-         text
-         v-if="signup"
-         :to="{ name: 'Signup' }"
+          medium
+          text
+          v-if="signup"
+          :to="{ name: 'Signup' }"
         >
 
           Create an Account
@@ -37,10 +36,10 @@
 
         <!-- sign after create-->
         <v-btn
-         small
-         text
-         v-else
-         :to="{ name: 'Signin' }"
+          medium
+          text
+          v-else
+          :to="{ name: 'Signin' }"
         >
 
           Sign in
@@ -49,8 +48,8 @@
 
     </v-app-bar>
 
-    <!-- start -->
-    <v-main class="blue-grey lighten-5">
+    <!-- root layout -->
+    <v-main>
 
       <v-container>
 
@@ -75,7 +74,6 @@ export default {
   name: 'App',
   data () {
     return {
-      test: ''
     }
   },
   computed: {
