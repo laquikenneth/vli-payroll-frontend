@@ -1,8 +1,6 @@
 <template>
 
-<div>
-
-    <v-container>
+  <div>
 
       <v-card
         class="mx-auto mt-16"
@@ -16,121 +14,136 @@
 
           <v-card-text>
 
-            <v-form @submit.prevent="login" id="login" class="mt-n4">
+            <v-container>
 
-              <!-- email field -->
-              <v-row class="mt-n4">
-                <v-col>
+              <v-form
+                class="mt-n4"
+                ref="form"
+                v-model="formHasErrors"
+                lazy-validation
+              >
 
-                  <v-text-field
-                    v-model="email"
-                    :rules="rules.email"
-                    dense
-                    label="Email"
-                    outlined
-                    required
-                  />
-
-                </v-col>
-
-              </v-row>
-
-              <!-- password field-->
-              <v-row class="mt-n4">
-
-                <v-col>
-
-                  <v-text-field
-                    v-model="password"
-                    id="password"
-                    type="password"
-                    dense
-                    label="Password"
-                    :rules="rules.password"
-                    required
-                    outlined
-                  />
-
-                </v-col>
-
-              </v-row>
-
-              <!-- login button -->
-
-              <v-card-actions>
+                <!-- email field -->
                 <v-row class="mt-n4">
-
                   <v-col>
 
-                    <v-btn
-                      type="submit"
-                      color="primary"
-                      form="login"
-                      btn_disabled
-                      block
-                      rounded
-                    >
-
-                      Sign in
-
-                    </v-btn>
+                    <v-text-field
+                      v-model="form.email"
+                      :rules="rules.email"
+                      dense
+                      label="Email"
+                      outlined
+                      required
+                      :readonly="readonly"
+                    />
 
                   </v-col>
 
                 </v-row>
 
-              </v-card-actions>
+                <!-- password field-->
+                <v-row class="mt-n4">
 
-            </v-form>
+                  <v-col>
+
+                    <v-text-field
+                      v-model="form.password"
+                      type="password"
+                      dense
+                      label="Password"
+                      :rules="rules.password"
+                      required
+                      outlined
+                      @keydown.enter="login"
+                      :readonly="readonly"
+                    />
+
+                  </v-col>
+
+                </v-row>
+
+                <!-- login button -->
+
+                <v-card-actions>
+
+                  <v-row class="mt-n4">
+
+                    <v-col>
+
+                      <v-btn
+                          @click="submit"
+                          block
+                          medium
+                          rounded
+                          color="primary"
+                          :disabled="!formHasErrors || btn_disabled"
+                          form="login"
+                      >
+
+                        Sign in
+
+                      </v-btn>
+
+                    </v-col>
+
+                  </v-row>
+
+                </v-card-actions>
+
+              </v-form>
+
+            </v-container>
 
           </v-card-text>
 
-        </v-card>
-
-    </v-container>
+      </v-card>
 
   </div>
 
 </template>
 <script>
+
 export default {
   name: 'Email',
   data () {
     return {
-      email: '',
-      password: '',
       rules: {
         required: value => !!value || 'Required.',
         email: [
           value => !!value || 'Email is required',
-          value => /.+@.+\..+/.test(value) || 'E-mail must be valid'
+          value => /.+@.+\..+/.test(value) || 'E-mailmust be valid'
         ],
         password: [
           value => !!value || 'Password is required'
         ]
 
       },
+      btn_disabled: false,
+      formHasErrors: false,
+      readonly: false,
       loading: false,
-      btn_disabled: false
+      form: {
+        email: '',
+        password: ''
+      }
     }
   },
-  submit () {
-    this.validate() ? this.save() : this.validate()
-  },
-  save () {
-    this.loading = true
-    this.btn_disabled = true
-    // axios.post('/appointment/create', this.form)
-      .then(response => {
-        this.loading = false
-        this.snackbar = true
-        this.reset()
-        response.status === 200 ? this.btn_disabled = false : this.btn_disabled = true
+  methods: {
+    submit () {
+      this.$refs.form.validate() ? this.login() : this.$refs.form.validate()
+    },
+    login () {
+      this.loading = true
+      this.btn_disabled = true
+      this.$store.dispatch('systemToken', {
+        email: this.form.email,
+        password: this.form.password
       })
-      .catch(e => {
-        const backendErrors = e.response.data.errors
-        this.errors.push(backendErrors)
-      })
+        .then(() => {
+          this.loading = false
+          this.readonly = true
+        })
+    }
   }
 }
 </script>
