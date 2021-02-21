@@ -14,45 +14,49 @@
 
         <v-card-title>Create an account</v-card-title>
 
-          <v-container>
+          <v-card-text>
 
-            <v-form
-            ref="form"
-            v-model="formHasErrors"
-            >
+            <v-container>
 
-              <!-- fields -->
-              <v-text-field
-              v-model="email"
-              :rules="rules.email"
-              dense
-              outlined
-              label="Email"
-              required
-              :change="submit"
-             />
+              <v-form
+                ref="form"
+                v-model="formHasErrors"
+              >
 
-              <!-- button -->
-              <v-card-actions>
+                <!-- email -->
+                <v-text-field
+                  v-model="email"
+                  :rules="rules.email"
+                  dense
+                  outlined
+                  label="Corporate Email*"
+                  required
+                  @keydown.enter="submit"
+              />
 
-                <v-btn
-                  @click="submit"
-                  block
-                  large
-                  rounded
-                  color="primary"
-                  :disabled="!formHasErrors || btn_disabled"
-                >
+                <!-- button -->
+                <v-card-actions>
 
-                  Sign Up
+                  <v-btn
+                    @click="submit"
+                    block
+                    medium
+                    rounded
+                    color="primary"
+                    :disabled="!formHasErrors || btn_disabled"
+                  >
 
-                </v-btn>
+                    Sign Up
 
-               </v-card-actions>
+                  </v-btn>
 
-            </v-form>
+                </v-card-actions>
 
-          </v-container>
+              </v-form>
+
+            </v-container>
+
+          </v-card-text>
 
       </v-card>
 
