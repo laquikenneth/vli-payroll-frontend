@@ -299,6 +299,18 @@ export default {
               action: 'mdi-clipboard-list-outline',
               title: 'List',
               url: { name: 'System-Client-List' }
+            },
+            {
+              action: 'mdi-email-alert-outline',
+              title: 'Pending'
+            },
+            {
+              action: 'mdi-email-check-outline',
+              title: 'Verified'
+            },
+            {
+              action: 'mdi-account-check-outline',
+              title: 'Approved'
             }
           ]
         }

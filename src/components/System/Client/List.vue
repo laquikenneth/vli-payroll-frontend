@@ -13,11 +13,12 @@
 
       <template v-slot:item.action="{ item }">
 
-        <v-btn icon>
+        <v-btn
+          :to="{ name: 'System-Client-Edit', params: { id: item.cntrl_no } }"
+          icon
+        >
 
-          <v-icon
-            @click="accept(item)"
-          >
+          <v-icon>
 
             mdi-pencil-box-outline
 
@@ -52,6 +53,7 @@ export default {
         { text: 'Last Name', value: 'last_nme', sortable: true },
         { text: 'Email', value: 'email', sortable: true },
         { text: 'Mobile', value: 'mobile__', sortable: true },
+        { text: 'Status', value: 'status__', sortable: true },
         { text: 'Action', value: 'action', sortable: false }
       ],
       list: []
@@ -77,9 +79,6 @@ export default {
         }
       } catch (error) {
       }
-    },
-    accept (item) {
-      console.log(item)
     }
   },
   created () {

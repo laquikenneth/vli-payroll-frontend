@@ -1,3 +1,4 @@
+
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import App from '../App.vue'
@@ -7,6 +8,7 @@ import UserRegister from '../views/Authentication/User/Register.vue'
 import UserSignin from '../views/Authentication/User/Signin.vue'
 import SystemSignin from '../views/Authentication/System/Signin.vue'
 import SystemClientList from '../views/System/Client/List.vue'
+import SystemClient from '../views/System/Client/Components/Client.vue'
 
 Vue.use(VueRouter)
 
@@ -27,7 +29,7 @@ const routes = [
     component: UserSignup
   },
   {
-    path: '/auth/register/:email',
+    path: '/auth/register/:id',
     name: 'Register',
     component: UserRegister
   },
@@ -49,6 +51,15 @@ const routes = [
         path: 'client/list',
         name: 'System-Client-List',
         component: SystemClientList,
+        meta: {
+          guard: 'System',
+          requiresAuth: true
+        }
+      },
+      {
+        path: 'client/:id',
+        name: 'System-Client-Edit',
+        component: SystemClient,
         meta: {
           guard: 'System',
           requiresAuth: true

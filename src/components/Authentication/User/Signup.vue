@@ -10,6 +10,7 @@
         outlined
         :loading="loading"
         elevation="3"
+        v-if="show_signup"
       >
 
         <v-card-title>Create an account</v-card-title>
@@ -25,7 +26,7 @@
 
                 <!-- email -->
                 <v-text-field
-                  v-model="email"
+                  v-model="form.email"
                   :rules="rules.email"
                   dense
                   outlined
@@ -62,17 +63,51 @@
 
     </v-container>
 
+    <!-- Snackbar -->
+    <v-snackbar
+      v-model="snackbar"
+      :multi-line="multiLine"
+    >
+
+      {{ snackbarText }}
+
+      <template v-slot:action="{ attrs }">
+
+        <v-btn
+          color="red"
+          text
+          v-bind="attrs"
+          @click="snackbar= false"
+        >
+
+          Close
+
+        </v-btn>
+
+      </template>
+
+    </v-snackbar>
+
+    <VerifyEmail :email="form.email" v-if="show_verification_msg"></VerifyEmail>
+
   </div>
 
 </template>
 
 <script>
+import axios from 'axios'
+import VerifyEmail from '@/components/Common/Verify-Email.vue'
 
 export default {
   name: 'Email',
+  components: {
+    VerifyEmail
+  },
   data () {
     return {
-      email: '',
+      form: {
+        email: ''
+      },
       rules: {
         required: value => !!value || 'Required.',
         email: [
@@ -81,20 +116,46 @@ export default {
         ]
 
       },
+      snackbarText: '',
+      loading: false,
+      multiLine: true,
+      snackbar: false,
       formHasErrors: false,
       btn_disabled: false,
-      loading: false
+      show_signup: true,
+      show_verification_msg: false
     }
   },
   methods: {
     submit () {
       this.$refs.form.validate() ? this.save() : this.$refs.form.validate()
     },
-    save () {
+    async save () {
       this.loading = true
-      this.$store.commit('is_system_token_null')
-      // this.$store.commit('is_system_token_change')
-      this.$router.push({ name: 'Register', params: { email: this.email } })
+      this.btn_disabled = true
+      try {
+        await new Promise((resolve, reject) => {
+          axios.post('/auth/client/register/email', this.form)
+            .then(response => {
+              this.loading = false
+              // this.snackbar = true
+              this.btn_disabled = false
+              this.$refs.form.reset()
+              this.show_signup = false
+              this.show_verification_msg = true
+              resolve(response)
+            })
+            .catch(error => {
+              this.btn_disabled = false
+              this.snackbarText = error.response.data.errors.email[0]
+              this.snackbar = true
+              this.loading = false
+              this.btn_disabled = false
+              reject(error)
+            })
+        })
+      } catch (error) {
+      }
     }
   }
 }

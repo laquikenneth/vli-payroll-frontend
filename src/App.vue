@@ -4,8 +4,6 @@
 
     <v-app-bar
       app
-      color="blue-grey lighten-5"
-      flat
     >
 
       <v-spacer />

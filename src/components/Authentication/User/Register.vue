@@ -4,8 +4,21 @@
 
     <v-container>
 
+    <v-alert
+      class='mx-auto'
+      width='450'
+      dense
+      text
+      type="success"
+      v-if="verified"
+    >
+
+      Your email address was successfully verified.
+
+    </v-alert>
+
       <v-card
-        class='mx-auto mt-16'
+        class='mx-auto'
         width='450'
         outlined
         :loading='loading'
@@ -21,7 +34,6 @@
             <v-form
               ref='form'
               v-model="formHasErrors"
-              lazy-validation
             >
 
               <!-- Email -->
@@ -284,9 +296,11 @@ export default {
       loading: false,
       multiLine: true,
       snackbar: false,
+      verified: false,
       formHasErrors: false,
       snackbarText: 'Success',
       form: {
+        cntrl_no: this.$route.params.id,
         co_name_: '',
         address_: '',
         zip_code: '',
@@ -295,7 +309,7 @@ export default {
         last_nme: '',
         position: '',
         mobile__: '',
-        email: this.$route.params.email
+        email: ''
       }
     }
   },
@@ -303,10 +317,33 @@ export default {
     submit () {
       this.$refs.form.validate() ? this.save() : this.$refs.form.validate()
     },
+    async clientEmail () {
+      // this.loading = true
+      try {
+        // axios.defaults.headers.common.Authorization = 'Bearer ' + localStorage.getItem('s_t')
+        // if (this.$store.getters.systemLoggedIn) {
+        await new Promise((resolve, reject) => {
+          axios.get('auth/client/email', {
+            params: {
+              cntrl_no: this.$route.params.id
+            }
+          })
+            .then(response => {
+              this.form.email = response.data.email
+              this.verified = true
+              // this.loading = false
+              resolve(response)
+            })
+            .catch(error => {
+              reject(error)
+            })
+        })
+        // }
+      } catch (error) {
+      }
+    },
     save () {
-      this.loading = true
-      this.btn_disabled = true
-      axios.post('/auth/register', this.form)
+      axios.post('/auth/client/register', this.form)
         .then(response => {
           this.loading = false
           this.snackbar = true
@@ -314,7 +351,17 @@ export default {
         .catch(e => {
           this.btn_disabled = false
         })
+    },
+    showAlert () {
+      this.verified = false
     }
+
+  },
+  created () {
+    this.clientEmail()
+    setTimeout(() => {
+      this.verified = false
+    }, 5000)
   }
 }
 </script>
