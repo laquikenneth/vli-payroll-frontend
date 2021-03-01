@@ -3,7 +3,7 @@
   <div>
 
       <v-card
-        class="mx-auto mt-16"
+        class="mx-auto my-auto mt-16"
         width="360"
         outlined
         :loading="loading"
@@ -14,7 +14,8 @@
 
           <v-card-text>
 
-            <v-container>
+            <v-container class
+            >
 
               <v-form
                 class="mt-n4"

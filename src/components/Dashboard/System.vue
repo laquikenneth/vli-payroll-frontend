@@ -296,11 +296,6 @@ export default {
           active: true,
           subs: [
             {
-              action: 'mdi-clipboard-list-outline',
-              title: 'List',
-              url: { name: 'System-Client-List' }
-            },
-            {
               action: 'mdi-email-alert-outline',
               title: 'Pending'
             },
@@ -310,7 +305,13 @@ export default {
             },
             {
               action: 'mdi-account-check-outline',
-              title: 'Approved'
+              title: 'Approved',
+              url: { name: 'System-Client-Approved' }
+            },
+            {
+              action: 'mdi-clipboard-list-outline',
+              title: 'List',
+              url: { name: 'System-Client-List' }
             }
           ]
         }

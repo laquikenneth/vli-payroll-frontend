@@ -4,12 +4,15 @@
 
     <v-app-bar
       app
+      flat
+      color="white"
+      outlined
     >
-
       <v-spacer />
 
         <!-- sigin home -->
         <v-btn
+          class="text--secondary"
           medium
           text
           v-if="signup"
@@ -20,8 +23,11 @@
 
         </v-btn>
 
+        <span class="text --disabled" v-if="signup">|</span>
+
         <!-- signup -->
         <v-btn
+          class="text--secondary"
           medium
           text
           v-if="signup"
@@ -34,6 +40,7 @@
 
         <!-- sign after create-->
         <v-btn
+          class="mr-2 text--secondary"
           medium
           text
           v-else

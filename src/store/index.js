@@ -7,10 +7,12 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     user: null,
+    email: '',
     token: localStorage.getItem('u_t') || null,
     cacheToken: null,
     systemToken: localStorage.getItem('s_t') || null,
-    cacheSystemToken: null
+    cacheSystemToken: null,
+    emailVerified: false
   },
   getters: {
     authenticatedUser (state) {
@@ -18,6 +20,12 @@ export default new Vuex.Store({
     },
     systemLoggedIn (state) {
       return state.systemToken !== null
+    },
+    hasVerifiedEmail (state) {
+      return state.emailVerified
+    },
+    email (state) {
+      return state.email
     }
   },
   mutations: {
@@ -38,6 +46,12 @@ export default new Vuex.Store({
       if (state.cacheSystemToken !== state.systemToken) {
         state.systemToken = null
       }
+    },
+    hasVerifiedEmail (state, payload) {
+      state.emailVerified = payload
+    },
+    email (state, payload) {
+      state.email = payload
     }
   },
   actions: {
@@ -119,6 +133,31 @@ export default new Vuex.Store({
         })
       } catch (error) {
         localStorage.removeItem('s_t')
+      }
+    },
+    async hasVerifiedEmail (context, id) {
+      try {
+        await new Promise((resolve, reject) => {
+          axios.get('auth/client/email', {
+            params: {
+              cntrl_no: id
+            }
+          })
+            .then(response => {
+              const emailVerified = response.data.email
+              if (typeof (emailVerified) !== 'undefined') {
+                context.commit('hasVerifiedEmail', true)
+                context.commit('email', response.data.email)
+              } else {
+                context.commit('hasVerifiedEmail', false)
+              }
+              resolve(response)
+            })
+            .catch(error => {
+              reject(error)
+            })
+        })
+      } catch (error) {
       }
     }
   },

@@ -1,4 +1,5 @@
 <template>
+
   <div>
 
     <v-alert
@@ -6,9 +7,10 @@
       width="600px"
       border="top"
       colored-border
-      type="info"
+      type="success"
       elevation="2"
     >
+
       <h3>
         {{ title }}
       </h3>
@@ -16,18 +18,25 @@
       <v-divider
         class="my-4 info"
         style="opacity: 0.22"
-      ></v-divider>
+      />
 
       <v-row
         align="center"
         no-gutters
       >
+
         <v-col class="grow">
-          Please click on the link that we sent to your email account ({{ this.email }}) to verify your email and continue the registration process. <a ref="">Resend Email</a>
+
+          {{ message }}
+
         </v-col>
+
       </v-row>
+
     </v-alert>
-    </div>
+
+  </div>
+
 </template>
 <script>
 
@@ -40,8 +49,8 @@ export default {
   },
   data () {
     return {
-      title: 'A verification link has been sent to your email account.',
-      message: 'Please click on the link that we sent to your email account to verify your email and continue the registration process.'
+      title: 'Your email is already verified.',
+      message: 'We will notify you via Email once your account is approved.'
     }
   }
 }

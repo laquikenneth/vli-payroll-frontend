@@ -5,12 +5,12 @@
     <v-container>
 
       <v-card
-        class="mx-auto mt-16"
+        class="mx-auto my-auto mt-16"
         width="360"
         outlined
         :loading="loading"
         elevation="3"
-        v-if="show_signup"
+        v-show="show_signup"
       >
 
         <v-card-title>Create an account</v-card-title>
@@ -31,7 +31,6 @@
                   dense
                   outlined
                   label="Corporate Email*"
-                  required
                   @keydown.enter="submit"
               />
 
@@ -88,7 +87,7 @@
 
     </v-snackbar>
 
-    <VerifyEmail :email="form.email" v-if="show_verification_msg"></VerifyEmail>
+    <VerifyEmail :email="form.email" v-show="show_verification_msg"></VerifyEmail>
 
   </div>
 
@@ -138,19 +137,15 @@ export default {
           axios.post('/auth/client/register/email', this.form)
             .then(response => {
               this.loading = false
-              // this.snackbar = true
-              this.btn_disabled = false
-              this.$refs.form.reset()
               this.show_signup = false
               this.show_verification_msg = true
               resolve(response)
             })
             .catch(error => {
-              this.btn_disabled = false
-              this.snackbarText = error.response.data.errors.email[0]
-              this.snackbar = true
               this.loading = false
               this.btn_disabled = false
+              this.snackbar = true
+              this.snackbarText = error.response.data.errors.email[0]
               reject(error)
             })
         })

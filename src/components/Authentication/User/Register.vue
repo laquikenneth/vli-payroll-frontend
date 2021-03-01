@@ -43,6 +43,7 @@
 
                   <v-text-field
                     v-model="form.email"
+                    :input="store_email"
                     label="Email"
                     outlined
                     readonly
@@ -245,15 +246,21 @@
 
     </v-snackbar>
 
+    <Registered v-show="show_registered_success"></Registered>
+
   </div>
 
 </template>
 
 <script>
 import axios from 'axios'
+import Registered from '@/components/Common/Registered-Success.vue'
 
 export default {
   name: 'Register',
+  components: {
+    Registered
+  },
   data () {
     return {
       rules: {
@@ -298,6 +305,7 @@ export default {
       snackbar: false,
       verified: false,
       formHasErrors: false,
+      show_registered_success: false,
       snackbarText: 'Success',
       form: {
         cntrl_no: this.$route.params.id,
@@ -309,56 +317,39 @@ export default {
         last_nme: '',
         position: '',
         mobile__: '',
-        email: ''
+        email: this.$store.getters.email
       }
+    }
+  },
+  computed: {
+    store_email () {
+      return this.$store.getters.email
     }
   },
   methods: {
     submit () {
       this.$refs.form.validate() ? this.save() : this.$refs.form.validate()
     },
-    async clientEmail () {
-      // this.loading = true
-      try {
-        // axios.defaults.headers.common.Authorization = 'Bearer ' + localStorage.getItem('s_t')
-        // if (this.$store.getters.systemLoggedIn) {
-        await new Promise((resolve, reject) => {
-          axios.get('auth/client/email', {
-            params: {
-              cntrl_no: this.$route.params.id
-            }
-          })
-            .then(response => {
-              this.form.email = response.data.email
-              this.verified = true
-              // this.loading = false
-              resolve(response)
-            })
-            .catch(error => {
-              reject(error)
-            })
-        })
-        // }
-      } catch (error) {
-      }
-    },
     save () {
       axios.post('/auth/client/register', this.form)
         .then(response => {
           this.loading = false
-          this.snackbar = true
+          this.$router.push({ name: 'Registered-Success' })
         })
         .catch(e => {
           this.btn_disabled = false
         })
     },
-    showAlert () {
-      this.verified = false
+    hasVerifiedEmail () {
+      this.$store.dispatch('hasVerifiedEmail', this.route.params.id)
+    },
+    email () {
+      this.form.email = this.$store.getters.email
     }
 
   },
   created () {
-    this.clientEmail()
+    this.email()
     setTimeout(() => {
       this.verified = false
     }, 5000)

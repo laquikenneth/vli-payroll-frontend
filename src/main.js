@@ -26,6 +26,16 @@ router.beforeEach((to, from, next) => {
   } else {
     next()
   }
+
+  if (to.matched.some(record => record.meta.requiresVerifiedEmail)) {
+    store.dispatch('hasVerifiedEmail', to.params.id)
+      .then(() => {
+        if (!store.getters.hasVerifiedEmail) next({ name: 'Registered-Success' })
+        else next()
+      })
+  } else {
+    next()
+  }
 })
 
 new Vue({
