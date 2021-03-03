@@ -18,6 +18,9 @@ export default new Vuex.Store({
     authenticatedUser (state) {
       return state.user
     },
+    loggedIn (state) {
+      return state.token !== null
+    },
     systemLoggedIn (state) {
       return state.systemToken !== null
     },
@@ -31,6 +34,10 @@ export default new Vuex.Store({
   mutations: {
     authenticatedUser (state, payload) {
       state.user = payload
+    },
+    login (state, payload) {
+      state.token = payload
+      // state.cacheSystemToken = payload
     },
     systemLogout (state) {
       state.systemToken = null
@@ -73,15 +80,33 @@ export default new Vuex.Store({
               })
             }
             break
-          // user
-          default:
+          case 'User':
             axios.defaults.headers.Authorization = 'Bearer ' + localStorage.getItem('u_t')
-            if (context.getters.systemLoggedIn) {
+            if (context.getters.loggedIn) {
               await new Promise((resolve, reject) => {
                 axios.get('u/user')
                   .then(response => {
-                    localStorage.removeItem('u_t')
-                    context.commit('logout')
+                    context.commit('authenticatedUser', response.data)
+                    // localStorage.removeItem('u_t')
+                    // context.commit('logout')
+                    resolve(response)
+                  })
+                  .catch(error => {
+                    reject(error)
+                  })
+              })
+            }
+            break
+          // user
+          default:
+            axios.defaults.headers.Authorization = 'Bearer ' + localStorage.getItem('u_t')
+            if (context.getters.loggedIn) {
+              await new Promise((resolve, reject) => {
+                axios.get('u/user')
+                  .then(response => {
+                    context.commit('authenticatedUser', response.data)
+                    // localStorage.removeItem('u_t')
+                    // context.commit('logout')
                     resolve(response)
                   })
                   .catch(error => {
@@ -92,6 +117,28 @@ export default new Vuex.Store({
             break
         }
       } catch (error) {
+      }
+    },
+    // user token
+    async login (context, payload) {
+      try {
+        await new Promise((resolve, reject) => {
+          axios.post('u/login', {
+            email: payload.email,
+            password: payload.password
+          })
+            .then(response => {
+              localStorage.setItem('u_t', response.data.access_token)
+              context.commit('login', response.data.access_token)
+              resolve(response)
+            })
+            .catch(error => {
+              localStorage.removeItem('u_t')
+              reject(error)
+            })
+        })
+      } catch (error) {
+        localStorage.removeItem('u_t')
       }
     },
     async systemLogout (context) {

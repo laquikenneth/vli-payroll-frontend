@@ -254,7 +254,7 @@
 
 <script>
 import axios from 'axios'
-import Registered from '@/components/Common/Registered-Success.vue'
+import Registered from '@/components/Common/Subscriber-Register-Success.vue'
 
 export default {
   name: 'Register',
@@ -317,13 +317,8 @@ export default {
         last_nme: '',
         position: '',
         mobile__: '',
-        email: this.$store.getters.email
+        email: this.$route.params.email
       }
-    }
-  },
-  computed: {
-    store_email () {
-      return this.$store.getters.email
     }
   },
   methods: {
@@ -341,7 +336,7 @@ export default {
         })
     },
     hasVerifiedEmail () {
-      this.$store.dispatch('hasVerifiedEmail', this.route.params.id)
+      this.$store.dispatch('hasVerifiedEmail', this.$route.params.id)
     },
     email () {
       this.form.email = this.$store.getters.email
@@ -349,7 +344,8 @@ export default {
 
   },
   created () {
-    this.email()
+    // this.hasVerifiedEmail()
+    // setInterval(this.email(), 1000)
     setTimeout(() => {
       this.verified = false
     }, 5000)

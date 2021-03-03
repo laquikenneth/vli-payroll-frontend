@@ -135,14 +135,15 @@ export default {
     },
     login () {
       this.loading = true
-      this.btn_disabled = true
-      this.$store.dispatch('systemLogin', {
+      // this.btn_disabled = true
+      this.$store.dispatch('login', {
         email: this.form.email,
         password: this.form.password
       })
         .then(() => {
           this.loading = false
           this.readonly = true
+          this.$router.push({ name: 'Admin-Dashboard' })
         })
     }
   }

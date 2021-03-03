@@ -1,10 +1,13 @@
-
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import App from '../App.vue'
-import EmailVerified from '../components/Common/Email-Verified'
-import RegisteredSuccess from '../components/Common/Registered-Success.vue'
+import SubscriberEmailVerified from '../components/Common/Subscriber-Email-Verified'
+import SubscriberRegisterSuccess from '../components/Common/Subscriber-Register-Success'
+import UserEmailVerfied from '../components/Common/User-Email-Verified'
+import UserValidateMobile from '../components/Common/User-Validate-Mobile'
 import SystemDashboard from '../components/Dashboard/System'
+import AdminDashboard from '../components/Dashboard/Admin'
+import EmployeeDashboard from '../components/Dashboard/Employee'
 import UserSignup from '../views/Authentication/User/Signup.vue'
 import UserRegister from '../views/Authentication/User/Register.vue'
 import UserSignin from '../views/Authentication/User/Signin.vue'
@@ -13,6 +16,7 @@ import SystemClientList from '../views/System/Client/List.vue'
 import SystemClient from '../views/System/Client/Components/Client.vue'
 import SystemClientApprovedList from '../views/System/Client/Approved.vue'
 import SystemClientApproved from '../views/System/Client/Components/Approved.vue'
+import AdminEmailQueue from '../views/Admin/Email/Queue.vue'
 
 Vue.use(VueRouter)
 
@@ -33,7 +37,7 @@ const routes = [
     component: UserSignup
   },
   {
-    path: '/auth/register/:id',
+    path: '/auth/register/:id/:email',
     name: 'Register',
     component: UserRegister,
     meta: {
@@ -41,9 +45,9 @@ const routes = [
     }
   },
   {
-    path: '/verified',
+    path: '/subscriber/verified',
     name: 'Email-Verified',
-    component: EmailVerified
+    component: SubscriberEmailVerified
   },
   {
     path: '/auth/system/signin',
@@ -57,7 +61,18 @@ const routes = [
   {
     path: '/registered',
     name: 'Registered-Success',
-    component: RegisteredSuccess
+    component: SubscriberRegisterSuccess
+  },
+  {
+    path: '/validate/mobile/:id',
+    name: 'Validate-User-Mobile',
+    component: UserValidateMobile
+  },
+  {
+    // user verified message
+    path: '/verified',
+    name: 'User-Email-Verified',
+    component: UserEmailVerfied
   },
   {
     path: '/system/dashboard',
@@ -105,6 +120,27 @@ const routes = [
       guard: 'System',
       requiresAuth: true
     }
+  },
+  {
+    path: '/admin/dashboard',
+    name: 'Admin-Dashboard',
+    component: AdminDashboard,
+    children: [
+      {
+        path: 'email/queue',
+        name: 'Admin-Email-Queue',
+        component: AdminEmailQueue
+      }
+    ],
+    meta: {
+      guard: 'User',
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/dashboard',
+    name: 'Employee-Dashboard',
+    component: EmployeeDashboard
   }
 ]
 

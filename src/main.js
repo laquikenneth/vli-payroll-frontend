@@ -20,9 +20,9 @@ router.beforeEach((to, from, next) => {
       !store.getters.systemLoggedIn ? next({ name: 'System-Signin' }) : next()
     }
     // user
-    // if (to.meta.guard === 'User') {
-    //   store.getters.LoggedIn ? next({ name: 'Signin' }) : next()
-    // }
+    if (to.meta.guard === 'User') {
+      !store.getters.loggedIn ? next({ name: 'Signin' }) : next()
+    }
   } else {
     next()
   }

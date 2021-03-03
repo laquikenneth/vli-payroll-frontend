@@ -276,6 +276,7 @@
 
 <script>
 export default {
+  name: 'System-Dashboard',
   data () {
     return {
       user: '',
