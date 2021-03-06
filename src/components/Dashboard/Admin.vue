@@ -308,21 +308,28 @@ export default {
 
         },
         {
-          action: 'mdi-wrench-outline',
+          action: 'mdi-email-outline',
           title: 'Email',
           subs: [
             {
-              action: 'mdi-email-send-outline',
+              action: 'mdi-account-alert-outline',
               title: 'Not Verified',
-              url: { name: 'Admin-Email-Queue' }
+              url: { name: 'Admin-Email-Not-Verified' }
             },
             {
-              action: 'mdi-email-send-outline',
-              title: 'Pending'
+              action: 'mdi-account-clock-outline',
+              title: 'Pending',
+              url: { name: 'Admin-Email-Pending' }
             },
             {
-              action: 'mdi-email-send-outline',
-              title: 'Verified'
+              action: 'mdi-account-arrow-right-outline',
+              title: 'Resent',
+              url: { name: 'Admin-Email-Resent' }
+            },
+            {
+              action: 'mdi-account-check-outline',
+              title: 'Verified',
+              url: { name: 'Admin-Email-Verified' }
             }
           ]
 
@@ -347,9 +354,9 @@ export default {
         })
     },
     signout () {
-      this.$store.dispatch('systemLogout')
+      this.$store.dispatch('logout')
         .then(() => {
-          this.$router.push({ name: 'System-Signin' })
+          this.$router.push({ name: 'Signin' })
         })
     }
   },

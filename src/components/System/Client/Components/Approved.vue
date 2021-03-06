@@ -729,12 +729,14 @@ export default {
       }
     },
     async create_subscriber () {
+      this.btn_disabled = true
       try {
         axios.defaults.headers.Authorization = 'Bearer ' + localStorage.getItem('s_t')
         if (this.$store.getters.systemLoggedIn) {
           await new Promise((resolve, reject) => {
             axios.post('s/subscriber/create', this.form)
               .then(response => {
+                this.$router.push({ name: 'System-Client-Approved' })
                 resolve(response)
               })
               .catch(error => {

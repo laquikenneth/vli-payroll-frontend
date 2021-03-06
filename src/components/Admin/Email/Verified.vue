@@ -1,21 +1,27 @@
 <template>
+
+  <div>
+
   <v-data-table
     v-model="selected"
     :headers="headers"
     :items="users"
-    :single-select="singleSelect"
-    item-key="name"
-    show-select
+    item-key="cntrl_no"
     class="elevation-1"
+    :loading="loading"
   >
     <template v-slot:top>
-      <v-switch
-        v-model="singleSelect"
-        label="Single select"
-        class="pa-3"
-      ></v-switch>
+      <v-toolbar
+        flat
+      >
+
+      <v-toolbar-title>Verified Table</v-toolbar-title>
+
+      </v-toolbar>
     </template>
   </v-data-table>
+
+  </div>
 </template>
 
 <script>
@@ -26,6 +32,7 @@ export default {
     return {
       users: [],
       singleSelect: false,
+      loading: false,
       selected: [],
       headers: [
         {
@@ -43,20 +50,21 @@ export default {
     }
   },
   methods: {
-    // note: not reactive
-    not_verified () {
-      axios.get('u/email/queue/', {
+    verified () {
+      this.loading = true
+      axios.get('u/email/verified/', {
         params: {
           vli_subs_hdr: this.$store.getters.authenticatedUser.vli_subs_hdr
         }
       })
         .then(response => {
+          this.loading = false
           this.users = response.data
         })
     }
   },
   created () {
-    this.not_verified()
+    this.verified()
   }
 }
 </script>

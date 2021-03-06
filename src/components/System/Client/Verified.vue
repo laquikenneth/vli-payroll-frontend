@@ -13,7 +13,7 @@
       <template v-slot:item.action="{ item }">
 
         <v-btn
-          :to="{ name: 'System-Client-Approved-Edit', params: { id: item.cntrl_no } }"
+          :to="{ name: 'System-Client-Verified-Edit', params: { id: item.cntrl_no } }"
           icon
         >
 
@@ -65,7 +65,7 @@ export default {
         axios.defaults.headers.common.Authorization = 'Bearer ' + localStorage.getItem('s_t')
         if (this.$store.getters.systemLoggedIn) {
           await new Promise((resolve, reject) => {
-            axios.get('s/clients/approved')
+            axios.get('s/clients/verified')
               .then(response => {
                 this.list = response.data
                 this.loading = false

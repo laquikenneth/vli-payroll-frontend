@@ -35,6 +35,9 @@ export default new Vuex.Store({
     authenticatedUser (state, payload) {
       state.user = payload
     },
+    logout (state) {
+      state.token = null
+    },
     login (state, payload) {
       state.token = payload
       // state.cacheSystemToken = payload
@@ -115,6 +118,25 @@ export default new Vuex.Store({
               })
             }
             break
+        }
+      } catch (error) {
+      }
+    },
+    async logout (context) {
+      try {
+        axios.defaults.headers.common.Authorization = 'Bearer ' + localStorage.getItem('u_t')
+        if (context.getters.loggedIn) {
+          await new Promise((resolve, reject) => {
+            axios.post('u/logout')
+              .then(response => {
+                localStorage.removeItem('u_t')
+                context.commit('logout')
+                resolve(response)
+              })
+              .catch(error => {
+                reject(error)
+              })
+          })
         }
       } catch (error) {
       }

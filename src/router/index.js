@@ -16,7 +16,15 @@ import SystemClientList from '../views/System/Client/List.vue'
 import SystemClient from '../views/System/Client/Components/Client.vue'
 import SystemClientApprovedList from '../views/System/Client/Approved.vue'
 import SystemClientApproved from '../views/System/Client/Components/Approved.vue'
-import AdminEmailQueue from '../views/Admin/Email/Queue.vue'
+import AdminEmailNotVerified from '../views/Admin/Email/Not-Verified'
+import AdminEmailPending from '../views/Admin/Email/Pending'
+import AdminEmailResent from '../views/Admin/Email/Resent'
+import AdminEmailVerified from '../views/Admin/Email/Verified.vue'
+import SystemClientVerifiedList from '../views/System/Client/Verified.vue'
+import SystemClientPendingList from '../views/System/Client/Pending.vue'
+import SystemClientVerified from '../views/System/Client/Components/Verified.vue'
+// import SystemClientPending from '../views/System/Client/Components/Pending.vue'
+import changePassword from '../components/Common/Change-Password.vue'
 
 Vue.use(VueRouter)
 
@@ -107,6 +115,24 @@ const routes = [
         }
       },
       {
+        path: 'client/verified',
+        name: 'System-Client-Verified',
+        component: SystemClientVerifiedList,
+        meta: {
+          guard: 'System',
+          requiresAuth: true
+        }
+      },
+      {
+        path: 'client/pending',
+        name: 'System-Client-Pending',
+        component: SystemClientPendingList,
+        meta: {
+          guard: 'System',
+          requiresAuth: true
+        }
+      },
+      {
         path: 'client/approved/:id',
         name: 'System-Client-Approved-Edit',
         component: SystemClientApproved,
@@ -114,7 +140,25 @@ const routes = [
           guard: 'System',
           requiresAuth: true
         }
+      },
+      {
+        path: 'client/verified/:id',
+        name: 'System-Client-Verified-Edit',
+        component: SystemClientVerified,
+        meta: {
+          guard: 'System',
+          requiresAuth: true
+        }
       }
+      // {
+      //   path: 'client/pending/:id',
+      //   name: 'System-Client-Pending-Edit',
+      //   component: SystemClientPending,
+      //   meta: {
+      //     guard: 'System',
+      //     requiresAuth: true
+      //   }
+      // }
     ],
     meta: {
       guard: 'System',
@@ -128,8 +172,23 @@ const routes = [
     children: [
       {
         path: 'email/queue',
-        name: 'Admin-Email-Queue',
-        component: AdminEmailQueue
+        name: 'Admin-Email-Not-Verified',
+        component: AdminEmailNotVerified
+      },
+      {
+        path: 'email/pending',
+        name: 'Admin-Email-Pending',
+        component: AdminEmailPending
+      },
+      {
+        path: 'email/resent',
+        name: 'Admin-Email-Resent',
+        component: AdminEmailResent
+      },
+      {
+        path: 'email/verified',
+        name: 'Admin-Email-Verified',
+        component: AdminEmailVerified
       }
     ],
     meta: {
@@ -141,6 +200,11 @@ const routes = [
     path: '/dashboard',
     name: 'Employee-Dashboard',
     component: EmployeeDashboard
+  },
+  {
+    path: '/password',
+    name: 'Change-Password',
+    component: changePassword
   }
 ]
 

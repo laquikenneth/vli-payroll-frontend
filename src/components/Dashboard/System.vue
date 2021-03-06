@@ -298,11 +298,13 @@ export default {
           subs: [
             {
               action: 'mdi-email-alert-outline',
-              title: 'Pending'
+              title: 'Pending',
+              url: { name: 'System-Client-Pending' }
             },
             {
               action: 'mdi-email-check-outline',
-              title: 'Verified'
+              title: 'Verified',
+              url: { name: 'System-Client-Verified' }
             },
             {
               action: 'mdi-account-check-outline',
@@ -319,6 +321,7 @@ export default {
       ],
       account: [
         { text: 'Settings and admin', icon: 'mdi-cog-outline' }
+
       ]
     }
   },

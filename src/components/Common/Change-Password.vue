@@ -10,7 +10,7 @@
         elevation="3"
       >
 
-        <v-card-title>Control Panel</v-card-title>
+        <v-card-title>Change Password</v-card-title>
 
           <v-card-text>
 
@@ -23,39 +23,62 @@
                 lazy-validation
               >
 
-                <!-- email field -->
+                <!-- old password field -->
                 <v-row class="mt-n4">
                   <v-col>
 
                     <v-text-field
-                      v-model="form.email"
-                      :rules="rules.email"
+                      v-model="form.old_password"
+                      :append-icon="show_old ? 'mdi-eye' : 'mdi-eye-off'"
+                      :type="show_old ? 'text' : 'password'"
+                       @click:append="show_old = !show_old"
+                       :rules="rules.old_password"
                       dense
-                      label="Email"
+                      label="Enter your Old Password"
                       outlined
                       required
-                      :readonly="readonly"
                     />
 
                   </v-col>
 
                 </v-row>
 
-                <!-- password field-->
+                <!-- new password field-->
                 <v-row class="mt-n4">
 
                   <v-col>
 
                     <v-text-field
-                      v-model="form.password"
-                      type="password"
+                      v-model="form.new_password"
+                      :append-icon="show_new ? 'mdi-eye' : 'mdi-eye-off'"
+                      :type="show_new ? 'text' : 'password'"
+                       @click:append="show_new = !show_new"
                       dense
-                      label="Password"
-                      :rules="rules.password"
+                      label="Enter New Password"
+                      :rules="rules.new_password"
                       required
                       outlined
-                      @keydown.enter="login"
-                      :readonly="readonly"
+                    />
+
+                  </v-col>
+
+                </v-row>
+
+                <!-- verify new password field-->
+                <v-row class="mt-n4">
+
+                  <v-col>
+
+                    <v-text-field
+                      v-model="form.verify_new_password"
+                      :append-icon="show_new ? 'mdi-eye' : 'mdi-eye-off'"
+                      :type="show_new ? 'text' : 'password'"
+                      :rules="rules.verify_new_password.concat(passwordConfirmation)"
+                       @click:append="show_new = !show_new"
+                      dense
+                      label="Re-enter New Password"
+                      required
+                      outlined
                     />
 
                   </v-col>
@@ -104,27 +127,32 @@
 <script>
 
 export default {
-  name: 'Email',
+  name: 'changePassword',
   data () {
     return {
       rules: {
         required: value => !!value || 'Required.',
-        email: [
-          value => !!value || 'Email is required.',
-          value => /.+@.+\..+/.test(value) || 'Email must be valid.'
+        old_password: [
+          value => !!value || 'Old Password is required'
         ],
-        password: [
-          value => !!value || 'Password is required.'
+        new_password: [
+          value => !!value || 'New Password is required'
+        ],
+        verify_new_password: [
+          value => !!value || 'Password is required'
         ]
 
       },
+      show_old: false,
+      show_new: false,
       btn_disabled: false,
       formHasErrors: false,
       readonly: false,
       loading: false,
       form: {
-        email: '',
-        password: ''
+        old_password: '',
+        new_password: '',
+        verify_new_password: ''
       }
     }
   },
@@ -144,6 +172,12 @@ export default {
           this.readonly = true
           this.$router.push({ name: 'System-Dashboard' })
         })
+    }
+  },
+  computed: {
+    passwordConfirmation () {
+      return () =>
+        this.form.new_password === this.verify_new_password || 'Password did not match.'
     }
   }
 }

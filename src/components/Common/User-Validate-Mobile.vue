@@ -12,7 +12,7 @@
         elevation="3"
       >
 
-        <v-card-title>Enter mobile number</v-card-title>
+        <v-card-title>Verify your mobile number</v-card-title>
 
           <v-card-text>
 

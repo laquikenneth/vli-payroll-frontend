@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import EmailNotVerified from '@/components/Admin/Email-Not-Verified.vue'
+import EmailNotVerified from '@/components/Admin/Email/Not-Verified.vue'
 
 export default {
   name: 'View-Queue-Email',
