@@ -292,8 +292,15 @@ export default {
       },
       items: [
         {
-          action: 'mdi-folder-outline',
-          title: 'Payroll'
+          action: 'mdi-account-cash-outline',
+          title: 'Payroll',
+          subs: [
+            {
+              action: 'mdi-folder-outline',
+              title: 'Directory',
+              url: { name: 'Admin-Payroll-Directory' }
+            }
+          ]
 
         },
         {
@@ -302,7 +309,9 @@ export default {
           subs: [
             {
               action: 'mdi-folder-multiple-outline',
-              title: 'Master File'
+              title: 'Master File',
+              url: { name: 'Admin-Masterfile' }
+
             }
           ]
 

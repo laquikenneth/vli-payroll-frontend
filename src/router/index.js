@@ -5,6 +5,7 @@ import SubscriberEmailVerified from '../components/Common/Subscriber-Email-Verif
 import SubscriberRegisterSuccess from '../components/Common/Subscriber-Register-Success'
 import UserEmailVerfied from '../components/Common/User-Email-Verified'
 import UserValidateMobile from '../components/Common/User-Validate-Mobile'
+import ChangePassword from '../components/Common/Change-Password.vue'
 import SystemDashboard from '../components/Dashboard/System'
 import AdminDashboard from '../components/Dashboard/Admin'
 import EmployeeDashboard from '../components/Dashboard/Employee'
@@ -19,12 +20,13 @@ import SystemClientApproved from '../views/System/Client/Components/Approved.vue
 import AdminEmailNotVerified from '../views/Admin/Email/Not-Verified'
 import AdminEmailPending from '../views/Admin/Email/Pending'
 import AdminEmailResent from '../views/Admin/Email/Resent'
-import AdminEmailVerified from '../views/Admin/Email/Verified.vue'
+import AdminEmailVerified from '../views/Admin/Email/Verified'
+import AdminPayrolDirectory from '../views/Admin/Payroll/Directory'
 import SystemClientVerifiedList from '../views/System/Client/Verified.vue'
 import SystemClientPendingList from '../views/System/Client/Pending.vue'
 import SystemClientVerified from '../views/System/Client/Components/Verified.vue'
 // import SystemClientPending from '../views/System/Client/Components/Pending.vue'
-import changePassword from '../components/Common/Change-Password.vue'
+import AdminMasterfile from '../views/Admin/Maintenance/MasterFile.vue'
 
 Vue.use(VueRouter)
 
@@ -171,6 +173,16 @@ const routes = [
     component: AdminDashboard,
     children: [
       {
+        path: '/payroll/directory',
+        name: 'Admin-Payroll-Directory',
+        component: AdminPayrolDirectory
+      },
+      {
+        path: 'admin/masterfile',
+        name: 'Admin-Masterfile',
+        component: AdminMasterfile
+      },
+      {
         path: 'email/queue',
         name: 'Admin-Email-Not-Verified',
         component: AdminEmailNotVerified
@@ -204,7 +216,7 @@ const routes = [
   {
     path: '/password',
     name: 'Change-Password',
-    component: changePassword
+    component: ChangePassword
   }
 ]
 

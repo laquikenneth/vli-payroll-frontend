@@ -292,16 +292,16 @@ export default {
       },
       items: [
         {
-          action: 'mdi-history',
-          title: 'Payroll History',
-          active: true
-        },
-        {
-          action: 'mdi-calendar-account-outline',
-          title: 'DTR',
-          active: true
+          action: 'mdi-account-cash-outline',
+          title: 'Payroll',
+          active: true,
+          subs: [
+            {
+              action: 'mdi-folder-outline',
+              title: 'History'
+            }
+          ]
         }
-
       ],
       account: [
         { text: 'Settings and admin', icon: 'mdi-cog-outline' }
@@ -310,15 +310,15 @@ export default {
   },
   methods: {
     authenticatedUser () {
-      this.$store.dispatch('authenticatedUser', 'System')
+      this.$store.dispatch('authenticatedUser', 'User')
         .then(() => {
           this.user = this.$store.getters.authenticatedUser
         })
     },
     signout () {
-      this.$store.dispatch('systemLogout')
+      this.$store.dispatch('loggin')
         .then(() => {
-          this.$router.push({ name: 'System-Signin' })
+          this.$router.push({ name: 'Signin' })
         })
     }
   },
