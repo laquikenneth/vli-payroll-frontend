@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import App from '../App.vue'
+import EntryPoint from '../components/Common/Entrypoint'
 import SubscriberEmailVerified from '../components/Common/Subscriber-Email-Verified'
 import SubscriberRegisterSuccess from '../components/Common/Subscriber-Register-Success'
 import UserEmailVerfied from '../components/Common/User-Email-Verified'
@@ -25,6 +26,7 @@ import AdminPayrolDirectory from '../views/Admin/Payroll/Directory'
 import SystemClientVerifiedList from '../views/System/Client/Verified.vue'
 import SystemClientPendingList from '../views/System/Client/Pending.vue'
 import SystemClientVerified from '../views/System/Client/Components/Verified.vue'
+import EmployeePayrollHistory from '../views/Employee/Payroll/History'
 // import SystemClientPending from '../views/System/Client/Components/Pending.vue'
 import AdminMasterfile from '../views/Admin/Maintenance/MasterFile.vue'
 
@@ -35,6 +37,15 @@ const routes = [
     path: '/',
     name: 'App',
     component: App
+  },
+  {
+    path: '/auth/entrypoint',
+    name: 'EntryPoint',
+    component: EntryPoint,
+    meta: {
+      guard: 'User',
+      requiresAuth: true
+    }
   },
   {
     path: '/auth/signin',
@@ -205,13 +216,26 @@ const routes = [
     ],
     meta: {
       guard: 'User',
+      layout: 'Admin-Dashboard',
       requiresAuth: true
     }
   },
   {
     path: '/dashboard',
     name: 'Employee-Dashboard',
-    component: EmployeeDashboard
+    component: EmployeeDashboard,
+    children: [
+      {
+        path: '/payroll/history',
+        name: 'Employee-Payroll-History',
+        component: EmployeePayrollHistory
+      }
+    ],
+    meta: {
+      guard: 'User',
+      isAdmin: false,
+      requiresAuth: true
+    }
   },
   {
     path: '/password',

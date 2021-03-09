@@ -4,12 +4,12 @@
 
     <v-expansion-panels >
 
-      <v-expansion-panel v-for="directory in directories" :key="directory.cntrl_no" multiple>
+      <v-expansion-panel v-for="header in headers" :key="header.vli_payr_dir" multiple>
 
-        <v-expansion-panel-header v-slot="{ open }" @click="retrieve_other_info(directory.cntrl_no)">
+        <v-expansion-panel-header v-slot="{ open }" @click="retrieve_other_info(header.vli_payr_dir)">
           <v-row no-gutters>
             <v-col cols="4">
-              ID: {{ directory.cntrl_no }} ({{ directory.payr_dir }} - Part  {{ directory.part____ }}) <span><v-icon color="teal">mdi-check</v-icon></span>
+              ID: {{ header.payr_dir }} (Part  {{ header.part____ }}) <span><v-icon color="teal">mdi-check</v-icon></span>
             </v-col>
             <v-col
               cols="8"
@@ -22,13 +22,13 @@
                   no-gutter
                 >
                   <v-col cols="4">
-                    Start Date: {{ directory.strt_dte || 'Not set' }}
+                    Start Date: {{ header.strt_dte || 'Not set' }}
                   </v-col>
                   <v-col cols="4">
-                    Last Date: {{ directory.last_dte || 'Not set' }}
+                    Last Date: {{ header.last_dte || 'Not set' }}
                   </v-col>
                   <v-col cols="4">
-                    Credit Date: {{ directory.credt_dt || 'Not set' }}
+                    Credit Date: {{ header.credt_dt || 'Not set' }}
                   </v-col>
                 </v-row>
               </v-fade-transition>
@@ -40,7 +40,7 @@
           <v-row>
             <v-col cols="3">
               <v-text-field
-                v-model="directory.strt_dte"
+                v-model="header.strt_dte"
                 label="Start Date"
                 outlined
                 dense
@@ -52,7 +52,7 @@
 
             <v-col cols="3">
               <v-text-field
-                v-model="directory.last_dte"
+                v-model="header.last_dte"
                 label="Last Date"
                 outlined
                 dense
@@ -63,7 +63,7 @@
 
             <v-col cols="3">
               <v-text-field
-                v-model="directory.credt_dt"
+                v-model="header.credt_dt"
                 label="Credit Date"
                 outlined
                 dense
@@ -74,7 +74,7 @@
 
             <v-col cols="3">
               <v-text-field
-                v-model="directory.remarks_"
+                v-model="header.remarks_"
                 label="Remarks"
                 outlined
                 dense
@@ -90,11 +90,12 @@
             <v-col cols="3">
 
               <v-text-field
-                v-model="grosspay"
+                v-model="header.grosspay"
                 label="Total Gross Pay"
                 outlined
                 dense
-
+                readonly
+                @click="grosspay_details(header.cntrl_no)"
               >
 
               </v-text-field>
@@ -104,11 +105,12 @@
             <v-col cols="3">
 
               <v-text-field
-                v-model="deduction"
+                v-model="header.deductn_"
                 label="Total Deductions"
                 outlined
                 dense
                 readonly
+                @click="deduction_details(header.cntrl_no)"
               >
 
               </v-text-field>
@@ -118,22 +120,8 @@
             <v-col cols="3">
 
               <v-text-field
-                v-model="netpay"
+                v-model="header.net_pay_"
                 label="Total Net Pay"
-                outlined
-                dense
-                readonly
-              >
-
-              </v-text-field>
-
-            </v-col>
-
-            <v-col cols="3">
-
-              <v-text-field
-                v-model="total_employee"
-                label="Number of Employees"
                 outlined
                 dense
                 readonly
@@ -154,63 +142,21 @@
                 class="mr-2"
               >
 
-                View
+                Download Payslip
 
               </v-btn>
-
+<!--
               <v-btn
-                @click="count_employees(directory.cntrl_no), dialog = true"
+                @click="count_employees(header.vli_payr_dir), dialog = true"
                 medium
                 :disabled="btn_disabled"
               >
 
                 Send Payslip
 
-              </v-btn>
+              </v-btn> -->
 
             </v-col>
-
-          </v-row>
-
-          <v-row justify="center">
-
-            <v-dialog
-              v-model="dialog"
-              persistent
-              max-width="290"
-            >
-
-              <v-card>
-
-                <v-card-title class="headline">Send Payslip?</v-card-title>
-
-                  <v-card-text>You are about to send {{ total_employee }} payslip email(s). Proceed?</v-card-text>
-
-                <v-card-actions>
-
-                  <v-spacer></v-spacer>
-
-                  <v-btn
-                    color="green darken-1"
-                    text
-                    @click="dialog = false"
-                  >
-                    No
-                  </v-btn>
-
-                  <v-btn
-                    color="green darken-1"
-                    text
-                    @click="send_payslip(directory.cntrl_no), dialog = false"
-                  >
-                    Yes
-                  </v-btn>
-
-                </v-card-actions>
-
-              </v-card>
-
-            </v-dialog>
 
           </v-row>
 
@@ -220,30 +166,42 @@
 
     </v-expansion-panels>
 
-    <!-- Snackbar -->
-    <v-snackbar
-      v-model="snackbar"
-      :multi-line="multiLine"
+    <v-row justify="center">
+    <v-dialog
+      v-model="dialog"
+      max-width="290"
     >
+      <v-card>
+        <v-card-title class="headline">
+          {{ dialog_title }}
+        </v-card-title>
 
-      {{ snackbarText }}
+        <v-card-text v-for="grosspay in grosspay" :key="grosspay.vli_empl_mst">
+          {{ grosspay.descript }}: {{ grosspay.amount__ }}
+        </v-card-text>
 
-      <template v-slot:action="{ attrs }">
+        <!-- <v-card-actions>
+          <v-spacer></v-spacer>
 
-        <v-btn
-          color="red"
-          text
-          v-bind="attrs"
-          @click="snackbar= false"
-        >
+          <v-btn
+            color="green darken-1"
+            text
+            @click="dialog = false"
+          >
+            Disagree
+          </v-btn>
 
-          Close
-
-        </v-btn>
-
-      </template>
-
-    </v-snackbar>
+          <v-btn
+            color="green darken-1"
+            text
+            @click="dialog = false"
+          >
+            Agree
+          </v-btn>
+        </v-card-actions> -->
+      </v-card>
+    </v-dialog>
+  </v-row>
 
   </div>
 
@@ -253,14 +211,15 @@
 import axios from 'axios'
 
 export default {
-  name: 'Admin-Directory',
+  name: 'Employee-Payroll-History',
   data () {
     return {
-      directories: [],
+      headers: [],
       grosspay: '',
       deduction: '',
       netpay: '',
       total_employee: '',
+      dialog_title: '',
       multiLine: true,
       snackbar: false,
       snackbarText: '',
@@ -269,78 +228,58 @@ export default {
     }
   },
   methods: {
-    payroll_directories () {
-      axios.get('u/payroll/directories', {
+    payroll_header () {
+      axios.get('u/employee/payroll/history', {
         params: {
-          vli_subs_hdr: this.$store.getters.authenticatedUser.vli_subs_hdr
+          vli_empl_mst: this.$store.getters.authenticatedUser.vli_empl_mst
         }
       })
         .then(response => {
-          this.directories = response.data
+          this.headers = response.data
         })
     },
-    count_employees (id) {
-      axios.get('u/payroll/directories/total-employee', {
+    grosspay_details (id) {
+      axios.get('u/employee/payroll/history/gross/details', {
         params: {
-          vli_payr_dir: id
-        }
-      })
-        .then(response => {
-          this.total_employee = response.data
-        })
-    },
-    send_payslip (id) {
-      axios.get('u/payroll/payroll/header', {
-        params: {
-          vli_payr_dir: id
-        }
-      })
-        .then(response => {
-          this.snackbar = true
-          this.snackbarText = 'Payslip has been sent.'
-          this.btn_disabled = true
-        })
-    },
-    retrieve_other_info (id) {
-      this.compute_header_total_gross(id)
-      this.compute_header_total_deduction(id)
-      this.compute_header_total_net_pay(id)
-      this.count_employees(id)
-    },
-    // vuex
-    compute_header_total_gross (id) {
-      axios.get('u/payroll/directories/total-gross-amount', {
-        params: {
-          vli_payr_dir: id
+          vli_payr_dir: id,
+          vli_empl_mst: this.$store.getters.authenticatedUser.vli_empl_mst
         }
       })
         .then(response => {
           this.grosspay = response.data
+          this.dialog_title = 'Gross Pay Details'
+          this.dialog = true
         })
     },
-    compute_header_total_deduction (id) {
-      axios.get('u/payroll/directories/total-deduction', {
+    deduction_details (id) {
+      axios.get('u/employee/payroll/history/deduction/details', {
         params: {
-          vli_payr_dir: id
+          vli_payr_dir: id,
+          vli_empl_mst: this.$store.getters.authenticatedUser.vli_empl_mst
         }
       })
         .then(response => {
-          this.deduction = response.data
+          this.grosspay = response.data
+          this.dialog_title = 'Deduction Details'
+          this.dialog = true
         })
     },
-    compute_header_total_net_pay (id) {
-      axios.get('u/payroll/directories/total-net-pay', {
+    netpay_details (id) {
+      axios.get('u/employee/payroll/history/netpay/details', {
         params: {
-          vli_payr_dir: id
+          vli_payr_dir: id,
+          vli_empl_mst: this.$store.getters.authenticatedUser.vli_empl_mst
         }
       })
         .then(response => {
-          this.netpay = response.data
+          this.grosspay = response.data
+          this.dialog_title = 'Net Pay Details'
+          this.dialog = true
         })
     }
   },
   created () {
-    this.payroll_directories()
+    this.payroll_header()
   }
 }
 </script>

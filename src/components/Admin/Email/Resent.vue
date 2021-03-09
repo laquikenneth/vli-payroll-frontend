@@ -79,7 +79,7 @@ export default {
           text: 'ID',
           align: 'start',
           sortable: false,
-          value: 'cntrl_no'
+          value: 'vli_empl_mst'
         },
         { text: 'Last Name', value: 'last_nme' },
         { text: 'First Name', value: 'frst_nme' },

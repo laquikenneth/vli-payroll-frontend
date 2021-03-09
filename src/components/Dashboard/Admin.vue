@@ -275,11 +275,12 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'Admin-Dashboard',
   data () {
     return {
-      user: '',
       drawer: null,
       menu: false,
       loading: false,
@@ -355,12 +356,15 @@ export default {
       ]
     }
   },
+  computed: {
+    ...mapGetters({
+      // map `this.doneCount` to `this.$store.getters.doneTodosCount`
+      user: 'authenticatedUser'
+    })
+  },
   methods: {
     authenticatedUser () {
       this.$store.dispatch('authenticatedUser', 'User')
-        .then(() => {
-          this.user = this.$store.getters.authenticatedUser
-        })
     },
     signout () {
       this.$store.dispatch('logout')
@@ -370,7 +374,7 @@ export default {
     }
   },
   created () {
-    this.authenticatedUser()
+    // this.authenticatedUser()
   }
 }
 </script>

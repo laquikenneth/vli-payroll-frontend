@@ -2,107 +2,132 @@
 
   <div>
 
-      <v-card
-        class="mx-auto my-auto mt-16"
-        width="360"
-        outlined
-        :loading="loading"
-        elevation="3"
-      >
+    <v-card
+      class="mx-auto my-auto mt-16"
+      width="360"
+      outlined
+      :loading="loading"
+      elevation="3"
+    >
 
-        <v-card-title>Sign in to your account</v-card-title>
+      <v-card-title>Sign in to your account</v-card-title>
 
-          <v-card-text>
+        <v-card-text>
 
-            <v-container class
+          <v-container class
+          >
+
+            <v-form
+              class="mt-n4"
+              ref="form"
+              v-model="formHasErrors"
+              lazy-validation
             >
 
-              <v-form
-                class="mt-n4"
-                ref="form"
-                v-model="formHasErrors"
-                lazy-validation
-              >
+              <!-- email field -->
+              <v-row class="mt-n4">
+                <v-col>
 
-                <!-- email field -->
+                  <v-text-field
+                    v-model="form.email"
+                    :rules="rules.email"
+                    dense
+                    label="Email"
+                    outlined
+                    required
+                    :readonly="readonly"
+                  />
+
+                </v-col>
+
+              </v-row>
+
+              <!-- password field-->
+              <v-row class="mt-n4">
+
+                <v-col>
+
+                  <v-text-field
+                    v-model="form.password"
+                    type="password"
+                    dense
+                    label="Password"
+                    :rules="rules.password"
+                    required
+                    outlined
+                    @keydown.enter="login"
+                    :readonly="readonly"
+                  />
+
+                </v-col>
+
+              </v-row>
+
+              <!-- login button -->
+
+              <v-card-actions>
+
                 <v-row class="mt-n4">
+
                   <v-col>
 
-                    <v-text-field
-                      v-model="form.email"
-                      :rules="rules.email"
-                      dense
-                      label="Email"
-                      outlined
-                      required
-                      :readonly="readonly"
-                    />
+                    <v-btn
+                      @click="submit"
+                      block
+                      medium
+                      rounded
+                      color="primary"
+                      :disabled="!formHasErrors || btn_disabled"
+                      form="login"
+                    >
+
+                      Sign in
+
+                    </v-btn>
 
                   </v-col>
 
                 </v-row>
 
-                <!-- password field-->
-                <v-row class="mt-n4">
+              </v-card-actions>
 
-                  <v-col>
+            </v-form>
 
-                    <v-text-field
-                      v-model="form.password"
-                      type="password"
-                      dense
-                      label="Password"
-                      :rules="rules.password"
-                      required
-                      outlined
-                      @keydown.enter="login"
-                      :readonly="readonly"
-                    />
+          </v-container>
 
-                  </v-col>
+        </v-card-text>
 
-                </v-row>
+    </v-card>
 
-                <!-- login button -->
+    <v-snackbar
+      v-model="snackbar"
+      :multi-line="multiLine"
+    >
 
-                <v-card-actions>
+      {{ snackbarText }}
 
-                  <v-row class="mt-n4">
+      <template v-slot:action="{ attrs }">
 
-                    <v-col>
+        <v-btn
+          color="red"
+          text
+          v-bind="attrs"
+          @click="snackbar= false"
+        >
 
-                      <v-btn
-                        @click="submit"
-                        block
-                        medium
-                        rounded
-                        color="primary"
-                        :disabled="!formHasErrors || btn_disabled"
-                        form="login"
-                      >
+          Close
 
-                        Sign in
+        </v-btn>
 
-                      </v-btn>
+      </template>
 
-                    </v-col>
-
-                  </v-row>
-
-                </v-card-actions>
-
-              </v-form>
-
-            </v-container>
-
-          </v-card-text>
-
-      </v-card>
+    </v-snackbar>
 
   </div>
 
 </template>
 <script>
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'Email',
@@ -119,6 +144,9 @@ export default {
         ]
 
       },
+      multiLine: true,
+      snackbar: false,
+      snackbarText: '',
       btn_disabled: false,
       formHasErrors: false,
       readonly: false,
@@ -128,6 +156,12 @@ export default {
         password: ''
       }
     }
+  },
+  computed: {
+    ...mapGetters({
+      // map `this.doneCount` to `this.$store.getters.doneTodosCount`
+      user: 'authenticatedUser'
+    })
   },
   methods: {
     submit () {
@@ -142,8 +176,14 @@ export default {
       })
         .then(() => {
           this.loading = false
-          this.readonly = true
-          this.$router.push({ name: 'Admin-Dashboard' })
+          // this.readonly = true
+          if (this.$store.getters.error_message) {
+            this.snackbar = true
+            this.snackbarText = this.$store.getters.error_message
+          } else {
+            // console.log(this.user)
+            this.$router.push({ name: 'EntryPoint' })
+          }
         })
     }
   }

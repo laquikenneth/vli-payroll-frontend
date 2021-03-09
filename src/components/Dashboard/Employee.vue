@@ -298,7 +298,8 @@ export default {
           subs: [
             {
               action: 'mdi-folder-outline',
-              title: 'History'
+              title: 'History',
+              url: { name: 'Employee-Payroll-History' }
             }
           ]
         }
@@ -316,7 +317,7 @@ export default {
         })
     },
     signout () {
-      this.$store.dispatch('loggin')
+      this.$store.dispatch('logout')
         .then(() => {
           this.$router.push({ name: 'Signin' })
         })

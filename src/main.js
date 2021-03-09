@@ -15,13 +15,23 @@ axios.defaults.baseURL = 'http://localhost:8000/api'
 // route guard
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    // system
-    if (to.meta.guard === 'System') {
-      !store.getters.systemLoggedIn ? next({ name: 'System-Signin' }) : next()
-    }
     // user
     if (to.meta.guard === 'User') {
-      !store.getters.loggedIn ? next({ name: 'Signin' }) : next()
+      if (!store.getters.loggedIn) {
+        next({ name: 'Signin' })
+      } else {
+        store.dispatch('authenticatedUser', 'User')
+        next()
+      }
+    }
+    // system
+    if (to.meta.guard === 'System') {
+      if (!store.getters.systemLoggedIn) {
+        next({ name: 'System-Signin' })
+      } else {
+        store.dispatch('authenticatedUser', 'System')
+        next()
+      }
     }
   } else {
     next()
