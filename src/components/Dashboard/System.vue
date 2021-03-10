@@ -315,6 +315,11 @@ export default {
               action: 'mdi-clipboard-list-outline',
               title: 'List',
               url: { name: 'System-Client-List' }
+            },
+            {
+              action: 'mdi-alert-circle-outline',
+              title: 'Errors',
+              url: { name: 'System-Client-Errors' }
             }
           ]
         }

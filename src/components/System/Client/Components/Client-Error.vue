@@ -581,31 +581,6 @@
 
     </v-stepper>
 
-    <!-- Snackbar -->
-    <v-snackbar
-      v-model="snackbar"
-      :multi-line="multiLine"
-    >
-
-      {{ snackbarText }}
-
-      <template v-slot:action="{ attrs }">
-
-        <v-btn
-          color="red"
-          text
-          v-bind="attrs"
-          @click="snackbar= false"
-        >
-
-          Close
-
-        </v-btn>
-
-      </template>
-
-    </v-snackbar>
-
   </div>
 
 </template>
@@ -614,7 +589,7 @@
 import axios from 'axios'
 
 export default {
-  name: 'Client',
+  name: 'Error-Edit',
   props: {
     id: {
       type: [String, Number]
@@ -665,9 +640,6 @@ export default {
       valid_form: false,
       valid_form_2: false,
       valid_form_3: false,
-      multiLine: true,
-      snackbar: false,
-      snackbarText: '',
       client: {},
       form: {
         co_name_: '',
@@ -736,7 +708,7 @@ export default {
         axios.defaults.headers.Authorization = 'Bearer ' + localStorage.getItem('s_t')
         if (this.$store.getters.systemLoggedIn) {
           await new Promise((resolve, reject) => {
-            axios.get('s/client/', {
+            axios.get('s/clients/errors/', {
               params: {
                 cntrl_no: this.id
               }
@@ -764,14 +736,10 @@ export default {
           await new Promise((resolve, reject) => {
             axios.post('s/subscriber/create', this.form)
               .then(response => {
-                this.snackbar = true
-                this.snackbarText = 'Your account has been updated!'
-                this.$router.push({ name: 'System-Client-Approved' })
+                this.$router.push({ name: 'System-Client-Errors' })
                 resolve(response)
               })
               .catch(error => {
-                this.snackbar = true
-                this.snackbarText = error.response.data.message
                 reject(error)
               })
           })

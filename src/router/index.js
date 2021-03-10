@@ -16,6 +16,8 @@ import UserSignin from '../views/Authentication/User/Signin.vue'
 import SystemSignin from '../views/Authentication/System/Signin.vue'
 import SystemClientList from '../views/System/Client/List.vue'
 import SystemClient from '../views/System/Client/Components/Client.vue'
+import SystemClientErrorList from '../views/System/Client/Client-Error.vue'
+import SystemClientError from '../views/System/Client/Components/Client-Error.vue'
 import SystemClientApprovedList from '../views/System/Client/Approved.vue'
 import SystemClientApproved from '../views/System/Client/Components/Approved.vue'
 import AdminEmailNotVerified from '../views/Admin/Email/Not-Verified'
@@ -110,6 +112,15 @@ const routes = [
         }
       },
       {
+        path: 'client/list/error',
+        name: 'System-Client-Error-Edit',
+        component: SystemClientError,
+        meta: {
+          guard: 'System',
+          requiresAuth: true
+        }
+      },
+      {
         path: 'client/:id',
         name: 'System-Client-Edit',
         component: SystemClient,
@@ -122,6 +133,15 @@ const routes = [
         path: 'client/approved',
         name: 'System-Client-Approved',
         component: SystemClientApprovedList,
+        meta: {
+          guard: 'System',
+          requiresAuth: true
+        }
+      },
+      {
+        path: 'client/error',
+        name: 'System-Client-Errors',
+        component: SystemClientErrorList,
         meta: {
           guard: 'System',
           requiresAuth: true
@@ -149,6 +169,15 @@ const routes = [
         path: 'client/approved/:id',
         name: 'System-Client-Approved-Edit',
         component: SystemClientApproved,
+        meta: {
+          guard: 'System',
+          requiresAuth: true
+        }
+      },
+      {
+        path: 'client/error/:id',
+        name: 'System-Client-Error-Edit',
+        component: SystemClientError,
         meta: {
           guard: 'System',
           requiresAuth: true

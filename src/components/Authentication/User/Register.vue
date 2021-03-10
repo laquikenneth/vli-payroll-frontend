@@ -27,7 +27,7 @@
 
         <v-card-title>Register your company</v-card-title>
 
-        <v-card-text>
+        <v-card-text>!
 
           <v-container>
 

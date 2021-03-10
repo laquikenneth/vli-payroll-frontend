@@ -28,6 +28,22 @@
 
       </template>
 
+      <template v-slot:item.status__="{ item }">
+        <v-edit-dialog>
+          {{ fn_register_status(item.status__) }}
+          <template v-slot:input>
+            <v-select
+              v-model="item.status__"
+              :items="dt_register_status__"
+              item-text="text"
+              item-value="value"
+              dense
+              disabled
+            ></v-select>
+          </template>
+        </v-edit-dialog>
+      </template>
+
     </v-data-table>
 
   </div>
@@ -36,11 +52,14 @@
 
 <script>
 import axios from 'axios'
+import { registerStatus } from '@/mixins/build/registerStatus.js'
 
 export default {
+  mixins: [registerStatus],
   data () {
     return {
       loading: false,
+      btn_disabled: false,
       headers: [
         {
           text: 'ID',
