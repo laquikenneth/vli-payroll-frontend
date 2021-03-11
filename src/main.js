@@ -14,7 +14,6 @@ Vue.config.productionTip = false
 
 axios.defaults.baseURL = 'https://vli-payroll-api-bziyh.ondigitalocean.app/api'
 
-
 // route guard
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
