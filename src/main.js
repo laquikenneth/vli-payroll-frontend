@@ -8,9 +8,12 @@ import axios from 'axios'
 
 Vue.config.productionTip = false
 
-axios.defaults.baseURL = 'http://localhost:8000/api'
+// axios.defaults.baseURL = 'http://localhost:8000/api'
 
 // axios.defaults.baseURL = 'http://host.docker.internal:8000/api'
+
+axios.defaults.baseURL = 'https://vli-payroll-api-bziyh.ondigitalocean.app/api'
+
 
 // route guard
 router.beforeEach((to, from, next) => {
