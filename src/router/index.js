@@ -215,7 +215,11 @@ const routes = [
       {
         path: '/payroll/directory',
         name: 'Admin-Payroll-Directory',
-        component: AdminPayrolDirectory
+        component: AdminPayrolDirectory,
+        meta: {
+          guard: 'User',
+          requiresAuth: true
+        }
       },
       {
         path: 'admin/masterfile',
