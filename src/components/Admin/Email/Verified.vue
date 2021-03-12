@@ -52,7 +52,7 @@ export default {
   methods: {
     verified () {
       this.loading = true
-      axios.get('u/email/verified/', {
+      axios.get('u/email/verified', {
         params: {
           vli_subs_hdr: this.$store.getters.authenticatedUser.vli_subs_hdr
         }

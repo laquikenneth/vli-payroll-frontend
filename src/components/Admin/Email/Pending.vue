@@ -96,7 +96,7 @@ export default {
   methods: {
     pending () {
       this.loading = true
-      axios.get('u/email/pending/', {
+      axios.get('u/email/pending', {
         params: {
           vli_subs_hdr: this.$store.getters.authenticatedUser.vli_subs_hdr
         }

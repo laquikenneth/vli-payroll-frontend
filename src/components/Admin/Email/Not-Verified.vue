@@ -95,7 +95,7 @@ export default {
     // note: not reactive
     not_verified () {
       this.loading = true
-      axios.get('u/email/not-verified/', {
+      axios.get('u/email/not-verified', {
         params: {
           vli_subs_hdr: this.$store.getters.authenticatedUser.vli_subs_hdr
         }
