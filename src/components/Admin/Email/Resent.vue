@@ -97,7 +97,7 @@ export default {
   methods: {
     resent () {
       this.loading = true
-      axios.get('u/email/resent/', {
+      axios.get('u/email/resent', {
         params: {
           vli_subs_hdr: this.$store.getters.authenticatedUser.vli_subs_hdr
         }
