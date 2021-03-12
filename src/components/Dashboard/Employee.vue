@@ -305,7 +305,7 @@ export default {
         }
       ],
       account: [
-        { text: 'Settings and admin', icon: 'mdi-cog-outline' }
+        { text: 'Settings and admin', icon: 'mdi-cog-outline', url: { name: 'User-Settings' } }
       ]
     }
   },

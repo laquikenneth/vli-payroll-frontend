@@ -26,9 +26,9 @@
 
           <v-list-item-content>
 
-            <v-list-item-title>{{ co_name_ }}</v-list-item-title>
+            <v-list-item-title>{{ user.co_name_ }}</v-list-item-title>
 
-            <v-list-item-subtitle>{{ co_sname }}</v-list-item-subtitle>
+            <v-list-item-subtitle>{{ user.co_sname }}</v-list-item-subtitle>
 
           </v-list-item-content>
 
@@ -256,7 +256,7 @@
 
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
 
-      <v-toolbar-title>{{co_name_}} Dashboard</v-toolbar-title>
+      <v-toolbar-title>{{ user.co_name_ }} Dashboard</v-toolbar-title>
 
     </v-app-bar>
 
@@ -347,12 +347,10 @@ export default {
         {
           action: 'mdi-cash-usd-outline',
           title: 'Billing'
-
         }
-
       ],
       account: [
-        { text: 'Settings and admin', icon: 'mdi-cog-outline' }
+        { text: 'Settings and admin', icon: 'mdi-cog-outline', url: { name: 'Admin-Settings' } }
       ]
     }
   },

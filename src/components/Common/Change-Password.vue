@@ -31,8 +31,8 @@
                       v-model="form.old_password"
                       :append-icon="show_old ? 'mdi-eye' : 'mdi-eye-off'"
                       :type="show_old ? 'text' : 'password'"
-                       @click:append="show_old = !show_old"
-                       :rules="rules.old_password"
+                      @click:append="show_old = !show_old"
+                      :rules="rules.old_password"
                       dense
                       label="Enter your Old Password"
                       outlined
@@ -52,7 +52,7 @@
                       v-model="form.new_password"
                       :append-icon="show_new ? 'mdi-eye' : 'mdi-eye-off'"
                       :type="show_new ? 'text' : 'password'"
-                       @click:append="show_new = !show_new"
+                      @click:append="show_new = !show_new"
                       dense
                       label="Enter New Password"
                       :rules="rules.new_password"
@@ -74,7 +74,7 @@
                       :append-icon="show_new ? 'mdi-eye' : 'mdi-eye-off'"
                       :type="show_new ? 'text' : 'password'"
                       :rules="rules.verify_new_password.concat(passwordConfirmation)"
-                       @click:append="show_new = !show_new"
+                      @click:append="show_new = !show_new"
                       dense
                       label="Re-enter New Password"
                       required

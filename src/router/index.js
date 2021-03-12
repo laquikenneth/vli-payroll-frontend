@@ -25,6 +25,7 @@ import AdminEmailPending from '../views/Admin/Email/Pending'
 import AdminEmailResent from '../views/Admin/Email/Resent'
 import AdminEmailVerified from '../views/Admin/Email/Verified'
 import AdminPayrolDirectory from '../views/Admin/Payroll/Directory'
+import Settings from '../views/Settings/Settings'
 import SystemClientVerifiedList from '../views/System/Client/Verified.vue'
 import SystemClientPendingList from '../views/System/Client/Pending.vue'
 import SystemClientVerified from '../views/System/Client/Components/Verified.vue'
@@ -224,27 +225,56 @@ const routes = [
       {
         path: 'admin/masterfile',
         name: 'Admin-Masterfile',
-        component: AdminMasterfile
+        component: AdminMasterfile,
+        meta: {
+          guard: 'User',
+          requiresAuth: true
+        }
       },
       {
         path: 'email/queue',
         name: 'Admin-Email-Not-Verified',
-        component: AdminEmailNotVerified
+        component: AdminEmailNotVerified,
+        meta: {
+          guard: 'User',
+          requiresAuth: true
+        }
       },
       {
         path: 'email/pending',
         name: 'Admin-Email-Pending',
-        component: AdminEmailPending
+        component: AdminEmailPending,
+        meta: {
+          guard: 'User',
+          requiresAuth: true
+        }
       },
       {
         path: 'email/resent',
         name: 'Admin-Email-Resent',
-        component: AdminEmailResent
+        component: AdminEmailResent,
+        meta: {
+          guard: 'User',
+          requiresAuth: true
+        }
       },
       {
         path: 'email/verified',
         name: 'Admin-Email-Verified',
-        component: AdminEmailVerified
+        component: AdminEmailVerified,
+        meta: {
+          guard: 'User',
+          requiresAuth: true
+        }
+      },
+      {
+        path: 'settings',
+        name: 'Admin-Settings',
+        component: Settings,
+        meta: {
+          guard: 'User',
+          requiresAuth: true
+        }
       }
     ],
     meta: {
@@ -261,7 +291,20 @@ const routes = [
       {
         path: '/payroll/history',
         name: 'Employee-Payroll-History',
-        component: EmployeePayrollHistory
+        component: EmployeePayrollHistory,
+        meta: {
+          guard: 'User',
+          requiresAuth: true
+        }
+      },
+      {
+        path: 'settings',
+        name: 'User-Settings',
+        component: Settings,
+        meta: {
+          guard: 'User',
+          requiresAuth: true
+        }
       }
     ],
     meta: {

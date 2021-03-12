@@ -27,7 +27,7 @@
 
         <v-col class="grow">
 
-          {{ message }} <router-link :to="{ name: 'Signin' }">Signin</router-link>.
+          {{ message2 }} <router-link :to="{ name: 'Signin' }">Signin</router-link>.
 
         </v-col>
 
@@ -49,8 +49,9 @@ export default {
   },
   data () {
     return {
-      title: 'Congratulations!',
-      message: 'Your email address has been verified. You can now '
+      title: 'Verified!',
+      message: 'Your email address has been verified. ',
+      message2: 'You temporary password was successfully sent to your email.'
     }
   }
 }
