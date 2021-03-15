@@ -120,10 +120,6 @@
       <!-- profile -->
       <template v-slot:append>
 
-        <v-navigation-drawer
-          v-model="drawer"
-        >
-
         <v-divider />
 
         <div class="px-3 py-3 d-flex">
@@ -172,7 +168,7 @@
                   <v-list-item-content>
 
                     <v-list-item-title>{{ user.frst_nme }} {{ user.last_nme }}</v-list-item-title>
-                    <!-- <v-list-item-subtitle v-if="user_num == 0">{{ user_id_ }} - Admin</v-list-item-subtitle> -->
+                    <v-list-item-subtitle >@{{ user.username }}</v-list-item-subtitle>
                     <!-- <v-list-item-subtitle v-else>{{ user_id_ }}</v-list-item-subtitle> -->
 
                   </v-list-item-content>
@@ -246,13 +242,15 @@
 
         </div>
 
-        </v-navigation-drawer>
-
       </template>
 
     </v-navigation-drawer>
 
-    <v-app-bar app>
+    <v-app-bar
+      app
+      color="white"
+      elevation="1"
+    >
 
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
 
@@ -367,12 +365,13 @@ export default {
     signout () {
       this.$store.dispatch('logout')
         .then(() => {
-          this.$router.push({ name: 'Signin' })
+          this.$router.push({ name: 'App' })
+          location.reload()
         })
     }
   },
   created () {
-    // this.authenticatedUser()
+    this.authenticatedUser()
   }
 }
 </script>
