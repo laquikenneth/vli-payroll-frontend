@@ -4,7 +4,7 @@
 
     <Signin></Signin>
 
-    <!-- <v-row class="mt-1">
+    <v-row class="mt-1">
 
       <v-col
         align="center"
@@ -19,7 +19,7 @@
 
       </v-col>
 
-    </v-row> -->
+    </v-row>
 
   </div>
 
