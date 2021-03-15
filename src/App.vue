@@ -56,7 +56,7 @@
     <!-- root layout -->
     <v-main>
 
-      <v-container>
+      <v-container fluid pa-0>
 
         <!-- <v-layout justify-center align-center> -->
 
