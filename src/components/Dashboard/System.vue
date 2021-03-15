@@ -343,9 +343,6 @@ export default {
           this.$router.push({ name: 'System-Signin' })
         })
     }
-  },
-  created () {
-    this.authenticatedUser()
   }
 }
 </script>
