@@ -1,6 +1,6 @@
 <template>
 
-  <div id="center">
+  <div class="welcome-center mt-16">
 
     <v-main>
 
@@ -11,7 +11,7 @@
           name='fade'
         >
 
-          <div class='welcome-text' :key='text'>{{ text }}</div>
+          <div class='welcome-text font-weight-light welcome-center' :key='text'>{{ text }}</div>
 
         </transition>
 
@@ -30,7 +30,7 @@ export default {
   name: 'EntryPoint',
   data () {
     return {
-      text: 'Welcome back!',
+      text: 'Welcome Back!',
       show_welcome: true
     }
   },
@@ -48,10 +48,11 @@ export default {
       }
     },
     toggleTransition () {
-      this.text = this.text === 'Welcome back!' ? 'Preparing your dashboard...' : 'Welcome back!'
+      this.text = this.text === 'Welcome Back!' ? 'Preparing Your Dashboard' : 'Welcome Back!'
     }
   },
   created () {
+    this.$store.dispatch('authenticatedUser', 'User')
     setTimeout(() => {
       this.dashboard()
     }, 5000)
@@ -62,13 +63,11 @@ export default {
 }
 </script>
 <style>
-#center {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+.welcome-center {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 200px;
 }
 .welcome-text {
   font-size: 35px;
