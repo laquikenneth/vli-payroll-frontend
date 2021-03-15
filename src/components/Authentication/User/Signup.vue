@@ -15,7 +15,7 @@
 
         <v-card-title>Create an account</v-card-title>
 
-          <v-card-text>
+          <!-- <v-card-text> -->
 
             <v-container>
 
@@ -41,7 +41,6 @@
                     @click="submit"
                     block
                     medium
-                    rounded
                     color="primary"
                     :disabled="!formHasErrors || btn_disabled"
                   >
@@ -56,7 +55,7 @@
 
             </v-container>
 
-          </v-card-text>
+          <!-- </v-card-text> -->
 
       </v-card>
 

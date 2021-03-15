@@ -12,7 +12,7 @@
 
       <v-card-title>Sign in to your account</v-card-title>
 
-        <v-card-text>
+        <!-- <v-card-text> -->
 
           <v-container class
           >
@@ -75,7 +75,6 @@
                       @click="submit"
                       block
                       medium
-                      rounded
                       color="primary"
                       :disabled="!formHasErrors || btn_disabled"
                       form="login"
@@ -95,7 +94,7 @@
 
           </v-container>
 
-        </v-card-text>
+        <!-- </v-card-text> -->
 
     </v-card>
 
@@ -137,7 +136,7 @@ export default {
         required: value => !!value || 'Required.',
         email: [
           value => !!value || 'Email is required',
-          value => /.+@.+\..+/.test(value) || 'E-mailmust be valid'
+          value => /.+@.+\..+/.test(value) || 'E-mail must be valid'
         ],
         password: [
           value => !!value || 'Password is required'
