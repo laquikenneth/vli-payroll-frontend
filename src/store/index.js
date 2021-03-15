@@ -8,7 +8,7 @@ export default new Vuex.Store({
   state: {
     user: '',
     email: '',
-    token: localStorage.getItem('u_t') || null,
+    token: localStorage.getItem('u_t') || '',
     cacheToken: null,
     systemToken: localStorage.getItem('s_t') || null,
     cacheSystemToken: null,
@@ -22,9 +22,7 @@ export default new Vuex.Store({
     error_message (state) {
       return state.error_message
     },
-    loggedIn (state) {
-      return state.token !== null
-    },
+    loggedIn: state => !!state.token,
     systemLoggedIn (state) {
       return state.systemToken !== null
     },
@@ -74,24 +72,25 @@ export default new Vuex.Store({
   actions: {
     async authenticatedUser (context, guard) {
       // user
-      if (guard === 'User') {
-        axios.defaults.headers.Authorization = 'Bearer ' + localStorage.getItem('u_t')
-        if (context.getters.loggedIn) {
-          await new Promise((resolve, reject) => {
-            axios.get('u/user')
-              .then(response => {
-                context.commit('authenticatedUser', response.data)
-                resolve(response)
-              })
-              .catch(error => {
-                reject(error)
-              })
-          })
+      try {
+        if (guard === 'User') {
+          if (context.getters.loggedIn) {
+            await new Promise((resolve, reject) => {
+              axios.get('u/user')
+                .then(response => {
+                  context.commit('authenticatedUser', response.data)
+                  resolve(response)
+                })
+                .catch(error => {
+                  reject(error)
+                })
+            })
+          }
         }
+      } catch (error) {
       }
       // system
       if (guard === 'System') {
-        axios.defaults.headers.Authorization = 'Bearer ' + localStorage.getItem('s_t')
         if (context.getters.systemLoggedIn) {
           await new Promise((resolve, reject) => {
             axios.get('s/user')
@@ -138,6 +137,7 @@ export default new Vuex.Store({
             .then(response => {
               localStorage.setItem('u_t', response.data.access_token)
               context.commit('login', response.data.access_token)
+              // context.dispatch('authenticatedUser', 'User')
               resolve(response)
             })
             .catch(error => {
