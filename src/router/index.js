@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import App from '../App.vue'
+// import App from '../App.vue'
 import EntryPoint from '../components/Common/Entrypoint'
 import SubscriberEmailVerified from '../components/Common/Subscriber-Email-Verified'
 import SubscriberRegisterSuccess from '../components/Common/Subscriber-Register-Success'
@@ -38,8 +38,7 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    name: 'App',
-    component: App
+    name: 'App'
   },
   {
     path: '/auth/entrypoint',
