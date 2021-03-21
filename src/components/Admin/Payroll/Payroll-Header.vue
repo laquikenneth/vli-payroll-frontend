@@ -4,7 +4,7 @@
 
     <v-data-table
       :headers="headers"
-      :items="masterfile"
+      :items="payroll"
       :items-per-page="5"
       :loading="loading"
       class="elevation-1"
@@ -12,13 +12,12 @@
     </v-data-table>
 
   </div>
-
 </template>
-
 <script>
 import axios from 'axios'
 
 export default {
+  name: 'Directory-Details',
   data () {
     return {
       loading: false,
@@ -31,28 +30,29 @@ export default {
         },
         { text: 'Last Name', value: 'last_nme', sortable: true },
         { text: 'First Name', value: 'frst_nme', sortable: true },
-        { text: 'First Name', value: 'midl_nme', sortable: true }
+        { text: 'Gross Pay', value: 'grosspay', sortable: true },
+        { text: 'Deduction', value: 'deductn_', sortable: true },
+        { text: 'Net Pay', value: 'net_pay_', sortable: true }
       ],
-      masterfile: []
+      payroll: []
     }
   },
   methods: {
-    load_masterfile () {
+    payroll_header () {
       this.loading = true
-      axios.get('u/maintenance/masterfile', {
+      axios.get('u/payroll/header', {
         params: {
-          vli_subs_hdr: this.$store.getters.authenticatedUser.vli_subs_hdr
+          vli_payr_dir: this.$route.params.id
         }
       })
-        .then(response => {
-          this.masterfile = response.data
+        .then(reponse => {
+          this.payroll = reponse.data
           this.loading = false
         })
     }
-
   },
   created () {
-    this.load_masterfile()
+    this.payroll_header()
   }
 }
 </script>

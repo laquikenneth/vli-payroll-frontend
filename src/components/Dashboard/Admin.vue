@@ -20,7 +20,9 @@
 
           <v-list-item-avatar>
 
-            <img :src="images.company">
+            <img
+              :src="images.company"
+            >
 
           </v-list-item-avatar>
 
@@ -75,7 +77,6 @@
           v-model="item.active"
           :prepend-icon="item.action"
           no-action
-          color="indigo"
         >
 
           <!-- ---------------------------------------------------- -->
@@ -248,13 +249,13 @@
 
     <v-app-bar
       app
-      color="white"
+      color="primary"
       elevation="1"
     >
 
-      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon @click="drawer = !drawer" class="white--text"></v-app-bar-nav-icon>
 
-      <v-toolbar-title>{{ user.co_name_ }} Dashboard</v-toolbar-title>
+      <v-toolbar-title class="white--text">{{ user.co_name_ }} Dashboard</v-toolbar-title>
 
     </v-app-bar>
 
@@ -293,6 +294,7 @@ export default {
         {
           action: 'mdi-account-cash-outline',
           title: 'Payroll',
+          active: true,
           subs: [
             {
               action: 'mdi-folder-outline',

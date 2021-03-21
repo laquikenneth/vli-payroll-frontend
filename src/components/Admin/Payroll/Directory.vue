@@ -3,10 +3,20 @@
   <div>
 
     <v-expansion-panels >
+      <v-app-bar
+        dense
+        color="white"
+        v-if="show_app_bar"
+      >
+
+        <v-app-bar-title>Payroll Directory</v-app-bar-title>
+
+      </v-app-bar>
 
       <v-expansion-panel v-for="directory in directories" :key="directory.cntrl_no" multiple>
 
-        <v-expansion-panel-header v-slot="{ open }" @click="retrieve_other_info(directory.cntrl_no)">
+        <!-- <v-expansion-panel-header v-slot="{ open }" @click="retrieve_other_info(directory.cntrl_no)"> -->
+        <v-expansion-panel-header v-slot="{ open }">
           <v-row no-gutters>
             <v-col cols="4">
               ID: {{ directory.cntrl_no }} ({{ directory.payr_dir }} - Part  {{ directory.part____ }}) <span><v-icon color="teal">mdi-check</v-icon></span>
@@ -90,11 +100,11 @@
             <v-col cols="3">
 
               <v-text-field
-                v-model="grosspay"
+                v-model="directory.grosspay"
                 label="Total Gross Pay"
                 outlined
                 dense
-
+                :readonly="true"
               >
 
               </v-text-field>
@@ -104,7 +114,7 @@
             <v-col cols="3">
 
               <v-text-field
-                v-model="deduction"
+                v-model="directory.deduction"
                 label="Total Deductions"
                 outlined
                 dense
@@ -118,7 +128,7 @@
             <v-col cols="3">
 
               <v-text-field
-                v-model="netpay"
+                v-model="directory.netpay"
                 label="Total Net Pay"
                 outlined
                 dense
@@ -132,7 +142,7 @@
             <v-col cols="3">
 
               <v-text-field
-                v-model="total_employee"
+                v-model="directory.count"
                 label="Number of Employees"
                 outlined
                 dense
@@ -152,6 +162,7 @@
               <v-btn
                 medium
                 class="mr-2"
+                :to="{ name: 'Admin-Payroll-Header', params: { id: directory.cntrl_no } }"
               >
 
                 View
@@ -184,7 +195,7 @@
 
                 <v-card-title class="headline">Send Payslip?</v-card-title>
 
-                  <v-card-text>You are about to send {{ total_employee }} payslip email(s). Proceed?</v-card-text>
+                  <v-card-text>You are about to send {{ directory.count }} payslip email(s). Proceed?</v-card-text>
 
                 <v-card-actions>
 
@@ -265,7 +276,8 @@ export default {
       snackbar: false,
       snackbarText: '',
       dialog: false,
-      btn_disabled: false
+      btn_disabled: false,
+      show_app_bar: false
     }
   },
   methods: {
@@ -277,20 +289,11 @@ export default {
       })
         .then(response => {
           this.directories = response.data
-        })
-    },
-    count_employees (id) {
-      axios.get('u/payroll/directories/total-employee', {
-        params: {
-          vli_payr_dir: id
-        }
-      })
-        .then(response => {
-          this.total_employee = response.data
+          this.show_app_bar = true
         })
     },
     send_payslip (id) {
-      axios.get('u/payroll/payroll/header', {
+      axios.get('u/payroll/send/payslip', {
         params: {
           vli_payr_dir: id
         }
@@ -308,6 +311,16 @@ export default {
       this.count_employees(id)
     },
     // vuex
+    count_employees (id) {
+      axios.get('u/payroll/directories/total-employee', {
+        params: {
+          vli_payr_dir: id
+        }
+      })
+        .then(response => {
+          this.total_employee = response.data
+        })
+    },
     compute_header_total_gross (id) {
       axios.get('u/payroll/directories/total-gross-amount', {
         params: {

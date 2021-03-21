@@ -61,6 +61,30 @@
 
       </v-card>
 
+      <v-snackbar
+        v-model="snackbar"
+        :multi-line="multiLine"
+      >
+
+        {{ snackbarText }}
+
+        <template v-slot:action="{ attrs }">
+
+          <v-btn
+            color="red"
+            text
+            v-bind="attrs"
+            @click="snackbar= false"
+          >
+
+            Close
+
+          </v-btn>
+
+        </template>
+
+      </v-snackbar>
+
     </v-container>
 
   </div>
@@ -101,14 +125,21 @@ export default {
     async validate () {
       try {
         await new Promise((resolve, reject) => {
-          axios.get('u/validate/mobile/' + this.$route.params.id)
+          axios.post('auth/validate/mobile/', {
+            data: {
+              id: this.id,
+              mobile: this.form.mobile
+            }
+          })
             .then(response => {
-              if (this.form.mobile === response.data) {
-                this.markEmailAsVerified()
-              }
+              // if (this.form.mobile === response.data) {
+              this.markEmailAsVerified()
+              // }
               resolve(response)
             })
             .catch(error => {
+              this.snackbarText = error.response.data.message
+              this.snackbar = true
               reject(error)
             })
         })
@@ -116,7 +147,8 @@ export default {
       }
     },
     markEmailAsVerified () {
-      window.location.href = 'https://vli-payroll-api-bziyh.ondigitalocean.app/verify-user-email/' + this.id
+      // window.location.href = 'https://vli-payroll-api-bziyh.ondigitalocean.app/verify-user-email/' + this.id
+      window.location.href = 'http://localhost:8000/verify-user-email/' + this.id
     }
   }
 }

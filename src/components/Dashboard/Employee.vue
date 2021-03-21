@@ -39,10 +39,9 @@
       <v-divider></v-divider>
 
       <!-- lists -->
-
       <v-list
-        dense
         rounded
+        dense
       >
 
         <!-- first list -->
@@ -75,7 +74,6 @@
           v-model="item.active"
           :prepend-icon="item.action"
           no-action
-          color="indigo"
         >
 
           <!-- ---------------------------------------------------- -->
@@ -252,11 +250,11 @@
 
     </v-navigation-drawer>
 
-    <v-app-bar app>
+    <v-app-bar app color="primary">
 
-      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon @click="drawer = !drawer" class="white--text"></v-app-bar-nav-icon>
 
-      <v-toolbar-title>Dashboard</v-toolbar-title>
+      <v-toolbar-title class="white--text">Dashboard</v-toolbar-title>
 
     </v-app-bar>
 
@@ -294,6 +292,7 @@ export default {
         {
           action: 'mdi-account-cash-outline',
           title: 'Payroll',
+          active: true,
           subs: [
             {
               action: 'mdi-folder-outline',
@@ -305,6 +304,10 @@ export default {
         {
           action: 'mdi-calendar-account-outline',
           title: 'DTR'
+        },
+        {
+          action: 'mdi-cash-usd-outline',
+          title: 'Loans'
         },
         {
           action: 'mdi-calendar-weekend-outline',
@@ -328,6 +331,7 @@ export default {
       this.$store.dispatch('logout')
         .then(() => {
           this.$router.push({ name: 'Signin' })
+          location.reload()
         })
     }
   },

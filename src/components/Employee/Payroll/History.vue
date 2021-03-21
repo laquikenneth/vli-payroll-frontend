@@ -140,11 +140,11 @@
               <v-btn
                 small
                 class="mr-2"
-                @click="download_payslip"
+                @click="download_payslip(header.vli_payr_dir)"
                 :disabled="btn_disabled"
               >
 
-                Download Payslipd
+                Download Payslip
 
               </v-btn>
 <!--
@@ -292,12 +292,16 @@ export default {
           this.dialog = true
         })
     },
-    download_payslip () {
+    download_payslip (id) {
       this.btn_disabled = true
       axios({
         url: 'u/employee/payroll/payslip/download',
-        method: 'GET',
-        responseType: 'blob'
+        method: 'POST',
+        responseType: 'blob',
+        data: {
+          vli_payr_dir: id,
+          vli_empl_mst: this.$store.getters.authenticatedUser.vli_empl_mst
+        }
       })
         .then(response => {
           var fileURL = window.URL.createObjectURL(new Blob([response.data]))

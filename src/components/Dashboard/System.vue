@@ -26,9 +26,9 @@
 
           <v-list-item-content>
 
-            <v-list-item-title>{{ user.co_name_ }}</v-list-item-title>
+            <v-list-item-title>{{ co_name_ }}</v-list-item-title>
 
-            <v-list-item-subtitle>{{ user.co_sname }}</v-list-item-subtitle>
+            <v-list-item-subtitle>{{ co_sname }}</v-list-item-subtitle>
 
           </v-list-item-content>
 
@@ -342,6 +342,9 @@ export default {
           this.$router.push({ name: 'System-Signin' })
         })
     }
+  },
+  created () {
+    this.authenticatedUser()
   }
 }
 </script>
