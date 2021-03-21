@@ -112,122 +112,120 @@
     </v-list>
   </v-card>
 
-  <v-row justify="center">
-    <v-dialog
-      v-model="dialog"
-      persistent
-      max-width="400"
-    >
-      <v-card>
-        <v-card-title class="headline">
-          Change password
-        </v-card-title>
-        <v-card-text>
+    <v-row justify="center">
+      <v-dialog
+        v-model="dialog"
+        persistent
+        max-width="400"
+      >
+        <v-card>
+          <!-- <v-card-text> -->
+            <v-container>
+              <v-form
+                ref="form"
+                v-model="formHasErrors"
+                lazy-validation
+              >
 
-          <v-form
-            class="mt-2"
-            ref="form"
-            v-model="formHasErrors"
-            lazy-validation
-          >
+                <!-- old password field -->
+                <v-row>
+                  <v-col>
 
-            <!-- old password field -->
-            <v-row class="mt-n4">
-              <v-col>
+                    <v-text-field
+                      v-model="form.old_password"
+                      :append-icon="show_old ? 'mdi-eye' : 'mdi-eye-off'"
+                      :type="show_old ? 'text' : 'password'"
+                      @click:append="show_old = !show_old"
+                      :rules="rules.old_password"
+                      dense
+                      label="Enter your Old Password"
+                      outlined
+                      required
+                      :error-messages="message_array"
+                      @change="check_old_password()"
+                    />
+                    <!-- <template v-slot:message="{ key, message }">
+                      <span v-html="key">{{ message }}</span>
+                    </template> -->
 
-                <v-text-field
-                  v-model="form.old_password"
-                  :append-icon="show_old ? 'mdi-eye' : 'mdi-eye-off'"
-                  :type="show_old ? 'text' : 'password'"
-                  @click:append="show_old = !show_old"
-                  :rules="rules.old_password"
-                  dense
-                  label="Enter your Old Password"
-                  outlined
-                  required
-                  :error-messages="message_array"
-                  @change="check_old_password()"
-                />
-                <!-- <template v-slot:message="{ key, message }">
-                  <span v-html="key">{{ message }}</span>
-                </template> -->
+                  </v-col>
 
-              </v-col>
+                </v-row>
 
-            </v-row>
+                <!-- new password field-->
+                <v-row class="mt-n4">
 
-            <!-- new password field-->
-            <v-row class="mt-n4">
+                  <v-col>
 
-              <v-col>
+                    <v-text-field
+                      v-model="form.new_password"
+                      :append-icon="show_new ? 'mdi-eye' : 'mdi-eye-off'"
+                      :type="show_new ? 'text' : 'password'"
+                      @click:append="show_new = !show_new"
+                      dense
+                      label="Enter New Password"
+                      :rules="rules.new_password"
+                      required
+                      outlined
+                      :error-messages="confirm_message"
+                      :readonly="readonly"
+                    />
 
-                <v-text-field
-                  v-model="form.new_password"
-                  :append-icon="show_new ? 'mdi-eye' : 'mdi-eye-off'"
-                  :type="show_new ? 'text' : 'password'"
-                  @click:append="show_new = !show_new"
-                  dense
-                  label="Enter New Password"
-                  :rules="rules.new_password"
-                  required
-                  outlined
-                  :error-messages="confirm_message"
-                  :readonly="readonly"
-                />
+                  </v-col>
 
-              </v-col>
+                </v-row>
 
-            </v-row>
+                <!-- verify new password field-->
+                <v-row class="mt-n4">
 
-            <!-- verify new password field-->
-            <v-row class="mt-n4">
+                  <v-col>
 
-              <v-col>
+                    <v-text-field
+                      v-model="form.verify_new_password"
+                      :append-icon="show_new ? 'mdi-eye' : 'mdi-eye-off'"
+                      :type="show_new ? 'text' : 'password'"
+                      @click:append="show_new = !show_new"
+                      dense
+                      label="Re-enter New Password"
+                      required
+                      outlined
+                      :error-messages="confirm_message"
+                      @change="passwordConfirmation()"
+                      :readonly="readonly"
+                    >
 
-                <v-text-field
-                  v-model="form.verify_new_password"
-                  :append-icon="show_new ? 'mdi-eye' : 'mdi-eye-off'"
-                  :type="show_new ? 'text' : 'password'"
-                  @click:append="show_new = !show_new"
-                  dense
-                  label="Re-enter New Password"
-                  required
-                  outlined
-                  :error-messages="confirm_message"
-                  @change="passwordConfirmation()"
-                  :readonly="readonly"
-                >
+                    </v-text-field>
 
-                </v-text-field>
+                  </v-col>
 
-              </v-col>
+                </v-row>
 
-            </v-row>
+              </v-form>
+            </v-container>
+          <!-- </v-card-text> -->
 
-          </v-form>
+          <v-card-actions class="mt-n4">
 
-        </v-card-text>
+            <v-spacer></v-spacer>
 
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn
-            color="green darken-1"
-            text
-            @click="dialog = false"
-          >
-            Close
-          </v-btn>
-          <v-btn
-            color="green darken-1"
-            text
-            @click="update_password()"
-          >
-            Update
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-  </v-row>
+            <v-btn
+              color="green darken-1"
+              text
+              @click="dialog = false"
+            >
+              Close
+            </v-btn>
+            <v-btn
+              color="green darken-1"
+              text
+              @click="update_password()"
+            >
+              Update
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </v-row>
 
   <!-- Snackbar -->
   <v-snackbar

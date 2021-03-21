@@ -14,7 +14,7 @@
 
         <v-card-title>Verify your mobile number</v-card-title>
 
-          <v-card-text>
+          <!-- <v-card-text> -->
 
             <v-container>
 
@@ -26,9 +26,13 @@
                 <!-- email -->
                 <v-text-field
                   v-model="form.mobile"
+                  :rules='rules.mobile'
                   dense
                   outlined
+                  required
+                  maxlength="11"
                   label="Mobile Number"
+                  counter
                   @keydown.enter="submit"
               />
 
@@ -39,8 +43,8 @@
                     @click="validate"
                     block
                     medium
-                    rounded
                     color="primary"
+                    :disabled="!formHasErrors || btn_disabled"
                   >
 
                     Validate
@@ -53,7 +57,7 @@
 
             </v-container>
 
-          </v-card-text>
+          <!-- </v-card-text> -->
 
       </v-card>
 
@@ -76,9 +80,10 @@ export default {
       },
       rules: {
         required: value => !!value || 'Required.',
-        email: [
-          value => !!value || 'Email is required',
-          value => /.+@.+\..+/.test(value) || 'E-mail must be valid'
+        mobile: [
+          value => /^[0-9]+$/.test(value) || 'Input must be a number',
+          value => !!value || 'Mobile number is required.',
+          value => value.length === 11 || 'Mobile number must be 11 digits'
         ]
 
       },

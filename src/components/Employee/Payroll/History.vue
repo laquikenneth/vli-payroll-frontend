@@ -138,11 +138,13 @@
             <v-col>
 
               <v-btn
-                medium
+                small
                 class="mr-2"
+                @click="download_payslip"
+                :disabled="btn_disabled"
               >
 
-                Download Payslip
+                Download Payslipd
 
               </v-btn>
 <!--
@@ -169,16 +171,28 @@
     <v-row justify="center">
     <v-dialog
       v-model="dialog"
-      max-width="290"
+      max-width="400"
     >
       <v-card>
+
         <v-card-title class="headline">
           {{ dialog_title }}
         </v-card-title>
 
-        <v-card-text v-for="grosspay in grosspay" :key="grosspay.vli_empl_mst">
-          {{ grosspay.descript }}: {{ grosspay.amount__ }}
-        </v-card-text>
+        <!-- <v-row>
+          <v-col> -->
+            <v-card-text v-for="grosspay in grosspay" :key="grosspay.vli_empl_mst">
+              <v-row class="descript-right">
+                <v-col cols="5">
+                  {{ grosspay.descript }}:
+                </v-col>
+                <v-col cols="3">
+                  {{ grosspay.amount__ }}
+                </v-col>
+              </v-row>
+            </v-card-text>
+          <!-- </v-col>
+        </v-row> -->
 
         <!-- <v-card-actions>
           <v-spacer></v-spacer>
@@ -214,6 +228,7 @@ export default {
   name: 'Employee-Payroll-History',
   data () {
     return {
+      user: '',
       headers: [],
       grosspay: '',
       deduction: '',
@@ -276,10 +291,41 @@ export default {
           this.dialog_title = 'Net Pay Details'
           this.dialog = true
         })
+    },
+    download_payslip () {
+      this.btn_disabled = true
+      axios({
+        url: 'u/employee/payroll/payslip/download',
+        method: 'GET',
+        responseType: 'blob'
+      })
+        .then(response => {
+          var fileURL = window.URL.createObjectURL(new Blob([response.data]))
+          var fileLink = document.createElement('a')
+
+          fileLink.href = fileURL
+          fileLink.setAttribute('download', this.user.frst_nme + ' ' + this.user.last_nme + '.pdf')
+          document.body.appendChild(fileLink)
+
+          fileLink.click()
+          this.btn_disabled = false
+        })
     }
   },
   created () {
     this.payroll_header()
+    this.user = this.$store.getters.authenticatedUser
   }
 }
 </script>
+<style>
+  @font-face {
+  font-family: 'Courier New';
+  src: url(/fonts/cour.ttf) format("TrueType");
+}
+
+.descript-right {
+  text-align: right;
+}
+
+</style>

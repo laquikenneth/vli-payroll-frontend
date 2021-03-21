@@ -26,9 +26,9 @@
 
           <v-list-item-content>
 
-            <v-list-item-title>{{ co_name_ }}</v-list-item-title>
+            <v-list-item-title>{{ user.co_name_ }}</v-list-item-title>
 
-            <v-list-item-subtitle>{{ co_sname }}</v-list-item-subtitle>
+            <v-list-item-subtitle>{{ user.co_sname }}</v-list-item-subtitle>
 
           </v-list-item-content>
 
@@ -120,9 +120,9 @@
       <!-- profile -->
       <template v-slot:append>
 
-        <v-navigation-drawer
+        <!-- <v-navigation-drawer
           v-model="drawer"
-        >
+        > -->
 
         <v-divider />
 
@@ -246,7 +246,7 @@
 
         </div>
 
-        </v-navigation-drawer>
+        <!-- </v-navigation-drawer> -->
 
       </template>
 
@@ -294,7 +294,6 @@ export default {
         {
           action: 'mdi-account-group-outline',
           title: 'Client',
-          active: true,
           subs: [
             {
               action: 'mdi-email-alert-outline',
@@ -325,7 +324,7 @@ export default {
         }
       ],
       account: [
-        { text: 'Settings and admin', icon: 'mdi-cog-outline' }
+        { text: 'Settings', icon: 'mdi-cog-outline' }
 
       ]
     }

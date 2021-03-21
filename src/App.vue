@@ -16,7 +16,7 @@
           medium
           text
           v-if="signup"
-          :to="{ name: 'Signin' }"
+          @click="login()"
         >
 
           Sign In
@@ -44,7 +44,7 @@
           medium
           text
           v-else
-          :to="{ name: 'Signin' }"
+          @click="login()"
         >
 
           Sign in
@@ -84,6 +84,17 @@ export default {
   computed: {
     signup () {
       return this.$route.name !== 'Signup'
+    }
+  },
+  methods: {
+    login () {
+      // console.log(localStorage.getItem('s_t'))
+      // console.log(localStorage.getItem('u_t'))
+      if (this.$store.state.token !== '' || this.$store.state.systemToken !== null) {
+        this.$router.push({ name: 'EntryPoint' })
+      } else {
+        this.$router.push({ name: 'Signin' }).catch(() => {})
+      }
     }
   }
 }

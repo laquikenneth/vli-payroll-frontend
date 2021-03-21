@@ -348,7 +348,7 @@ export default {
         }
       ],
       account: [
-        { text: 'Settings and admin', icon: 'mdi-cog-outline', url: { name: 'Admin-Settings' } }
+        { text: 'Settings', icon: 'mdi-cog-outline', url: { name: 'Admin-Settings' } }
       ]
     }
   },
