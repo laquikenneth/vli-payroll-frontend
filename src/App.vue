@@ -79,12 +79,13 @@ export default {
   name: 'App',
   data () {
     return {
+      signup: true
     }
   },
   computed: {
-    signup () {
-      return this.$route.name !== 'Signup'
-    }
+    // signup () {
+    //   return this.$route.name !== 'Signup'
+    // }
   },
   methods: {
     login () {
