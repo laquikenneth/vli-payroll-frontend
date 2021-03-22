@@ -125,7 +125,7 @@ export default {
     async validate () {
       try {
         await new Promise((resolve, reject) => {
-          axios.post('auth/validate/mobile/', {
+          axios.post('auth/validate/mobile', {
             data: {
               id: this.id,
               mobile: this.form.mobile
