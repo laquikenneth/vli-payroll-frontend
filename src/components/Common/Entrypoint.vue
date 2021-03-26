@@ -52,13 +52,15 @@ export default {
     }
   },
   created () {
-    this.$store.dispatch('authenticatedUser', 'User')
-    setTimeout(() => {
-      this.dashboard()
-    }, 5000)
-    setInterval(() => {
-      this.toggleTransition()
-    }, 2500)
+    if (localStorage.getItem('u_t') !== null) {
+      this.$store.dispatch('authenticatedUser', 'User')
+      setTimeout(() => {
+        this.dashboard()
+      }, 5000)
+      setInterval(() => {
+        this.toggleTransition()
+      }, 2500)
+    }
   }
 }
 </script>

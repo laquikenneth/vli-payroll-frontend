@@ -10,25 +10,83 @@
     :loading="loading"
   >
     <template v-slot:top>
-      <v-toolbar
-        flat
-      >
 
-        <v-toolbar-title>Not Verified Table</v-toolbar-title>
+      <v-card-title>
 
-        <v-spacer></v-spacer>
+        Not Verified
+
+      <v-spacer></v-spacer>
+
+        <v-cols cols="6">
+
+          <v-text-field
+            v-model="search"
+            append-icon="mdi-magnify"
+            label="Search"
+            outlined
+            hide-details
+            dense
+          />
+
+        </v-cols>
+
+        <v-btn
+          @click="dialog = true"
+          :disabled="btn_disabled"
+          medium
+          class="ml-2"
+        >
+          Send Verification Email
+        </v-btn>
+
+      </v-card-title>
+
+    </template>
+
+  </v-data-table>
+
+  <!-- dialog message -->
+  <v-row justify="center">
+
+    <v-dialog
+      v-model="dialog"
+      persistent
+      max-width="290"
+    >
+
+      <v-card>
+
+        <v-card-title>Message</v-card-title>
+
+          <v-card-text>Send an email verification to all. Proceed?</v-card-text>
+
+        <v-card-actions>
+
+          <v-spacer></v-spacer>
 
           <v-btn
-            @click="send_verification_to_all"
-            small
-            :disabled="btn_disabled"
+            color="green darken-1"
+            text
+            @click="dialog = false"
           >
-            Send Verification To All
+            No
           </v-btn>
 
-      </v-toolbar>
-    </template>
-  </v-data-table>
+          <v-btn
+            color="green darken-1"
+            text
+            @click="send_verification_to_all(), dialog = false"
+          >
+            Yes
+          </v-btn>
+
+        </v-card-actions>
+
+      </v-card>
+
+    </v-dialog>
+
+  </v-row>
 
   <!-- Snackbar -->
   <v-snackbar
@@ -69,6 +127,7 @@ export default {
       multiLine: true,
       snackbar: false,
       snackbarText: '',
+      dialog: false,
       btn_disabled: true,
       selected: [],
       headers: [

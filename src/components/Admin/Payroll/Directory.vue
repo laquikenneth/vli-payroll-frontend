@@ -11,6 +11,20 @@
 
         <v-app-bar-title>Payroll Directory</v-app-bar-title>
 
+        <v-spacer></v-spacer>
+
+        <v-col cols="3">
+          <v-text-field
+            v-model="search"
+            append-icon="mdi-magnify"
+            label="Search Payroll Directory #"
+            single-line
+            hide-details
+            @keydown.enter="searchPayrollDirectory"
+            @change="searchPayrollDirectory"
+          ></v-text-field>
+        </v-col>
+
       </v-app-bar>
 
       <v-expansion-panel v-for="directory in directories" :key="directory.cntrl_no" multiple>
@@ -183,6 +197,7 @@
 
           </v-row>
 
+          <!-- dialog message -->
           <v-row justify="center">
 
             <v-dialog
@@ -268,6 +283,7 @@ export default {
   data () {
     return {
       directories: [],
+      search: '',
       grosspay: '',
       deduction: '',
       netpay: '',
@@ -349,6 +365,21 @@ export default {
       })
         .then(response => {
           this.netpay = response.data
+        })
+    },
+    searchPayrollDirectory () {
+      if (this.search === '') {
+        return this.payroll_directories()
+      }
+      axios.get('u/payroll/directory/search', {
+        params: {
+          payr_dir: this.search,
+          vli_subs_hdr: this.$store.getters.authenticatedUser.vli_subs_hdr
+        }
+      })
+        .then(response => {
+          this.directories = response.data
+          this.show_app_bar = true
         })
     }
   },

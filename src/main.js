@@ -8,11 +8,11 @@ import axios from 'axios'
 
 Vue.config.productionTip = false
 
-// axios.defaults.baseURL = 'http://localhost:8000/api'
+axios.defaults.baseURL = 'http://localhost:8000/api'
 
 // axios.defaults.baseURL = 'http://host.docker.internal:8000/api'
 
-axios.defaults.baseURL = 'https://vli-payroll-api-bziyh.ondigitalocean.app/api'
+// axios.defaults.baseURL = 'https://vli-payroll-api-bziyh.ondigitalocean.app/api'
 
 // Add a request interceptor
 axios.interceptors.request.use(function (config) {
@@ -50,6 +50,8 @@ axios.interceptors.response.use(function (response) {
 }, function (error) {
   if (error.response.status !== 422) {
     alert('Session Expired. Please sigin again.')
+    localStorage.removeItem('u_t')
+    localStorage.removeItem('s_t')
     router.push({ name: 'Signin' })
   }
   // Any status codes that falls outside the range of 2xx cause this function to trigger

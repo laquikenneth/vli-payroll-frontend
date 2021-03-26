@@ -2,26 +2,45 @@
 
   <div>
 
-  <v-data-table
-    v-model="selected"
-    :headers="headers"
-    :items="users"
-    item-key="cntrl_no"
-    class="elevation-1"
-    :loading="loading"
-  >
-    <template v-slot:top>
-      <v-toolbar
-        flat
-      >
+    <v-data-table
+      v-model="selected"
+      :headers="headers"
+      :items="users"
+      :search="search"
+      item-key="cntrl_no"
+      class="elevation-1"
+      :loading="loading"
+    >
 
-      <v-toolbar-title>Verified Table</v-toolbar-title>
+      <template v-slot:top>
 
-      </v-toolbar>
-    </template>
-  </v-data-table>
+        <v-card-title>
+
+          Verified Employees
+
+          <v-spacer></v-spacer>
+
+          <v-cols cols="6">
+
+            <v-text-field
+              v-model="search"
+              append-icon="mdi-magnify"
+              label="Search"
+              outlined
+              hide-details
+              dense
+            />
+
+          </v-cols>
+
+        </v-card-title>
+
+      </template>
+
+    </v-data-table>
 
   </div>
+
 </template>
 
 <script>
@@ -32,6 +51,7 @@ export default {
   data () {
     return {
       users: [],
+      search: '',
       singleSelect: false,
       loading: false,
       selected: [],

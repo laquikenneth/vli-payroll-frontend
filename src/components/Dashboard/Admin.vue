@@ -136,7 +136,7 @@
             <template v-slot:activator="{ on }">
 
               <v-btn
-                color="indigo"
+                color="primary"
                 dark
                 v-on="on"
                 small
@@ -255,7 +255,7 @@
 
       <v-app-bar-nav-icon @click="drawer = !drawer" class="white--text"></v-app-bar-nav-icon>
 
-      <v-toolbar-title class="white--text">{{ user.co_name_ }} Dashboard</v-toolbar-title>
+      <v-toolbar-title class="white--text">Dashboard</v-toolbar-title>
 
     </v-app-bar>
 
@@ -331,11 +331,11 @@ export default {
               title: 'Pending',
               url: { name: 'Admin-Email-Pending' }
             },
-            {
-              action: 'mdi-account-arrow-right-outline',
-              title: 'Resent',
-              url: { name: 'Admin-Email-Resent' }
-            },
+            // {
+            //   action: 'mdi-account-arrow-right-outline',
+            //   title: 'Resent',
+            //   url: { name: 'Admin-Email-Resent' }
+            // },
             {
               action: 'mdi-account-check-outline',
               title: 'Verified',
@@ -346,7 +346,7 @@ export default {
         },
         {
           action: 'mdi-cash-usd-outline',
-          title: 'Billing'
+          title: 'Subscription'
         }
       ],
       account: [

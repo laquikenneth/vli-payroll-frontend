@@ -1,62 +1,126 @@
 <template>
 
   <div>
-  <v-data-table
-    v-model="selected"
-    :headers="headers"
-    :items="users"
-    item-key="cntrl_no"
-    show-select
-    class="elevation-1"
-    :loading="loading"
-  >
-    <template v-slot:top>
-      <v-toolbar
-        flat
+
+    <v-data-table
+      v-model="selected"
+      :headers="headers"
+      :items="users"
+      :search="search"
+      item-key="cntrl_no"
+      show-select
+      class="elevation-1"
+      :loading="loading"
+    >
+
+      <template v-slot:top>
+
+        <v-card-title>
+
+          Pending Verification
+
+          <v-spacer></v-spacer>
+
+          <v-cols cols="6">
+
+            <v-text-field
+              v-model="search"
+              append-icon="mdi-magnify"
+              label="Search"
+              outlined
+              hide-details
+              dense
+            />
+
+          </v-cols>
+
+          <v-btn
+            @click="show_dialog"
+            :disabled="btn_disabled"
+            medium
+            class="ml-2"
+          >
+
+            Resend Verification
+
+          </v-btn>
+
+        </v-card-title>
+
+      </template>
+
+    </v-data-table>
+
+    <!-- dialog message -->
+    <v-row justify="center">
+
+      <v-dialog
+        v-model="dialog"
+        persistent
+        max-width="290"
       >
 
-      <v-toolbar-title>Pending Table</v-toolbar-title>
+        <v-card>
 
-      <v-spacer></v-spacer>
+          <v-card-title>Message</v-card-title>
 
-      <v-btn
-        @click="resend_verification"
-        small
-        :disabled="btn_disabled"
-      >
-        Resend Verification
-      </v-btn>
+            <v-card-text>Resend verificaton email?</v-card-text>
 
-      </v-toolbar>
-    </template>
-  </v-data-table>
+          <v-card-actions>
 
-  <!-- Snackbar -->
-  <v-snackbar
-    v-model="snackbar"
-    :multi-line="multiLine"
-  >
+            <v-spacer></v-spacer>
 
-    {{ snackbarText }}
+            <v-btn
+              color="green darken-1"
+              text
+              @click="dialog = false"
+            >
+              No
+            </v-btn>
 
-    <template v-slot:action="{ attrs }">
+            <v-btn
+              color="green darken-1"
+              text
+              @click="resend_verification(), dialog = false"
+            >
+              Yes
+            </v-btn>
 
-      <v-btn
-        color="red"
-        text
-        v-bind="attrs"
-        @click="snackbar= false"
-      >
+          </v-card-actions>
 
-        Close
+        </v-card>
 
-      </v-btn>
+      </v-dialog>
 
-    </template>
+    </v-row>
 
-  </v-snackbar>
+    <!-- Snackbar -->
+    <v-snackbar
+      v-model="snackbar"
+      :multi-line="multiLine"
+    >
+
+      {{ snackbarText }}
+
+      <template v-slot:action="{ attrs }">
+
+        <v-btn
+          color="red"
+          text
+          v-bind="attrs"
+          @click="snackbar= false"
+        >
+
+          Close
+
+        </v-btn>
+
+      </template>
+
+    </v-snackbar>
 
   </div>
+
 </template>
 
 <script>
@@ -66,16 +130,18 @@ export default {
   data () {
     return {
       users: [],
+      search: '',
       multiLine: true,
       snackbar: false,
       snackbarText: '',
       singleSelect: false,
       loading: false,
+      dialog: false,
       selected: [],
       cntrl_no: [],
       headers: [
         {
-          text: 'ID',
+          text: 'Employee #',
           align: 'start',
           sortable: false,
           value: 'vli_empl_mst'
@@ -83,8 +149,8 @@ export default {
         { text: 'Last Name', value: 'last_nme' },
         { text: 'First Name', value: 'frst_nme' },
         { text: 'Email', value: 'email' },
-        { text: 'Mobile Number', value: 'mobile__' }
-
+        { text: 'Mobile Number', value: 'mobile__' },
+        { text: 'Status', value: 'status__' }
       ]
     }
   },
@@ -105,6 +171,9 @@ export default {
           this.loading = false
           this.users = response.data
         })
+    },
+    show_dialog () {
+      this.dialog = true
     },
     resend_verification () {
       Object.keys(this.selected).forEach(item => {
