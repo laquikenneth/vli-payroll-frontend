@@ -33,6 +33,7 @@ import SystemClientVerified from '../views/System/Client/Components/Verified.vue
 import EmployeePayrollHistory from '../views/Employee/Payroll/History'
 // import SystemClientPending from '../views/System/Client/Components/Pending.vue'
 import AdminMasterfile from '../views/Admin/Maintenance/MasterFile.vue'
+import AdminMasterFileEdit from '../views/Admin/Maintenance/Components/MasterFile.vue'
 
 Vue.use(VueRouter)
 
@@ -235,6 +236,15 @@ const routes = [
         path: 'admin/masterfile',
         name: 'Admin-Masterfile',
         component: AdminMasterfile,
+        meta: {
+          guard: 'User',
+          requiresAuth: true
+        }
+      },
+      {
+        path: 'admin/masterfile/:id',
+        name: 'Admin-MasterFile-Edit',
+        component: AdminMasterFileEdit,
         meta: {
           guard: 'User',
           requiresAuth: true

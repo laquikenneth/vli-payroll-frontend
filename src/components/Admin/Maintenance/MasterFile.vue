@@ -51,6 +51,7 @@
         <v-btn
           @click="send_payslip(item)"
           icon
+          :to="{ name: 'Admin-MasterFile-Edit', params: { id: item.empl_cde } }"
         >
 
           <v-icon>
@@ -86,7 +87,7 @@ export default {
         },
         { text: 'Last Name', value: 'last_nme', sortable: true },
         { text: 'First Name', value: 'frst_nme', sortable: true },
-        { text: 'First Name', value: 'midl_nme', sortable: true },
+        { text: 'Middle Name', value: 'midl_nme', sortable: true },
         { text: 'Action', value: 'action', sortable: false }
       ],
       masterfile: []
