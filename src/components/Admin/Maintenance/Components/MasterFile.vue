@@ -11,31 +11,45 @@
     >
 
     <v-card-title>
+
       Employee Masterfile
 
       <v-spacer />
 
         <v-btn class="mr-2"
-            medium
-            color="primary"
-            :disabled="!formHasErrors || btn_disabled"
-            @click="submit"
-          >
+          medium
+          color="primary"
+          :disabled="!formHasErrors || btn_disabled"
+          v-show="textfield_disabled"
+          @click="textfield_disabled = false"
+        >
 
-              Reset
+          Reset Password
 
-          </v-btn>
+        </v-btn>
+
+        <v-btn class="mr-2"
+          medium
+          color="primary"
+          :disabled="!formHasErrors || btn_disabled"
+          v-show="password_button"
+          @click="textfield_disabled = true, update_password()"
+        >
+
+          Save Password
+
+        </v-btn>
 
         <v-btn
-            medium
-            color="primary"
-            :disabled="!formHasErrors || btn_disabled"
-            @click="submit"
-          >
+          medium
+          color="primary"
+          :disabled="!formHasErrors || btn_disabled"
+          @click="submit"
+        >
 
-              Save
+          Save
 
-          </v-btn>
+        </v-btn>
 
     </v-card-title>
 
@@ -51,13 +65,9 @@
 
         <v-col cols='4'>
 
-          <h4>Basic Information</h4>
+          <h4>Basic Information (#{{ this.form.cntrl_no }})</h4>
 
         </v-col>
-
-      </v-row>
-
-      <v-row class='mt-2'>
 
       </v-row>
 
@@ -70,6 +80,8 @@
             v-model='form.empl_cde'
             dense
             outlined
+            filled
+
             label='Employee Code'
             :readonly="true"
           />
@@ -83,6 +95,7 @@
             v-model='form.frst_nme'
             dense
             outlined
+            filled
             label='First Name'
             :readonly="true"
           />
@@ -96,6 +109,7 @@
             v-model='form.last_nme'
             dense
             outlined
+            filled
             label='Last Name'
             :readonly="true"
           />
@@ -109,6 +123,7 @@
             v-model='form.midl_nme'
             dense
             outlined
+            filled
             label='Middle Name'
             :readonly="true"
           />
@@ -136,6 +151,7 @@
           v-model='form.email'
           dense
           outlined
+          filled
           label='Email'
           :readonly="true"
         />
@@ -149,8 +165,9 @@
           v-model='form.password'
           dense
           outlined
-          label='Reset Password'
+          label='New Password'
           required
+          :disabled="textfield_disabled"
         />
 
       </v-col>
@@ -165,6 +182,7 @@
           v-model='form.username'
           dense
           outlined
+          filled
           label='Username'
           :readonly="true"
         />
@@ -178,6 +196,7 @@
           v-model='form.mobile__'
           dense
           outlined
+          filled
           label='Mobile Number'
           :readonly="true"
         />
@@ -210,6 +229,7 @@
                 item-value="id"
                 dense
                 outlined
+                filled
                 :readonly="true"
               />
 
@@ -252,6 +272,7 @@
               v-model='form.email_verified_at'
               dense
               outlined
+              filled
               label='Email Verified at'
               :readonly="true"
 
@@ -268,6 +289,7 @@
               v-model='form.created_at'
               dense
               outlined
+              filled
               label='Created at'
               :readonly="true"
             />
@@ -281,6 +303,7 @@
               v-model='form.created_by'
               dense
               outlined
+              filled
               label='Created by'
               :readonly="true"
             />
@@ -294,6 +317,7 @@
             v-model='form.updated_at'
             dense
             outlined
+            filled
             label='Updated at'
             :readonly="true"
           />
@@ -308,6 +332,7 @@
               v-model='form.updated_by'
               dense
               outlined
+              filled
               label='Updated by'
               :readonly="true"
             />
@@ -321,6 +346,31 @@
     </v-container>
 
    </v-card>
+
+  <!-- Snackbar -->
+  <v-snackbar
+    v-model="snackbar"
+    :multi-line="multiLine"
+  >
+
+    {{ snackbarText }}
+
+    <template v-slot:action="{ attrs }">
+
+      <v-btn
+        color="red"
+        text
+        v-bind="attrs"
+        @click="snackbar= false"
+      >
+
+        Close
+
+      </v-btn>
+
+    </template>
+
+  </v-snackbar>
 
   </div>
 
@@ -338,7 +388,12 @@ export default {
   },
   data () {
     return {
+      multiLine: true,
+      snackbar: false,
+      snackbarText: '',
       btn_disabled: false,
+      textfield_disabled: true,
+      masterfile: {},
       form: {
         empl_cde: '',
         frst_nme: '',
@@ -391,21 +446,38 @@ export default {
       ]
     }
   },
+  computed: {
+    password_button () {
+      return this.form.password.length !== 0
+    }
+  },
   methods: {
+    update_password () {
+      axios.post('u/admin/update-password', {
+        verify_new_password: this.form.password
+      })
+        .then(() => {
+          this.snackbar = true
+          this.snackbarText = 'Password updated successfully!'
+          this.form.password = ''
+        })
+        .catch(error => {
+          this.snackbarText = error.response.data.message
+        })
+    },
     async subscriber () {
       try {
-        axios.defaults.headers.Authorization = 'Bearer ' + localStorage.getItem('u_t')
-        if (this.$store.getters.systemLoggedIn) {
+        if (this.$store.getters.loggedIn) {
           await new Promise((resolve, reject) => {
-            axios.get('u/maintenance/masterfile/', {
+            axios.get('u/maintenance/masterfile/edit', {
               params: {
-                empl_cde: this.id
+                vli_empl_mst: this.$route.params.id
               }
             })
               .then(response => {
-                this.client = response.data
-                Object.keys(this.client).forEach(key => {
-                  this.form[key] = this.client[key]
+                this.masterfile = response.data
+                Object.keys(this.masterfile).forEach(key => {
+                  this.form[key] = this.masterfile[key]
                 })
                 resolve(response)
               })
@@ -447,6 +519,7 @@ export default {
     }
   },
   created () {
+    console.log(this.form.password.length !== 0)
     this.subscriber()
   }
 }

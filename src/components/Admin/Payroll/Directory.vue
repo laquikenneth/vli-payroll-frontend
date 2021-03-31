@@ -3,6 +3,7 @@
   <div>
 
     <v-expansion-panels >
+
       <v-app-bar
         dense
         color="white"
@@ -14,6 +15,7 @@
         <v-spacer></v-spacer>
 
         <v-col cols="3">
+
           <v-text-field
             v-model="search"
             append-icon="mdi-magnify"
@@ -22,7 +24,8 @@
             hide-details
             @keydown.enter="searchPayrollDirectory"
             @change="searchPayrollDirectory"
-          ></v-text-field>
+          />
+
         </v-col>
 
       </v-app-bar>

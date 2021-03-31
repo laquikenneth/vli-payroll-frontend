@@ -144,13 +144,12 @@ export default {
           text: 'Employee #',
           align: 'start',
           sortable: false,
-          value: 'vli_empl_mst'
+          value: 'empl_cde'
         },
         { text: 'Last Name', value: 'last_nme' },
         { text: 'First Name', value: 'frst_nme' },
         { text: 'Email', value: 'email' },
-        { text: 'Mobile Number', value: 'mobile__' },
-        { text: 'Status', value: 'status__' }
+        { text: 'Mobile Number', value: 'mobile__' }
       ]
     }
   },

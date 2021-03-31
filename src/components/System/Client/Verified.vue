@@ -7,8 +7,34 @@
       :items="list"
       :items-per-page="5"
       :loading="loading"
+      :search="search"
       class="elevation-1"
     >
+
+    <template v-slot:top>
+
+      <v-card-title>
+
+        Verified
+
+      <v-spacer></v-spacer>
+
+        <v-cols cols="6">
+
+          <v-text-field
+            v-model="search"
+            append-icon="mdi-magnify"
+            label="Search"
+            outlined
+            hide-details
+            dense
+          />
+
+        </v-cols>
+
+      </v-card-title>
+
+    </template>
 
       <template v-slot:item.action="{ item }">
 
@@ -58,6 +84,7 @@ export default {
   data () {
     return {
       loading: false,
+      search: '',
       headers: [
         {
           text: 'ID',
@@ -70,7 +97,6 @@ export default {
         { text: 'Last Name', value: 'last_nme', sortable: true },
         { text: 'Email', value: 'email', sortable: true },
         { text: 'Mobile', value: 'mobile__', sortable: true },
-        { text: 'Status', value: 'status__', sortable: true },
         { text: 'Action', value: 'action', sortable: false }
       ],
       list: []

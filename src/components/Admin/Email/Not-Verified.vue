@@ -132,10 +132,10 @@ export default {
       selected: [],
       headers: [
         {
-          text: 'ID',
+          text: 'Employee #',
           align: 'start',
           sortable: false,
-          value: 'vli_empl_mst'
+          value: 'empl_cde'
         },
         { text: 'Last Name', value: 'last_nme' },
         { text: 'First Name', value: 'frst_nme' },

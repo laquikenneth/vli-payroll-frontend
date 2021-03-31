@@ -589,7 +589,7 @@
 import axios from 'axios'
 
 export default {
-  name: 'Pending-Edit',
+  name: 'Verified-Edit',
   props: {
     id: {
       type: [String, Number]
@@ -648,7 +648,7 @@ export default {
         admin_limit: '1',
         strt_trial: '',
         last_trial: '',
-        status__: '2',
+        status__: '',
         disabled: 'F',
         client_token: ''
       },
@@ -708,7 +708,7 @@ export default {
         axios.defaults.headers.Authorization = 'Bearer ' + localStorage.getItem('s_t')
         if (this.$store.getters.systemLoggedIn) {
           await new Promise((resolve, reject) => {
-            axios.get('s/client/pending/', {
+            axios.get('s/client/verified', {
               params: {
                 cntrl_no: this.id
               }
@@ -736,7 +736,7 @@ export default {
           await new Promise((resolve, reject) => {
             axios.post('s/subscriber/create', this.form)
               .then(response => {
-                this.$router.push({ name: 'System-Client-Pending' })
+                this.$router.push({ name: 'System-Client-Verified' })
                 resolve(response)
               })
               .catch(error => {

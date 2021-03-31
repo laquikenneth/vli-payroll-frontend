@@ -15,7 +15,6 @@
       <template v-slot:top>
 
         <v-card-title>
-
           <span>Master Files</span>
 
           <v-spacer></v-spacer>
@@ -51,7 +50,7 @@
         <v-btn
           @click="send_payslip(item)"
           icon
-          :to="{ name: 'Admin-MasterFile-Edit', params: { id: item.empl_cde } }"
+          :to="{ name: 'Admin-MasterFile-Edit', params: { id: item.cntrl_no } }"
         >
 
           <v-icon>

@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 // import App from '../App.vue'
 import EntryPoint from '../components/Common/Entrypoint'
+import Settings from '../views/Settings/Settings'
 import SubscriberEmailVerified from '../components/Common/Subscriber-Email-Verified'
 import SubscriberRegisterSuccess from '../components/Common/Subscriber-Register-Success'
 import UserEmailVerfied from '../components/Common/User-Email-Verified'
@@ -14,24 +15,19 @@ import UserSignup from '../views/Authentication/User/Signup.vue'
 import UserRegister from '../views/Authentication/User/Register.vue'
 import UserSignin from '../views/Authentication/User/Signin.vue'
 import SystemSignin from '../views/Authentication/System/Signin.vue'
-import SystemClientList from '../views/System/Client/List.vue'
-import SystemClient from '../views/System/Client/Components/Client.vue'
-import SystemClientErrorList from '../views/System/Client/Client-Error.vue'
-import SystemClientError from '../views/System/Client/Components/Client-Error.vue'
-import SystemClientApprovedList from '../views/System/Client/Approved.vue'
-import SystemClientApproved from '../views/System/Client/Components/Approved.vue'
+import SystemClientApproved from '../views/System/Client/Approved.vue'
+import SystemClientApprovedEdit from '../views/System/Client/Components/Approved.vue'
+import SystemClientVerified from '../views/System/Client/Verified.vue'
+import SystemClientVerifiedEdit from '../views/System/Client/Components/Verified.vue'
+import SystemClientPending from '../views/System/Client/Pending.vue'
+import SystemClientPendingEdit from '../views/System/Client/Components/Pending.vue'
 import AdminEmailNotVerified from '../views/Admin/Email/Not-Verified'
 import AdminEmailPending from '../views/Admin/Email/Pending'
 import AdminEmailResent from '../views/Admin/Email/Resent'
 import AdminEmailVerified from '../views/Admin/Email/Verified'
 import AdminPayrolDirectory from '../views/Admin/Payroll/Directory'
 import AdminPayrollHeader from '../views/Admin/Payroll/Payroll-Header'
-import Settings from '../views/Settings/Settings'
-import SystemClientVerifiedList from '../views/System/Client/Verified.vue'
-import SystemClientPendingList from '../views/System/Client/Pending.vue'
-import SystemClientVerified from '../views/System/Client/Components/Verified.vue'
 import EmployeePayrollHistory from '../views/Employee/Payroll/History'
-// import SystemClientPending from '../views/System/Client/Components/Pending.vue'
 import AdminMasterfile from '../views/Admin/Maintenance/MasterFile.vue'
 import AdminMasterFileEdit from '../views/Admin/Maintenance/Components/MasterFile.vue'
 
@@ -105,63 +101,9 @@ const routes = [
     component: SystemDashboard,
     children: [
       {
-        path: 'client/list',
-        name: 'System-Client-List',
-        component: SystemClientList,
-        meta: {
-          guard: 'System',
-          requiresAuth: true
-        }
-      },
-      {
-        path: 'client/list/error',
-        name: 'System-Client-Error-Edit',
-        component: SystemClientError,
-        meta: {
-          guard: 'System',
-          requiresAuth: true
-        }
-      },
-      {
-        path: 'client/:id',
-        name: 'System-Client-Edit',
-        component: SystemClient,
-        meta: {
-          guard: 'System',
-          requiresAuth: true
-        }
-      },
-      {
         path: 'client/approved',
         name: 'System-Client-Approved',
-        component: SystemClientApprovedList,
-        meta: {
-          guard: 'System',
-          requiresAuth: true
-        }
-      },
-      {
-        path: 'client/error',
-        name: 'System-Client-Errors',
-        component: SystemClientErrorList,
-        meta: {
-          guard: 'System',
-          requiresAuth: true
-        }
-      },
-      {
-        path: 'client/verified',
-        name: 'System-Client-Verified',
-        component: SystemClientVerifiedList,
-        meta: {
-          guard: 'System',
-          requiresAuth: true
-        }
-      },
-      {
-        path: 'client/pending',
-        name: 'System-Client-Pending',
-        component: SystemClientPendingList,
+        component: SystemClientApproved,
         meta: {
           guard: 'System',
           requiresAuth: true
@@ -170,16 +112,16 @@ const routes = [
       {
         path: 'client/approved/:id',
         name: 'System-Client-Approved-Edit',
-        component: SystemClientApproved,
+        component: SystemClientApprovedEdit,
         meta: {
           guard: 'System',
           requiresAuth: true
         }
       },
       {
-        path: 'client/error/:id',
-        name: 'System-Client-Error-Edit',
-        component: SystemClientError,
+        path: 'client/verified',
+        name: 'System-Client-Verified',
+        component: SystemClientVerified,
         meta: {
           guard: 'System',
           requiresAuth: true
@@ -188,21 +130,30 @@ const routes = [
       {
         path: 'client/verified/:id',
         name: 'System-Client-Verified-Edit',
-        component: SystemClientVerified,
+        component: SystemClientVerifiedEdit,
+        meta: {
+          guard: 'System',
+          requiresAuth: true
+        }
+      },
+      {
+        path: 'client/pending',
+        name: 'System-Client-Pending',
+        component: SystemClientPending,
+        meta: {
+          guard: 'System',
+          requiresAuth: true
+        }
+      },
+      {
+        path: 'client/pending/:id',
+        name: 'System-Client-Pending-Edit',
+        component: SystemClientPendingEdit,
         meta: {
           guard: 'System',
           requiresAuth: true
         }
       }
-      // {
-      //   path: 'client/pending/:id',
-      //   name: 'System-Client-Pending-Edit',
-      //   component: SystemClientPending,
-      //   meta: {
-      //     guard: 'System',
-      //     requiresAuth: true
-      //   }
-      // }
     ],
     meta: {
       guard: 'System',

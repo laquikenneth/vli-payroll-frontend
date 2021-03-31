@@ -648,7 +648,7 @@ export default {
         admin_limit: '1',
         strt_trial: '',
         last_trial: '',
-        status__: '2',
+        status__: '',
         disabled: 'F',
         client_token: ''
       },

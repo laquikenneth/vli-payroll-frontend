@@ -2,466 +2,405 @@
 
   <div>
 
-    <v-stepper v-model="tab">
+    <v-card
+      class='mx-auto'
+      outlined
+      :loading='loading'
+      elevation='3'
 
-      <v-stepper-header>
+    >
 
-        <v-stepper-step
-          :complete="tab > 1"
-          step="1"
-          :editable="valid_form"
+    <v-card-title>
+
+      Edit Records
+
+      <v-spacer />
+
+        <v-btn
+          medium
+          color="primary"
+          :disabled="!formHasErrors || btn_disabled"
+          @click="submit"
         >
 
-          Company Profile
+          Save and Approve
 
-        </v-stepper-step>
+        </v-btn>
 
-        <v-divider />
+    </v-card-title>
 
-        <v-stepper-step
-          :complete="tab > 2"
-          step="2"
-          :editable="valid_form"
+    <v-divider></v-divider>
+
+    <v-container>
+
+      <v-form
+        ref='form'
+        v-model="formHasErrors"
+      >
+      <v-row class='mt-2'>
+
+        <v-col cols='4'>
+
+          <h4>Company Profile</h4>
+
+        </v-col>
+
+      </v-row>
+
+      <v-row class='mt-2'>
+
+      </v-row>
+
+      <!-- ID/Control Number -->
+      <v-row class='mt-2'>
+
+        <v-col cols='3'>
+
+          <v-text-field
+            v-model="client.cntrl_no"
+            label="ID"
+            dense
+            outlined
+            filled
+            :readonly="true"
+          />
+
+        </v-col>
+
+        <!-- Employee Code -->
+        <v-col cols='3'>
+
+          <v-text-field
+            v-model="form.empl_cde"
+            label="Employee Code"
+            :rules="rules.empl_cde"
+            dense
+            filled
+            :readonly="true"
+            outlined
+            required
+          />
+
+        </v-col>
+
+        <!-- First Name -->
+        <v-col cols='3'>
+
+          <v-text-field
+            v-model="form.frst_nme"
+            label="First Name"
+            :rules="rules.frst_nme"
+            dense
+            filled
+            :readonly="true"
+            outlined
+            required
+          />
+
+        </v-col>
+
+        <!-- Last Name -->
+        <v-col cols='3'>
+
+          <v-text-field
+            v-model="form.last_nme"
+            label="Last Name"
+            :rules="rules.last_nme"
+            dense
+            outlined
+            required
+            filled
+            :readonly="true"
+          />
+
+        </v-col>
+
+      </v-row>
+
+      <!-- Email -->
+      <v-row class='mt-n5'>
+
+        <v-col cols='3'>
+
+          <v-text-field
+            v-model="form.email"
+            label="Email"
+            dense
+            outlined
+            filled
+            :readonly="true"
+          />
+
+        </v-col>
+
+        <!-- Mobile Number -->
+        <v-col cols='3'>
+
+          <v-text-field
+            v-model="form.mobile__"
+            label="Mobile Number"
+            dense
+            outlined
+            filled
+            :readonly="true"
+          />
+
+        </v-col>
+
+        <!-- Address -->
+        <v-col cols='6'>
+
+          <v-text-field
+            v-model="form.address_"
+            label="Address"
+            :rules="rules.address_"
+            dense
+            outlined
+            filled
+            :readonly="true"
+            required
+          />
+
+        </v-col>
+
+      </v-row>
+
+      <!-- Company Name -->
+      <v-row class='mt-n5'>
+
+        <v-col cols='5'>
+
+          <v-text-field
+            v-model="form.co_name_"
+            label="Company Name"
+            dense
+            outlined
+            filled
+            :readonly="true"
+          />
+
+        </v-col>
+
+        <!-- Company Short Name -->
+        <v-col cols='4'>
+
+          <v-text-field
+            v-model="form.co_sname"
+            label="Company Short Name"
+            :rules="rules.co_sname"
+            dense
+            outlined
+            required
+            filled
+            :readonly="true"
+          />
+
+        </v-col>
+
+        <!-- Position -->
+        <v-col cols='3'>
+
+          <v-text-field
+            v-model="form.pos_desc"
+            label="Position"
+            :rules="rules.pos_desc"
+            dense
+            outlined
+            filled
+            :readonly="true"
+            required
+          />
+
+        </v-col>
+
+      </v-row>
+
+    <v-divider></v-divider>
+     <v-row class='mt-4'>
+
+        <v-col cols='4'>
+
+          <h4>Subscriber</h4>
+
+        </v-col>
+
+      </v-row>
+
+      <v-row class='mt-2'>
+
+      <!-- Email Verified at -->
+      <v-col cols='3'>
+
+        <v-text-field
+          v-model="form.email_verified_at"
+          label="Email Verified at"
+          dense
+          outlined
+          filled
+          :readonly="true"
+        />
+
+      </v-col>
+
+      <!-- Approved at -->
+      <v-col cols='3'>
+
+        <v-text-field
+          v-model="form.approved_at"
+          label="Approved at"
+          dense
+          outlined
+          filled
+          :readonly="true"
+        />
+
+      </v-col>
+
+      <!-- Approved by -->
+      <v-col cols='3'>
+
+        <v-text-field
+          v-model="form.approved_by"
+          label="Approved by"
+          dense
+          outlined
+          filled
+          :readonly="true"
+        />
+
+      </v-col>
+
+      <!-- Status -->
+      <v-col cols='3'>
+
+        <v-select
+          v-model="client.vli_register_status"
+          item-text="descript"
+          item-value="id"
+          :items="vli_register_status"
+          :rules="[value => !!value || 'Status is required']"
+          label="Status"
+          filled
+          :readonly="true"
+          dense
+          outlined
+        />
+
+      </v-col>
+
+    </v-row>
+
+      <!-- Action -->
+      <v-row class='mt-n5'>
+        <v-col cols='4'>
+
+          <v-select
+            v-model="form.status__"
+            item-text="descript"
+            item-value="id"
+            :items="vli_subs_hdr_status"
+            :rules="[value => !!value || 'Status is required']"
+            label="Action"
+            dense
+            outlined
+          />
+
+        </v-col>
+
+      <!-- Start Trial -->
+      <v-col cols='4'>
+
+        <v-menu
+          v-model="strt_trial_Menu"
+          :close-on-content-click="true"
+          :nudge-right="40"
+          transition="scale-transition"
+          offset-y
+          min-width="auto"
         >
 
-          Subscriber
+          <template v-slot:activator="{ on, attrs }">
 
-        </v-stepper-step>
+            <v-text-field
+              v-model="form.strt_trial"
+              label="Start Trial"
+              :rules="[value => !!value || 'Start Trial Date is required']"
+              outlined
+              readonly
+              dense
+              v-bind="attrs"
+              v-on="on"
+            />
 
-        <v-divider />
+          </template>
 
-        <v-stepper-step
-          step="3"
-          :editable="valid_form"
-        >
-
-          Settings
-
-        </v-stepper-step>
-
-      </v-stepper-header>
-
-      <!------------------------ content start here -------------------------->
-      <v-stepper-items>
-
-        <v-form
-          ref="form_1"
-          v-model="valid_form"
+          <v-date-picker
+            v-model="form.strt_trial"
+            @input="strt_trial_Menu= false"
           >
 
-          <!-- Company Profile Tab -->
-          <v-stepper-content step="1">
+          </v-date-picker>
 
-            <v-row class="mt-2">
+        </v-menu>
 
-              <!-- Control Number -->
-              <v-col
-                md="3"
-              >
+      </v-col>
 
-                <v-text-field
-                  v-model="client.cntrl_no"
-                  label="ID"
-                  dense
-                  outlined
-                  filled
-                  :readonly="true"
-                />
+      <!-- Last Trial -->
+        <v-col cols='4'>
 
-              </v-col>
-
-              <!-- Company name -->
-              <v-col
-                md="6"
-              >
-
-                <v-text-field
-                  v-model="form.co_name_"
-                  label="Company Name"
-                  dense
-                  outlined
-                  filled
-                  :readonly="true"
-                />
-
-              </v-col>
-
-              <!-- Company Short Name -->
-              <v-col
-                md="3"
-              >
-
-                <v-text-field
-                  v-model="form.co_sname"
-                  label="Company Short Name"
-                  :rules="rules.co_sname"
-                  dense
-                  outlined
-                  required
-                />
-
-              </v-col>
-
-            </v-row>
-
-            <v-row>
-
-              <!-- Employee Code -->
-              <v-col
-                md="3"
-              >
-
-                <v-text-field
-                  v-model="form.empl_cde"
-                  label="Employee Code"
-                  :rules="rules.empl_cde"
-                  dense
-                  filled
-                  :readonly="true"
-                  outlined
-                  required
-                />
-
-              </v-col>
-
-              <!-- First Name -->
-              <v-col
-                md="3"
-              >
-
-                <v-text-field
-                  v-model="form.frst_nme"
-                  label="First Name"
-                  :rules="rules.frst_nme"
-                  dense
-                  filled
-                  :readonly="true"
-                  outlined
-                  required
-                />
-
-              </v-col>
-
-              <!-- Last Name -->
-              <v-col
-                md="3"
-              >
-
-                <v-text-field
-                  v-model="form.last_nme"
-                  label="Last Name"
-                  :rules="rules.last_nme"
-                  dense
-                  outlined
-                  required
-                  filled
-                  :readonly="true"
-                />
-
-              </v-col>
-
-              <!-- Position -->
-              <v-col
-                md="3"
-              >
-
-                <v-text-field
-                  v-model="form.pos_desc"
-                  label="Position"
-                  :rules="rules.pos_desc"
-                  dense
-                  outlined
-                  filled
-                  :readonly="true"
-                  required
-                />
-
-              </v-col>
-
-            </v-row>
-
-            <v-row>
-
-              <!-- Address -->
-              <v-col
-                md="4"
-              >
-
-                <v-text-field
-                  v-model="form.address_"
-                  label="Address"
-                  :rules="rules.address_"
-                  dense
-                  outlined
-                  filled
-                  :readonly="true"
-                  required
-                />
-
-              </v-col>
-
-              <!-- Email -->
-              <v-col
-                md="4"
-              >
-
-                <v-text-field
-                  v-model="form.email"
-                  label="Email"
-                  dense
-                  outlined
-                  filled
-                  :readonly="true"
-                />
-
-              </v-col>
-
-              <!-- Mobile Number -->
-              <v-col
-                md="4"
-              >
-
-                <v-text-field
-                  v-model="form.mobile__"
-                  label="Mobile Number"
-                  dense
-                  outlined
-                  filled
-                  :readonly="true"
-                />
-
-              </v-col>
-
-            </v-row>
-
-            <v-card-actions>
-
-              <v-btn
-                color="primary"
-                :disabled="!valid_form || btn_disabled"
-                @click="tab=2, submit()"
-              >
-
-                Continue
-
-              </v-btn>
-
-              <v-btn
-                text
-              >
-
-                Cancel
-
-              </v-btn>
-
-            </v-card-actions>
-
-          </v-stepper-content>
-
-        </v-form>
-
-        <!-- Subscriber -->
-          <v-form
-          ref="form_2"
-          v-model="valid_form_2"
+          <v-menu
+            v-model="last_trial_Menu"
+            :close-on-content-click="true"
+            :nudge-right="40"
+            transition="scale-transition"
+            offset-y
+            min-width="auto"
           >
-          <v-stepper-content step="2">
 
-            <v-row class= "mt-2">
-
-              <!-- Status -->
-              <v-col
-                md="3"
-              >
-
-              <v-select
-                v-model="client.vli_register_status"
-                item-text="descript"
-                item-value="id"
-                :items="vli_register_status"
-                :rules="[value => !!value || 'Status is required']"
-                label="Status"
-                filled
-                :readonly="true"
-                dense
-                outlined
-              />
-
-            </v-col>
-
-            <!-- Email Verified At -->
-            <v-col
-              md="3"
-            >
+            <template v-slot:activator="{ on, attrs }">
 
               <v-text-field
-                v-model="form.email_verified_at"
-                label="Email Verified at"
-                dense
+                v-model="form.last_trial"
+                label="Last Trial"
+                :rules="[value => !!value || 'Last trial is required']"
                 outlined
-                filled
-                :readonly="true"
+                readonly
+                dense
+                v-bind="attrs"
+                v-on="on"
               />
 
-            </v-col>
+            </template>
 
-            <!-- Approved At -->
-            <v-col
-              md="3"
-            >
+            <v-date-picker
+              v-model="form.last_trial"
+              @input="last_trial_Menu= false"
+            />
 
-              <v-text-field
-                v-model="form.approved_at"
-                label="Approved at"
-                dense
-                outlined
-                filled
-                :readonly="true"
-              />
+           </v-menu>
 
-            </v-col>
+          </v-col>
 
-            <!-- Approved By -->
-            <v-col
-              md="3"
-            >
+        </v-row>
 
-              <v-text-field
-                v-model="form.approved_by"
-                label="Approved by"
-                dense
-                outlined
-                filled
-                :readonly="true"
-              />
+        <!-- Login Limit -->
+        <v-row class='mt-n5'>
+          <v-col cols='3'>
 
-            </v-col>
+            <v-text-field
+              v-model="form.login_limit"
+              label="Log in Limit"
+              :rules="rules.login_limit"
+              dense
+              outlined
+              filled
+              :readonly="true"
+            />
 
-          </v-row>
+          </v-col>
 
-          <v-row>
-
-            <!-- Action -->
-            <v-col
-              md="3"
-            >
-
-              <v-select
-                v-model="form.status__"
-                item-text="descript"
-                item-value="id"
-                :items="vli_subs_hdr_status"
-                :rules="[value => !!value || 'Status is required']"
-                label="Action"
-                dense
-                outlined
-              />
-
-            </v-col>
-
-            <!-- Start Trial -->
-            <v-col
-              md="5"
-            >
-
-              <v-menu
-                v-model="strt_trial_Menu"
-                :close-on-content-click="true"
-                :nudge-right="40"
-                transition="scale-transition"
-                offset-y
-                min-width="auto"
-              >
-
-                <template v-slot:activator="{ on, attrs }">
-
-                  <v-text-field
-                    v-model="form.strt_trial"
-                    label="Start Trial"
-                    :rules="[value => !!value || 'Start Trial Date is required']"
-                    outlined
-                    readonly
-                    dense
-                    v-bind="attrs"
-                    v-on="on"
-                  />
-
-                </template>
-
-                <v-date-picker
-                  v-model="form.strt_trial"
-                  @input="strt_trial_Menu= false"
-                >
-
-                </v-date-picker>
-
-              </v-menu>
-
-            </v-col>
-
-            <!-- Last Trial -->
-            <v-col
-              md="4"
-            >
-
-              <v-menu
-                v-model="last_trial_Menu"
-                :close-on-content-click="true"
-                :nudge-right="40"
-                transition="scale-transition"
-                offset-y
-                min-width="auto"
-              >
-
-                <template v-slot:activator="{ on, attrs }">
-
-                  <v-text-field
-                    v-model="form.last_trial"
-                    label="Last Trial"
-                    :rules="[value => !!value || 'Last trial is required']"
-                    outlined
-                    readonly
-                    dense
-                    v-bind="attrs"
-                    v-on="on"
-                  />
-
-                </template>
-
-                <v-date-picker
-                  v-model="form.last_trial"
-                  @input="last_trial_Menu= false"
-                />
-
-              </v-menu>
-
-            </v-col>
-
-          </v-row>
-
-          <v-row>
-
-            <!-- Log in Limit -->
-            <v-col
-              md="2"
-            >
-
-              <v-text-field
-                v-model="form.login_limit"
-                label="Log in Limit"
-                :rules="rules.login_limit"
-                dense
-                outlined
-                filled
-                :readonly="true"
-              />
-
-            </v-col>
-
-            <!-- Admin Limit -->
-            <v-col
-              md="2"
-            >
+          <!-- Admin limit -->
+            <v-col cols='3'>
 
               <v-text-field
                 v-model="form.admin_limit"
@@ -475,58 +414,37 @@
 
             </v-col>
 
+        </v-row>
+
+        <v-divider></v-divider>
+        <v-row class='mt-4'>
+
+            <v-col cols='4'>
+
+              <h4>Settings</h4>
+
+            </v-col>
+
           </v-row>
 
-          <v-btn
-            color="primary"
-            :disabled="!valid_form_2 || btn_disabled"
-            @click="tab=3, submit2()"
-          >
-
-            Continue
-
-          </v-btn>
-
-          <v-btn
-            text
-          >
-
-            Cancel
-
-          </v-btn>
-
-          </v-stepper-content>
-
-          </v-form>
-
-        <!-- Settings -->
-        <v-form
-          ref="form_3"
-          v-model="valid_form_3"
-          >
-        <v-stepper-content step="3">
-
-          <v-row class="mt-2">
+          <v-row class='mt-2'>
 
           <!-- Client token -->
-          <v-col
-            md="6"
-          >
+          <v-col cols='5'>
 
             <v-text-field
               v-model="form.client_token"
               label="Client Token"
-              :disabled="true"
               dense
               outlined
+              filled
+              :readonly="true"
             />
 
           </v-col>
 
           <!-- Disabled -->
-          <v-col
-            md="4"
-          >
+          <v-col cols='3'>
 
             <v-select
               v-model="form.disabled"
@@ -543,43 +461,11 @@
 
         </v-row>
 
-        <v-btn
-          color="primary"
-          class="mr-2"
-          :disabled="!valid_form_3 || btn_disabled"
-          @click="submit3()"
-        >
+      </v-form>
 
-          Save
+    </v-container>
 
-        </v-btn>
-
-        <v-btn
-          color="primary"
-          class="mr-2"
-          :disabled="!valid_form_3 || btn_disabled"
-          @click="submit3()"
-        >
-
-          Save and Approve
-
-        </v-btn>
-
-        <v-btn
-          text
-        >
-
-          Cancel
-
-        </v-btn>
-
-        </v-stepper-content>
-
-        </v-form>
-
-      </v-stepper-items>
-
-    </v-stepper>
+   </v-card>
 
   </div>
 
@@ -602,38 +488,6 @@ export default {
         co_sname: [
           value => !!value || 'Company Name is required.',
           value => value.length <= 30 || 'Company Name must be less than 30 characters'
-        ],
-        empl_cde: [
-          value => !!value || 'Employee Code is required.',
-          value => value.length <= 10 || 'Employee Code must be less than 10 characters'
-        ],
-        frst_nme: [
-          value => !!value || 'First Name is required.',
-          value => value.length <= 50 || 'First Name must be less than 50 characters'
-        ],
-        last_nme: [
-          value => !!value || 'Last Name is required.',
-          value => value.length <= 50 || 'Last Name must be less than 50 characters'
-        ],
-        pos_desc: [
-          value => !!value || 'Position is required.',
-          value => value.length <= 50 || 'Position must be less than 50 characters'
-        ],
-        address_: [
-          value => !!value || 'Address is required.',
-          value => value.length <= 200 || 'Address must be less than 200 characters'
-        ],
-        login_limit: [
-          value => !!value || 'Login Limit is required.',
-          value => /^[0-9]+$/.test(value) || 'Must be number.'
-        ],
-        admin_limit: [
-          value => !!value || 'Admin Limit is required.',
-          value => /^[0-9]+$/.test(value) || 'Must be number.'
-        ],
-        client_token: [
-          value => !!value || 'Client Token is required.',
-          value => value.length <= 50 || 'Client Token must be less than 50 characters'
         ]
       },
       btn_disabled: false,

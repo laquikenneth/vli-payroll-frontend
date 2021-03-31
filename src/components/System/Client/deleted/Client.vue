@@ -581,6 +581,31 @@
 
     </v-stepper>
 
+    <!-- Snackbar -->
+    <v-snackbar
+      v-model="snackbar"
+      :multi-line="multiLine"
+    >
+
+      {{ snackbarText }}
+
+      <template v-slot:action="{ attrs }">
+
+        <v-btn
+          color="red"
+          text
+          v-bind="attrs"
+          @click="snackbar= false"
+        >
+
+          Close
+
+        </v-btn>
+
+      </template>
+
+    </v-snackbar>
+
   </div>
 
 </template>
@@ -589,7 +614,7 @@
 import axios from 'axios'
 
 export default {
-  name: 'Pending-Edit',
+  name: 'Client',
   props: {
     id: {
       type: [String, Number]
@@ -640,6 +665,9 @@ export default {
       valid_form: false,
       valid_form_2: false,
       valid_form_3: false,
+      multiLine: true,
+      snackbar: false,
+      snackbarText: '',
       client: {},
       form: {
         co_name_: '',
@@ -648,7 +676,7 @@ export default {
         admin_limit: '1',
         strt_trial: '',
         last_trial: '',
-        status__: '2',
+        status__: '',
         disabled: 'F',
         client_token: ''
       },
@@ -708,7 +736,7 @@ export default {
         axios.defaults.headers.Authorization = 'Bearer ' + localStorage.getItem('s_t')
         if (this.$store.getters.systemLoggedIn) {
           await new Promise((resolve, reject) => {
-            axios.get('s/client/pending/', {
+            axios.get('s/client/', {
               params: {
                 cntrl_no: this.id
               }
@@ -736,10 +764,14 @@ export default {
           await new Promise((resolve, reject) => {
             axios.post('s/subscriber/create', this.form)
               .then(response => {
-                this.$router.push({ name: 'System-Client-Pending' })
+                this.snackbar = true
+                this.snackbarText = 'Your account has been updated!'
+                this.$router.push({ name: 'System-Client-Approved' })
                 resolve(response)
               })
               .catch(error => {
+                this.snackbar = true
+                this.snackbarText = error.response.data.message
                 reject(error)
               })
           })

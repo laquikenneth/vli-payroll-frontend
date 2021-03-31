@@ -139,7 +139,7 @@
             <template v-slot:activator="{ on }">
 
               <v-btn
-                color="indigo"
+                color="primary"
                 dark
                 v-on="on"
                 small
@@ -252,11 +252,14 @@
 
     </v-navigation-drawer>
 
-    <v-app-bar app>
+    <v-app-bar
+      app
+      color="primary"
+    >
 
-      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon @click="drawer = !drawer" class="white--text"></v-app-bar-nav-icon>
 
-      <v-toolbar-title>System Dashboard</v-toolbar-title>
+      <v-toolbar-title class="white--text">Dashboard</v-toolbar-title>
 
     </v-app-bar>
 
@@ -294,12 +297,8 @@ export default {
         {
           action: 'mdi-account-group-outline',
           title: 'Client',
+          active: true,
           subs: [
-            {
-              action: 'mdi-email-alert-outline',
-              title: 'Pending',
-              url: { name: 'System-Client-Pending' }
-            },
             {
               action: 'mdi-email-check-outline',
               title: 'Verified',
@@ -311,14 +310,9 @@ export default {
               url: { name: 'System-Client-Approved' }
             },
             {
-              action: 'mdi-clipboard-list-outline',
-              title: 'List',
-              url: { name: 'System-Client-List' }
-            },
-            {
-              action: 'mdi-alert-circle-outline',
-              title: 'Errors',
-              url: { name: 'System-Client-Errors' }
+              action: 'mdi-email-alert-outline',
+              title: 'Pending',
+              url: { name: 'System-Client-Pending' }
             }
           ]
         }

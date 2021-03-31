@@ -4,6 +4,30 @@
 
     <v-expansion-panels >
 
+      <v-app-bar
+        dense
+        color="white"
+        v-if="show_app_bar"
+      >
+
+        <v-app-bar-title>Payroll Directory</v-app-bar-title>
+
+        <v-spacer></v-spacer>
+
+        <v-col cols="3">
+
+          <v-text-field
+            v-model="search"
+            append-icon="mdi-magnify"
+            label="Search Payroll Directory #"
+            single-line
+            hide-details
+          />
+
+        </v-col>
+
+      </v-app-bar>
+
       <v-expansion-panel v-for="header in headers" :key="header.vli_payr_dir" multiple>
 
         <v-expansion-panel-header v-slot="{ open }" @click="retrieve_other_info(header.vli_payr_dir)">
@@ -229,12 +253,14 @@ export default {
   data () {
     return {
       user: '',
+      search: '',
       headers: [],
       grosspay: '',
       deduction: '',
       netpay: '',
       total_employee: '',
       dialog_title: '',
+      show_app_bar: true,
       multiLine: true,
       snackbar: false,
       snackbarText: '',

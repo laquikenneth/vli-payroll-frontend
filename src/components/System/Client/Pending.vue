@@ -7,8 +7,34 @@
       :items="list"
       :items-per-page="5"
       :loading="loading"
+      :search="search"
       class="elevation-1"
     >
+
+    <template v-slot:top>
+
+      <v-card-title>
+
+        Pending
+
+      <v-spacer></v-spacer>
+
+        <v-cols cols="6">
+
+          <v-text-field
+            v-model="search"
+            append-icon="mdi-magnify"
+            label="Search"
+            outlined
+            hide-details
+            dense
+          />
+
+        </v-cols>
+
+      </v-card-title>
+
+    </template>
 
       <template v-slot:item.action="{ item }">
 
@@ -27,22 +53,6 @@
 
       </template>
 
-      <template v-slot:item.status__="{ item }">
-        <v-edit-dialog>
-          {{ fn_register_status(item.status__) }}
-          <template v-slot:input>
-            <v-select
-              v-model="item.status__"
-              :items="dt_register_status__"
-              item-text="text"
-              item-value="value"
-              dense
-              disabled
-            ></v-select>
-          </template>
-        </v-edit-dialog>
-      </template>
-
     </v-data-table>
 
   </div>
@@ -51,12 +61,11 @@
 
 <script>
 import axios from 'axios'
-import { registerStatus } from '@/mixins/build/registerStatus.js'
 
 export default {
-  mixins: [registerStatus],
   data () {
     return {
+      search: '',
       loading: false,
       headers: [
         {
@@ -65,13 +74,9 @@ export default {
           sortable: true,
           value: 'cntrl_no'
         },
-        { text: 'Company Name', value: 'co_name_', sortable: true },
         { text: 'First Name', value: 'frst_nme', sortable: true },
         { text: 'Last Name', value: 'last_nme', sortable: true },
-        { text: 'Email', value: 'email', sortable: true },
-        { text: 'Mobile', value: 'mobile__', sortable: true },
-        { text: 'Status', value: 'status__', sortable: true },
-        { text: 'Action', value: 'action', sortable: false }
+        { text: 'Email', value: 'email', sortable: true }
       ],
       list: []
     }
