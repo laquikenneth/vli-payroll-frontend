@@ -17,6 +17,14 @@
     >
       <v-subheader>General</v-subheader>
 
+      <v-form @submit.prevent="upload">
+
+        <input type="file" @change="handleOnChange">
+
+        <v-btn type="submit">Upload</v-btn>
+
+      </v-form>
+
       <v-list-item>
         <v-list-item-content>
           <v-list-item-title>Password</v-list-item-title>
@@ -118,8 +126,10 @@
         persistent
         max-width="400"
       >
+
         <v-card>
           <!-- <v-card-text> -->
+            <v-card-title>Change Password</v-card-title>
             <v-container>
               <v-form
                 ref="form"
@@ -169,6 +179,7 @@
                       outlined
                       :error-messages="confirm_message"
                       :readonly="readonly"
+                      :disabled="readonly"
                     />
 
                   </v-col>
@@ -192,6 +203,7 @@
                       :error-messages="confirm_message"
                       @change="passwordConfirmation()"
                       :readonly="readonly"
+                      :disabled="readonly"
                     >
 
                     </v-text-field>
@@ -264,6 +276,7 @@ export default {
       settings: [],
       dialog: false,
       error: '',
+      image: '',
       message_array: [],
       confirm_message: [],
       multiLine: true,
@@ -299,6 +312,14 @@ export default {
   methods: {
     showDialog () {
       this.dialog = true
+    },
+    handleOnChange (e) {
+      this.image = e.target.files[0]
+    },
+    upload () {
+      const formData = new FormData()
+      formData.set('image', this.image)
+      axios.post('u/settings/upload/avatar', formData)
     },
     check_old_password () {
       axios.post('u/admin/password-check', this.form)

@@ -6,7 +6,7 @@
       :headers="headers"
       :items="masterfile"
       :search="search"
-      :items-per-page="5"
+      :items-per-page="7"
       :loading="loading"
       class="elevation-1"
       height="400px"
@@ -19,7 +19,7 @@
 
           <v-spacer></v-spacer>
 
-          <v-cols cols="6">
+          <v-col cols="6">
 
             <v-text-field
               v-model="search"
@@ -30,18 +30,24 @@
               dense
             />
 
-          </v-cols>
-
-          <v-btn
-            class="ml-2 mt-n1"
-            elevation="1"
-            medium
-            v-show="hasErrors"
-          >
-            View Errors
-          </v-btn>
+          </v-col>
 
         </v-card-title>
+
+      </template>
+
+      <template v-slot:item.image_id="{ item }">
+
+        <v-avatar
+          size="36"
+        >
+
+          <v-img
+            :src="item.image_id"
+            alt="John"
+          />
+
+        </v-avatar>
 
       </template>
 
@@ -73,11 +79,13 @@
 import axios from 'axios'
 
 export default {
+  name: 'Masterfile',
   data () {
     return {
       loading: false,
       search: '',
       headers: [
+        { text: 'Profile', value: 'image_id' },
         {
           text: 'Employee #',
           align: 'left',
@@ -93,19 +101,23 @@ export default {
     }
   },
   methods: {
-    load_masterfile () {
-      this.loading = true
-      axios.get('u/maintenance/masterfile', {
-        params: {
-          vli_subs_hdr: this.$store.getters.authenticatedUser.vli_subs_hdr
-        }
-      })
-        .then(response => {
-          this.masterfile = response.data
-          this.loading = false
+    async load_masterfile () {
+      try {
+        await new Promise((resolve, reject) => {
+          this.loading = true
+          axios.get('u/maintenance/masterfile')
+            .then(response => {
+              this.masterfile = response.data
+              this.loading = false
+              resolve(response)
+            })
+            .catch(error => {
+              reject(error)
+            })
         })
+      } catch (error) {
+      }
     }
-
   },
   created () {
     this.load_masterfile()

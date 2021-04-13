@@ -16,7 +16,7 @@ export default new Vuex.Store({
     error_message: ''
   },
   getters: {
-    authenticatedUser (state) {
+    AUTHENTICATED_USER (state) {
       return state.user
     },
     error_message (state) {
@@ -34,7 +34,7 @@ export default new Vuex.Store({
     }
   },
   mutations: {
-    authenticatedUser (state, payload) {
+    SET_AUTHENTICATED_USER (state, payload) {
       state.user = payload
     },
     logout (state) {
@@ -70,22 +70,20 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    async authenticatedUser (context, guard) {
+    async AUTH_USER (context, guard) {
       // user
       try {
-        if (guard === 'User') {
-          if (context.getters.loggedIn) {
-            await new Promise((resolve, reject) => {
-              axios.get('u/user')
-                .then(response => {
-                  context.commit('authenticatedUser', response.data)
-                  resolve(response)
-                })
-                .catch(error => {
-                  reject(error)
-                })
-            })
-          }
+        if (guard === 'User' && context.getters.loggedIn) {
+          return new Promise((resolve, reject) => {
+            axios.get('u/user')
+              .then(response => {
+                context.commit('SET_AUTHENTICATED_USER', response.data)
+                resolve(response)
+              })
+              .catch(error => {
+                reject(error)
+              })
+          })
         }
       } catch (error) {
       }
@@ -95,7 +93,7 @@ export default new Vuex.Store({
           await new Promise((resolve, reject) => {
             axios.get('s/user')
               .then(response => {
-                context.commit('authenticatedUser', response.data)
+                context.commit('SET_AUTHENTICATED_USER', response.data)
                 resolve(response)
               })
               .catch(error => {
@@ -105,16 +103,13 @@ export default new Vuex.Store({
         }
       }
     },
-    async logout (context) {
+    async AUTH_USER_LOGOUT (context) {
       try {
-        axios.defaults.headers.common.Authorization = 'Bearer ' + localStorage.getItem('u_t')
         if (context.getters.loggedIn) {
-          await new Promise((resolve, reject) => {
+          return new Promise((resolve, reject) => {
             axios.post('u/logout')
               .then(response => {
                 localStorage.removeItem('u_t')
-                this.state.user = {}
-                context.commit('logout')
                 resolve(response)
               })
               .catch(error => {
@@ -152,7 +147,6 @@ export default new Vuex.Store({
     },
     async systemLogout (context) {
       try {
-        axios.defaults.headers.common.Authorization = 'Bearer ' + localStorage.getItem('s_t')
         if (context.getters.systemLoggedIn) {
           await new Promise((resolve, reject) => {
             axios.post('s/logout')

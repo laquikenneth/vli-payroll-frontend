@@ -2,13 +2,13 @@
 
   <div>
 
-   <v-card
-      class='mx-auto'
-      outlined
-      :loading='loading'
-      elevation='3'
+  <v-card
+    class='mx-auto'
+    outlined
+    :loading='loading'
+    elevation='3'
 
-    >
+  >
 
     <v-card-title>
 
@@ -345,7 +345,7 @@
 
     </v-container>
 
-   </v-card>
+  </v-card>
 
   <!-- Snackbar -->
   <v-snackbar
@@ -388,11 +388,13 @@ export default {
   },
   data () {
     return {
+      loading: true,
       multiLine: true,
       snackbar: false,
       snackbarText: '',
       btn_disabled: false,
       textfield_disabled: true,
+      formHasErrors: true,
       masterfile: {},
       form: {
         empl_cde: '',
@@ -467,6 +469,7 @@ export default {
     },
     async subscriber () {
       try {
+        this.loading = true
         if (this.$store.getters.loggedIn) {
           await new Promise((resolve, reject) => {
             axios.get('u/maintenance/masterfile/edit', {
@@ -479,6 +482,7 @@ export default {
                 Object.keys(this.masterfile).forEach(key => {
                   this.form[key] = this.masterfile[key]
                 })
+                this.loading = false
                 resolve(response)
               })
               .catch(error => {
@@ -519,7 +523,6 @@ export default {
     }
   },
   created () {
-    console.log(this.form.password.length !== 0)
     this.subscriber()
   }
 }

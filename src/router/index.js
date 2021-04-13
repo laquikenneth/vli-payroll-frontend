@@ -27,6 +27,7 @@ import AdminEmailResent from '../views/Admin/Email/Resent'
 import AdminEmailVerified from '../views/Admin/Email/Verified'
 import AdminPayrolDirectory from '../views/Admin/Payroll/Directory'
 import AdminPayrollHeader from '../views/Admin/Payroll/Payroll-Header'
+import AdminPayrollGroup from '../views/Admin/Payroll/Payroll-Group'
 import EmployeePayrollHistory from '../views/Employee/Payroll/History'
 import AdminMasterfile from '../views/Admin/Maintenance/MasterFile.vue'
 import AdminMasterFileEdit from '../views/Admin/Maintenance/Components/MasterFile.vue'
@@ -166,7 +167,7 @@ const routes = [
     component: AdminDashboard,
     children: [
       {
-        path: 'payroll/directory',
+        path: 'payroll/directory/:id',
         name: 'Admin-Payroll-Directory',
         component: AdminPayrolDirectory,
         meta: {
@@ -178,6 +179,15 @@ const routes = [
         path: 'payroll/header/:id',
         name: 'Admin-Payroll-Header',
         component: AdminPayrollHeader,
+        meta: {
+          guard: 'User',
+          requiresAuth: true
+        }
+      },
+      {
+        path: 'payroll/group',
+        name: 'Admin-Payroll-Group',
+        component: AdminPayrollGroup,
         meta: {
           guard: 'User',
           requiresAuth: true

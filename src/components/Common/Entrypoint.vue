@@ -54,12 +54,25 @@ export default {
   created () {
     if (localStorage.getItem('u_t') !== null) {
       this.$store.dispatch('authenticatedUser', 'User')
-      setTimeout(() => {
-        this.dashboard()
-      }, 5000)
-      setInterval(() => {
-        this.toggleTransition()
-      }, 2500)
+        .then(response => {
+          console.log(response)
+          setTimeout(() => {
+            this.dashboard()
+          }, 5000)
+          setInterval(() => {
+            this.toggleTransition()
+          }, 2500)
+        })
+        .catch(() => {
+          this.$router.replace({
+            path: '/auth/signin',
+            query: {
+              redirect: this.$router.currentRoute.fullPath
+            }
+          })
+          localStorage.removeItem('u_t')
+          location.reload()
+        })
     }
   }
 }

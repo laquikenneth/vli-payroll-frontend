@@ -20,7 +20,7 @@
 
           <v-spacer></v-spacer>
 
-          <v-cols cols="6">
+          <v-col cols="6">
 
             <v-text-field
               v-model="search"
@@ -31,7 +31,7 @@
               dense
             />
 
-          </v-cols>
+          </v-col>
 
         </v-card-title>
 
@@ -45,7 +45,6 @@
 
 <script>
 import axios from 'axios'
-import { mapGetters } from 'vuex'
 
 export default {
   data () {
@@ -70,20 +69,10 @@ export default {
       ]
     }
   },
-  computed: {
-    ...mapGetters({
-      user: 'authenticatedUser'
-    })
-  },
   methods: {
     verified () {
       this.loading = true
-      // axios.defaults.headers.Authorization = 'Bearer ' + localStorage.getItem('u_t')
-      axios.get('u/email/verified', {
-        params: {
-          vli_subs_hdr: this.user.vli_subs_hdr
-        }
-      })
+      axios.get('u/email/verified')
         .then(response => {
           this.loading = false
           this.users = response.data

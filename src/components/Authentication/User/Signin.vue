@@ -159,7 +159,7 @@ export default {
   computed: {
     ...mapGetters({
       // map `this.doneCount` to `this.$store.getters.doneTodosCount`
-      user: 'authenticatedUser'
+      user: 'AUTHENTICATED_USER'
     })
   },
   methods: {
@@ -176,12 +176,18 @@ export default {
         .then(() => {
           this.loading = false
           // this.readonly = true
-          if (this.$store.getters.error_message) {
+          if (!this.$store.getters.error_message) {
+            this.$store.dispatch('AUTH_USER', 'User')
+              .then(() => {
+                if (this.user.is_admin === 'T') {
+                  this.$router.push({ name: 'Admin-Dashboard' })
+                } else {
+                  this.$router.push({ name: 'Employee-Dashboard' })
+                }
+              })
+          } else {
             this.snackbar = true
             this.snackbarText = this.$store.getters.error_message
-          } else {
-            // console.log(this.user)
-            this.$router.push({ name: 'EntryPoint' })
           }
         })
     }

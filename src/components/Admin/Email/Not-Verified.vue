@@ -17,7 +17,7 @@
 
       <v-spacer></v-spacer>
 
-        <v-cols cols="6">
+        <v-col cols="6">
 
           <v-text-field
             v-model="search"
@@ -28,7 +28,7 @@
             dense
           />
 
-        </v-cols>
+        </v-col>
 
         <v-btn
           @click="dialog = true"
@@ -125,6 +125,7 @@ export default {
       users: [],
       loading: false,
       multiLine: true,
+      search: '',
       snackbar: false,
       snackbarText: '',
       dialog: false,
@@ -154,11 +155,7 @@ export default {
     // note: not reactive
     not_verified () {
       this.loading = true
-      axios.get('u/email/not-verified', {
-        params: {
-          vli_subs_hdr: this.$store.getters.authenticatedUser.vli_subs_hdr
-        }
-      })
+      axios.get('u/email/not-verified')
         .then(response => {
           this.loading = false
           this.users = response.data

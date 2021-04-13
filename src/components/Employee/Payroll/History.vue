@@ -114,7 +114,7 @@
             <v-col cols="3">
 
               <v-text-field
-                v-model="header.grosspay"
+                :value="formatNumber(header.grosspay)"
                 label="Total Gross Pay"
                 outlined
                 dense
@@ -129,7 +129,7 @@
             <v-col cols="3">
 
               <v-text-field
-                v-model="header.deductn_"
+                :value="formatNumber(header.deductn_)"
                 label="Total Deductions"
                 outlined
                 dense
@@ -144,7 +144,7 @@
             <v-col cols="3">
 
               <v-text-field
-                v-model="header.net_pay_"
+                :value="formatNumber(header.net_pay_)"
                 label="Total Net Pay"
                 outlined
                 dense
@@ -247,6 +247,7 @@
 
 <script>
 import axios from 'axios'
+import { numberSeparator } from '@/util/common'
 
 export default {
   name: 'Employee-Payroll-History',
@@ -278,6 +279,9 @@ export default {
         .then(response => {
           this.headers = response.data
         })
+    },
+    formatNumber (num) {
+      return numberSeparator(num)
     },
     grosspay_details (id) {
       axios.get('u/employee/payroll/history/gross/details', {

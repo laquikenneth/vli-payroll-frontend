@@ -16,11 +16,11 @@
 
         <v-card-title>
 
-          <span>Payroll Headers #{{ payroll[0].vli_payr_dir }}</span>
+          <span v-if="show_id">Payroll Headers #{{ payroll[0].vli_payr_dir }}</span>
 
           <v-spacer></v-spacer>
 
-          <v-cols cols="6">
+          <v-col cols="6">
 
             <v-text-field
               v-model="search"
@@ -31,9 +31,30 @@
               dense
             />
 
-          </v-cols>
+          </v-col>
 
         </v-card-title>
+
+      </template>
+
+      <!-- grosspay -->
+      <template v-slot:item.grosspay="{ item }">
+
+        {{ formatNumber(item.grosspay) }}
+
+      </template>
+
+      <!-- deduction -->
+      <template v-slot:item.deductn_="{ item }">
+
+        {{ formatNumber(item.deductn_) }}
+
+      </template>
+
+      <!-- netpay -->
+      <template v-slot:item.net_pay_="{ item }">
+
+        {{ formatNumber(item.net_pay_) }}
 
       </template>
 
@@ -84,8 +105,10 @@
   </div>
 
 </template>
+
 <script>
 import axios from 'axios'
+import { numberSeparator } from '@/util/common'
 
 export default {
   name: 'Directory-Details',
@@ -96,6 +119,7 @@ export default {
       multiLine: true,
       snackbar: false,
       hasErrors: false,
+      show_id: false,
       snackbarText: '',
       search: '',
       headers: [
@@ -126,7 +150,11 @@ export default {
         .then(reponse => {
           this.payroll = reponse.data
           this.loading = false
+          this.show_id = true
         })
+    },
+    formatNumber (num) {
+      return numberSeparator(num)
     },
     send_payslip (item) {
       axios.get('u/payroll/send/payslip/employee', {

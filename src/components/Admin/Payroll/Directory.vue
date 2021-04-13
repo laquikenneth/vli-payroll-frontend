@@ -117,7 +117,7 @@
             <v-col cols="3">
 
               <v-text-field
-                v-model="directory.grosspay"
+                :value="formatNumber(directory.grosspay)"
                 label="Total Gross Pay"
                 outlined
                 dense
@@ -131,7 +131,7 @@
             <v-col cols="3">
 
               <v-text-field
-                v-model="directory.deduction"
+                :value="formatNumber(directory.deduction)"
                 label="Total Deductions"
                 outlined
                 dense
@@ -145,7 +145,7 @@
             <v-col cols="3">
 
               <v-text-field
-                v-model="directory.netpay"
+                :value="formatNumber(directory.netpay)"
                 label="Total Net Pay"
                 outlined
                 dense
@@ -187,7 +187,7 @@
               </v-btn>
 
               <v-btn
-                @click="count_employees(directory.cntrl_no), dialog = true"
+                @click="dialog = true"
                 medium
                 :disabled="btn_disabled"
               >
@@ -283,6 +283,9 @@ import axios from 'axios'
 
 export default {
   name: 'Admin-Directory',
+  props: {
+    payr_dir: Number
+  },
   data () {
     return {
       directories: [],
@@ -303,13 +306,16 @@ export default {
     payroll_directories () {
       axios.get('u/payroll/directories', {
         params: {
-          vli_subs_hdr: this.$store.getters.authenticatedUser.vli_subs_hdr
+          vli_payr_grp: this.payr_dir
         }
       })
         .then(response => {
           this.directories = response.data
           this.show_app_bar = true
         })
+    },
+    formatNumber (num) {
+      return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
     },
     send_payslip (id) {
       axios.get('u/payroll/send/payslip', {
@@ -376,8 +382,7 @@ export default {
       }
       axios.get('u/payroll/directory/search', {
         params: {
-          payr_dir: this.search,
-          vli_subs_hdr: this.$store.getters.authenticatedUser.vli_subs_hdr
+          payr_dir: this.search
         }
       })
         .then(response => {

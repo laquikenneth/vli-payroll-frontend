@@ -21,7 +21,7 @@
 
           <v-spacer></v-spacer>
 
-          <v-cols cols="6">
+          <v-col cols="6">
 
             <v-text-field
               v-model="search"
@@ -32,7 +32,7 @@
               dense
             />
 
-          </v-cols>
+          </v-col>
 
           <v-btn
             @click="show_dialog"
@@ -161,11 +161,7 @@ export default {
   methods: {
     pending () {
       this.loading = true
-      axios.get('u/email/pending', {
-        params: {
-          vli_subs_hdr: this.$store.getters.authenticatedUser.vli_subs_hdr
-        }
-      })
+      axios.get('u/email/pending')
         .then(response => {
           this.loading = false
           this.users = response.data

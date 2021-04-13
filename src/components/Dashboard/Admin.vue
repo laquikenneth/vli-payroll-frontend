@@ -162,7 +162,7 @@
 
                   <v-list-item-avatar>
 
-                    <img :src="images.profile" alt="John">
+                    <v-img :src="user.image_id" alt="John" />
 
                   </v-list-item-avatar>
 
@@ -263,7 +263,7 @@
 
       <v-container fluid>
 
-        <router-view></router-view>
+        <router-view :vli_subs_hdr="user.vli_subs_hdr"></router-view>
 
       </v-container>
 
@@ -294,12 +294,16 @@ export default {
         {
           action: 'mdi-account-cash-outline',
           title: 'Payroll',
-          active: true,
           subs: [
+            // {
+            //   action: 'mdi-folder-outline',
+            //   title: 'Directory',
+            //   url: { name: 'Admin-Payroll-Directory' }
+            // },
             {
               action: 'mdi-folder-outline',
               title: 'Directory',
-              url: { name: 'Admin-Payroll-Directory' }
+              url: { name: 'Admin-Payroll-Group' }
             }
           ]
 
@@ -350,30 +354,33 @@ export default {
         }
       ],
       account: [
-        { text: 'Settings', icon: 'mdi-cog-outline', url: { name: 'Admin-Settings' } }
+        { text: 'Settings', icon: 'mdi-cog-outline', url: { name: 'Admin-Settings' } },
+        { text: 'Switch To Regular Payroll', icon: 'mdi-account-switch-outline', url: { name: 'Employee-Dashboard' } }
       ]
     }
   },
   computed: {
     ...mapGetters({
       // map `this.doneCount` to `this.$store.getters.doneTodosCount`
-      user: 'authenticatedUser'
+      user: 'AUTHENTICATED_USER'
     })
   },
+  mounted () {
+    this.$store.dispatch('AUTH_USER', 'User')
+  },
   methods: {
-    authenticatedUser () {
-      this.$store.dispatch('authenticatedUser', 'User')
-    },
+    // authenticatedUser () {
+    //   this.$store.dispatch('authenticatedUser', 'User')
+    // },
     signout () {
-      this.$store.dispatch('logout')
-        .then(() => {
-          this.$router.push({ name: 'App' })
-          location.reload()
-        })
+      this.$store.dispatch('AUTH_USER_LOGOUT').then(() => {
+        this.$router.push({ path: '/' })
+        location.reload()
+      })
     }
   },
   created () {
-    this.authenticatedUser()
+    // this.authenticatedUser()
   }
 }
 </script>

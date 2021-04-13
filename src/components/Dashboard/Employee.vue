@@ -1,6 +1,6 @@
 <template>
 
-  <v-app>
+  <div>
 
     <!-- nav bar -->
     <v-navigation-drawer
@@ -208,6 +208,24 @@
                 </v-list-item>
 
                 <v-list-item
+                  v-if="user.is_admin === 'T'"
+                  :to="{ name: 'Admin-Dashboard' }"
+                >
+                  <v-list-item-icon>
+
+                    <v-icon>mdi-account-switch-outline</v-icon>
+
+                  </v-list-item-icon>
+
+                  <v-list-item-content>
+
+                    <v-list-item-title>Switch To Admin Panel</v-list-item-title>
+
+                  </v-list-item-content>
+
+                </v-list-item>
+
+                <v-list-item
                   @click="signout()"
                 >
                   <v-list-item-icon>
@@ -268,16 +286,17 @@
 
     <!-- </v-main> -->
 
-  </v-app>
+  </div>
 
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'Employee-Dashboard',
   data () {
     return {
-      user: '',
       drawer: null,
       menu: false,
       loading: false,
@@ -320,23 +339,21 @@ export default {
       ]
     }
   },
-  methods: {
-    authenticatedUser () {
-      this.$store.dispatch('authenticatedUser', 'User')
-        .then(() => {
-          this.user = this.$store.getters.authenticatedUser
-        })
-    },
-    signout () {
-      this.$store.dispatch('logout')
-        .then(() => {
-          this.$router.push({ name: 'Signin' })
-          location.reload()
-        })
-    }
+  computed: {
+    ...mapGetters({
+      user: 'AUTHENTICATED_USER'
+    })
   },
-  created () {
-    this.authenticatedUser()
+  mounted () {
+    this.$store.dispatch('AUTH_USER', 'User')
+  },
+  methods: {
+    signout () {
+      this.$store.dispatch('AUTH_USER_LOGOUT').then(() => {
+        this.$router.push({ path: '/' })
+        location.reload()
+      })
+    }
   }
 }
 </script>
