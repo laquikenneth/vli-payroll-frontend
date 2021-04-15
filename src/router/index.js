@@ -86,7 +86,7 @@ const routes = [
     component: SubscriberRegisterSuccess
   },
   {
-    path: '/validate/mobile/:id',
+    path: '/validate/mobile/:id/:token',
     name: 'Validate-User-Mobile',
     component: UserValidateMobile
   },
