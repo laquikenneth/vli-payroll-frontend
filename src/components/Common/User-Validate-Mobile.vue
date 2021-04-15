@@ -23,7 +23,7 @@
                 v-model="formHasErrors"
               >
 
-                <!-- email -->
+                <!-- mobile -->
                 <v-text-field
                   v-model="form.mobile"
                   :rules='rules.mobile'
@@ -34,7 +34,7 @@
                   label="Mobile Number"
                   counter
                   @keydown.enter="submit"
-              />
+                />
 
                 <!-- button -->
                 <v-card-actions>
@@ -98,8 +98,9 @@ export default {
   name: 'Common-Validate-Mobile',
   data () {
     return {
-      id: this.$route.params.id,
       form: {
+        id: this.$route.params.id,
+        mobile_token: this.$route.params.token,
         mobile: ''
       },
       rules: {
@@ -122,33 +123,38 @@ export default {
     }
   },
   methods: {
-    async validate () {
-      try {
-        await new Promise((resolve, reject) => {
-          axios.post('auth/validate/mobile', {
-            data: {
-              id: this.id,
-              mobile: this.form.mobile
-            }
-          })
-            .then(response => {
-              // if (this.form.mobile === response.data) {
-              this.markEmailAsVerified()
-              // }
-              resolve(response)
-            })
-            .catch(error => {
-              this.snackbarText = error.response.data.message
-              this.snackbar = true
-              reject(error)
-            })
+    validate () {
+      axios.post('auth/validate/mobile', this.form)
+        .then((response) => {
+          this.markEmailAsVerified()
+        }, (error) => {
+          this.snackbarText = error.response.data.message
+          this.snackbar = true
         })
-      } catch (error) {
-      }
     },
+    // async validate () {
+    //   try {
+    //     await new Promise((resolve, reject) => {
+    //       axios.post('auth/validate/mobile', this.form)
+    //         .then(response => {
+    //           this.markEmailAsVerified()
+    //           // if (this.form.mobile === response.data) {
+
+    //           // }
+    //           resolve(response)
+    //         })
+    //         .catch(error => {
+    //           this.snackbarText = error.response.data.message
+    //           this.snackbar = true
+    //           reject(error)
+    //         })
+    //     })
+    //   } catch (error) {
+    //   }
+    // },
     markEmailAsVerified () {
       // window.location.href = 'https://vli-payroll-api-bziyh.ondigitalocean.app/verify-user-email/' + this.id
-      window.location.href = 'http://localhost:8000/verify-user-email/' + this.id
+      window.location.href = 'http://localhost:8000/verify-user-email/' + this.form.id
     }
   }
 }
