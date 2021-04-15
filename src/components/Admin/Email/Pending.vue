@@ -183,6 +183,8 @@ export default {
         }
       })
         .then(() => {
+          this.cntrl_no = []
+          this.selected = []
           this.snackbar = true
           this.snackbarText = 'Email Resent!'
           this.pending()
