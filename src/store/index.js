@@ -9,18 +9,18 @@ export default new Vuex.Store({
     user: '',
     email: '',
     token: localStorage.getItem('u_t') || '',
-    cacheToken: null,
     systemToken: localStorage.getItem('s_t') || null,
+    cacheToken: null,
     cacheSystemToken: null,
     emailVerified: false,
-    error_message: ''
+    auth_message: null
   },
   getters: {
     AUTHENTICATED_USER (state) {
       return state.user
     },
-    error_message (state) {
-      return state.error_message
+    AUTH_MESSAGE (state) {
+      return state.auth_message
     },
     loggedIn: state => !!state.token,
     systemLoggedIn (state) {
@@ -40,8 +40,8 @@ export default new Vuex.Store({
     logout (state) {
       state.token = null
     },
-    error_message (state, payload) {
-      state.error_message = payload
+    SET_AUTH_MESSAGE (state, payload) {
+      state.auth_message = payload
     },
     login (state, payload) {
       state.token = payload
@@ -121,8 +121,8 @@ export default new Vuex.Store({
       }
     },
     // user token
-    async login (context, payload) {
-      context.commit('error_message', '')
+    async AUTHENTICATE (context, payload) {
+      context.commit('SET_AUTH_MESSAGE', null)
       try {
         await new Promise((resolve, reject) => {
           axios.post('u/login', {
@@ -137,7 +137,7 @@ export default new Vuex.Store({
             })
             .catch(error => {
               localStorage.removeItem('u_t')
-              context.commit('error_message', error.response.data.message)
+              context.commit('SET_AUTH_MESSAGE', error.response.data.message)
               reject(error)
             })
         })
