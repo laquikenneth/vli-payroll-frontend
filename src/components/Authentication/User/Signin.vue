@@ -159,7 +159,8 @@ export default {
   computed: {
     ...mapGetters({
       // map `this.doneCount` to `this.$store.getters.doneTodosCount`
-      user: 'AUTHENTICATED_USER'
+      user: 'AUTHENTICATED_USER',
+      error: 'AUTH_MESSAGE'
     })
   },
   methods: {
@@ -168,15 +169,15 @@ export default {
     },
     login () {
       this.loading = true
-      // this.btn_disabled = true
-      this.$store.dispatch('login', {
+      this.btn_disabled = true
+      this.$store.dispatch('AUTHENTICATE', {
         email: this.form.email,
         password: this.form.password
       })
         .then(() => {
           this.loading = false
-          // this.readonly = true
-          if (!this.$store.getters.error_message) {
+          this.readonly = true
+          if (!this.error) {
             this.$store.dispatch('AUTH_USER', 'User')
               .then(() => {
                 if (this.user.is_admin === 'T') {
@@ -186,8 +187,10 @@ export default {
                 }
               })
           } else {
+            this.btn_disabled = false
+            this.readonly = false
             this.snackbar = true
-            this.snackbarText = this.$store.getters.error_message
+            this.snackbarText = this.error
           }
         })
     }
