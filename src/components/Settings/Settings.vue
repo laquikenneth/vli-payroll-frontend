@@ -269,6 +269,7 @@
 
 <script>
 import axios from 'axios'
+import { mapGetters } from 'vuex'
 
 export default {
   data () {
@@ -309,6 +310,12 @@ export default {
       }
     }
   },
+  computed: {
+    ...mapGetters({
+      // map `this.doneCount` to `this.$store.getters.doneTodosCount`
+      user: 'AUTHENTICATED_USER'
+    })
+  },
   methods: {
     showDialog () {
       this.dialog = true
@@ -344,7 +351,10 @@ export default {
       }
     },
     update_password () {
-      axios.post('u/admin/update-password', this.form)
+      axios.post('u/admin/update-password', {
+        verify_new_password: this.form.verify_new_password,
+        user_id: this.user.vli_empl_mst
+      })
         .then(() => {
           this.dialog = false
           this.snackbar = true

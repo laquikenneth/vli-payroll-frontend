@@ -456,14 +456,15 @@ export default {
   methods: {
     update_password () {
       axios.post('u/admin/update-password', {
-        verify_new_password: this.form.password
+        verify_new_password: this.form.password,
+        user_id: this.id
       })
-        .then(() => {
+        .then((response) => {
           this.snackbar = true
           this.snackbarText = 'Password updated successfully!'
           this.form.password = ''
-        })
-        .catch(error => {
+        }, (error) => {
+          this.snackbar = true
           this.snackbarText = error.response.data.message
         })
     },
