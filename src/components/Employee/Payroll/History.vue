@@ -30,7 +30,7 @@
 
       <v-expansion-panel v-for="header in headers" :key="header.vli_payr_dir" multiple>
 
-        <v-expansion-panel-header v-slot="{ open }" @click="retrieve_other_info(header.vli_payr_dir)">
+        <v-expansion-panel-header v-slot="{ open }">
           <v-row no-gutters>
             <v-col cols="4">
               ID: {{ header.payr_dir }} (Part  {{ header.part____ }}) <span><v-icon color="teal">mdi-check</v-icon></span>
@@ -211,7 +211,7 @@
                   {{ grosspay.descript }}:
                 </v-col>
                 <v-col cols="3">
-                  {{ grosspay.amount__ }}
+                  {{ formatNumber(grosspay.amount__) }}
                 </v-col>
               </v-row>
             </v-card-text>
@@ -247,13 +247,13 @@
 
 <script>
 import axios from 'axios'
+import { mapGetters } from 'vuex'
 import { numberSeparator } from '@/util/common'
 
 export default {
   name: 'Employee-Payroll-History',
   data () {
     return {
-      user: '',
       search: '',
       headers: [],
       grosspay: '',
@@ -269,13 +269,15 @@ export default {
       btn_disabled: false
     }
   },
+  computed: {
+    ...mapGetters({
+      // map `this.doneCount` to `this.$store.getters.doneTodosCount`
+      user: 'AUTHENTICATED_USER'
+    })
+  },
   methods: {
     payroll_header () {
-      axios.get('u/employee/payroll/history', {
-        params: {
-          vli_empl_mst: this.$store.getters.authenticatedUser.vli_empl_mst
-        }
-      })
+      axios.get('u/employee/payroll/history')
         .then(response => {
           this.headers = response.data
         })
@@ -286,8 +288,7 @@ export default {
     grosspay_details (id) {
       axios.get('u/employee/payroll/history/gross/details', {
         params: {
-          vli_payr_dir: id,
-          vli_empl_mst: this.$store.getters.authenticatedUser.vli_empl_mst
+          vli_payr_dir: id
         }
       })
         .then(response => {
@@ -300,7 +301,7 @@ export default {
       axios.get('u/employee/payroll/history/deduction/details', {
         params: {
           vli_payr_dir: id,
-          vli_empl_mst: this.$store.getters.authenticatedUser.vli_empl_mst
+          vli_empl_mst: this.user.vli_empl_mst
         }
       })
         .then(response => {
@@ -313,7 +314,7 @@ export default {
       axios.get('u/employee/payroll/history/netpay/details', {
         params: {
           vli_payr_dir: id,
-          vli_empl_mst: this.$store.getters.authenticatedUser.vli_empl_mst
+          vli_empl_mst: this.user.vli_empl_mst
         }
       })
         .then(response => {
@@ -330,7 +331,7 @@ export default {
         responseType: 'blob',
         data: {
           vli_payr_dir: id,
-          vli_empl_mst: this.$store.getters.authenticatedUser.vli_empl_mst
+          vli_empl_mst: this.user.vli_empl_mst
         }
       })
         .then(response => {
@@ -348,7 +349,7 @@ export default {
   },
   created () {
     this.payroll_header()
-    this.user = this.$store.getters.authenticatedUser
+    // this.user = this.$store.getters.authenticatedUser
   }
 }
 </script>

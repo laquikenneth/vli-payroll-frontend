@@ -172,6 +172,7 @@
                   <v-list-item-content>
 
                     <v-list-item-title>{{ user.frst_nme }} {{ user.last_nme }}</v-list-item-title>
+                    <v-list-item-subtitle>{{ user.email }}</v-list-item-subtitle>
                     <!-- <v-list-item-subtitle v-if="user_num == 0">{{ user_id_ }} - Admin</v-list-item-subtitle> -->
                     <!-- <v-list-item-subtitle v-else>{{ user_id_ }}</v-list-item-subtitle> -->
 
@@ -278,11 +279,12 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'System-Dashboard',
   data () {
     return {
-      user: '',
       drawer: null,
       menu: false,
       loading: false,
@@ -323,13 +325,15 @@ export default {
       ]
     }
   },
+  computed: {
+    ...mapGetters({
+      user: 'AUTHENTICATED_USER'
+    })
+  },
+  mounted () {
+    this.$store.dispatch('AUTH_USER', 'System')
+  },
   methods: {
-    authenticatedUser () {
-      this.$store.dispatch('authenticatedUser', 'System')
-        .then(() => {
-          this.user = this.$store.getters.authenticatedUser
-        })
-    },
     signout () {
       this.$store.dispatch('systemLogout')
         .then(() => {
@@ -338,7 +342,6 @@ export default {
     }
   },
   created () {
-    this.authenticatedUser()
   }
 }
 </script>

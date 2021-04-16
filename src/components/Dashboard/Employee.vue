@@ -137,7 +137,7 @@
             <template v-slot:activator="{ on }">
 
               <v-btn
-                color="indigo"
+                color="primary"
                 dark
                 v-on="on"
                 small
@@ -163,14 +163,14 @@
 
                   <v-list-item-avatar>
 
-                    <img :src="images.profile" alt="John">
+                    <img :src="user.image_id" alt="John">
 
                   </v-list-item-avatar>
 
                   <v-list-item-content>
 
                     <v-list-item-title>{{ user.frst_nme }} {{ user.last_nme }}</v-list-item-title>
-                    <!-- <v-list-item-subtitle v-if="user_num == 0">{{ user_id_ }} - Admin</v-list-item-subtitle> -->
+                    <v-list-item-subtitle>{{ user.email }}</v-list-item-subtitle>
                     <!-- <v-list-item-subtitle v-else>{{ user_id_ }}</v-list-item-subtitle> -->
 
                   </v-list-item-content>

@@ -169,7 +169,7 @@
                   <v-list-item-content>
 
                     <v-list-item-title>{{ user.frst_nme }} {{ user.last_nme }}</v-list-item-title>
-                    <v-list-item-subtitle >@{{ user.username }}</v-list-item-subtitle>
+                    <v-list-item-subtitle >{{ user.email }}</v-list-item-subtitle>
                     <!-- <v-list-item-subtitle v-else>{{ user_id_ }}</v-list-item-subtitle> -->
 
                   </v-list-item-content>
@@ -380,7 +380,9 @@ export default {
     }
   },
   created () {
-    // this.authenticatedUser()
+    if (this.user.is_admin !== 'T') {
+      this.$router.push({ name: 'Employee-Dashboard' })
+    }
   }
 }
 </script>

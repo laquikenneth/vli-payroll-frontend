@@ -19,7 +19,7 @@
 
       <v-spacer></v-spacer>
 
-        <v-cols cols="6">
+        <v-col cols="6">
 
           <v-text-field
             v-model="search"
@@ -30,7 +30,7 @@
             dense
           />
 
-        </v-cols>
+        </v-col>
 
       </v-card-title>
 

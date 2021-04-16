@@ -89,13 +89,14 @@ export default {
   },
   methods: {
     login () {
+      this.$router.push({ name: 'Signin' }).catch(() => {})
       // console.log(localStorage.getItem('s_t'))
       // console.log(localStorage.getItem('u_t'))
-      if (this.$store.state.token !== '' || this.$store.state.systemToken !== null) {
-        this.$router.push({ name: 'EntryPoint' })
-      } else {
-        this.$router.push({ name: 'Signin' }).catch(() => {})
-      }
+      // if (this.$store.state.token !== '' || this.$store.state.systemToken !== null) {
+      //   this.$router.push({ name: 'EntryPoint' })
+      // } else {
+      //   this.$router.push({ name: 'Signin' }).catch(() => {})
+      // }
     }
   }
 }

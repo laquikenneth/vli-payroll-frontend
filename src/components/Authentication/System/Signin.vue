@@ -164,9 +164,9 @@ export default {
         .then(() => {
           this.loading = false
           // this.readonly = true
-          if (this.$store.getters.error_message) {
+          if (this.$store.getters.AUTH_MESSAGE) {
             this.snackbar = true
-            this.snackbarText = this.$store.getters.error_message
+            this.snackbarText = this.$store.getters.AUTH_MESSAGE
           } else {
             this.$router.push({ name: 'System-Dashboard' })
           }

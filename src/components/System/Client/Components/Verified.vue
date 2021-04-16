@@ -499,6 +499,8 @@ export default {
           value => value.length <= 30 || 'Company Name must be less than 30 characters'
         ]
       },
+      formHasErrors: true,
+      loading: false,
       btn_disabled: false,
       valid_form: false,
       valid_form_2: false,
@@ -567,6 +569,7 @@ export default {
   },
   methods: {
     async subscriber () {
+      this.loading = true
       try {
         axios.defaults.headers.Authorization = 'Bearer ' + localStorage.getItem('s_t')
         if (this.$store.getters.systemLoggedIn) {
@@ -581,6 +584,7 @@ export default {
                 Object.keys(this.client).forEach(key => {
                   this.form[key] = this.client[key]
                 })
+                this.loading = false
                 resolve(response)
               })
               .catch(error => {

@@ -20,6 +20,18 @@
           medium
           color="primary"
           :disabled="!formHasErrors || btn_disabled"
+          @click="resend_verification"
+        >
+
+          Resend Verification
+
+        </v-btn>
+
+        <v-btn
+          class="ml-2"
+          medium
+          color="primary"
+          :disabled="true"
           @click="submit"
         >
 
@@ -216,7 +228,7 @@
       </v-row>
 
     <v-divider></v-divider>
-     <v-row class='mt-4'>
+    <v-row class='mt-4'>
 
         <v-col cols='4'>
 
@@ -377,7 +389,7 @@
               @input="last_trial_Menu= false"
             />
 
-           </v-menu>
+          </v-menu>
 
           </v-col>
 
@@ -465,7 +477,7 @@
 
     </v-container>
 
-   </v-card>
+  </v-card>
 
   </div>
 
@@ -490,6 +502,8 @@ export default {
           value => value.length <= 30 || 'Company Name must be less than 30 characters'
         ]
       },
+      formHasErrors: true,
+      loading: false,
       btn_disabled: false,
       valid_form: false,
       valid_form_2: false,
@@ -558,11 +572,12 @@ export default {
   },
   methods: {
     async subscriber () {
+      this.loading = true
       try {
         axios.defaults.headers.Authorization = 'Bearer ' + localStorage.getItem('s_t')
         if (this.$store.getters.systemLoggedIn) {
           await new Promise((resolve, reject) => {
-            axios.get('s/client/approved/', {
+            axios.get('s/client/approved', {
               params: {
                 cntrl_no: this.id
               }
@@ -572,6 +587,7 @@ export default {
                 Object.keys(this.client).forEach(key => {
                   this.form[key] = this.client[key]
                 })
+                this.loading = false
                 resolve(response)
               })
               .catch(error => {
@@ -600,6 +616,8 @@ export default {
         }
       } catch (erro) {
       }
+    },
+    resend_verification () {
     },
     submit () {
       this.$refs.form_1.validate() ? this.save() : this.$refs.form_1.validate()

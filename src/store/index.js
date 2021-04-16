@@ -166,7 +166,7 @@ export default new Vuex.Store({
     },
     // system token
     async systemLogin (context, payload) {
-      context.commit('error_message', '')
+      context.commit('SET_AUTH_MESSAGE', null)
       try {
         await new Promise((resolve, reject) => {
           axios.post('s/login', {
@@ -180,7 +180,7 @@ export default new Vuex.Store({
             })
             .catch(error => {
               localStorage.removeItem('s_t')
-              context.commit('error_message', error.response.data.message)
+              context.commit('SET_AUTH_MESSAGE', error.response.data.message)
               reject(error)
             })
         })
