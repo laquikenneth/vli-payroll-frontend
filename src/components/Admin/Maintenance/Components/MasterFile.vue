@@ -43,11 +43,10 @@
         <v-btn
           medium
           color="primary"
-          :disabled="!formHasErrors || btn_disabled"
-          @click="submit"
+          @click="update_employee"
         >
 
-          Save
+          Update
 
         </v-btn>
 
@@ -463,6 +462,21 @@ export default {
           this.snackbar = true
           this.snackbarText = 'Password updated successfully!'
           this.form.password = ''
+        }, (error) => {
+          this.snackbar = true
+          this.snackbarText = error.response.data.message
+        })
+    },
+    update_employee () {
+      axios.post('u/masterfile/employee/update', {
+        vli_empl_mst: this.id,
+        login_limit: this.form.login_limit,
+        is_admin: this.form.is_admin,
+        disabled: this.form.disabled
+      })
+        .then((response) => {
+          this.snackbar = true
+          this.snackbarText = 'Updated successfully!'
         }, (error) => {
           this.snackbar = true
           this.snackbarText = error.response.data.message

@@ -321,7 +321,6 @@ export default {
       ],
       account: [
         { text: 'Settings', icon: 'mdi-cog-outline' }
-
       ]
     }
   },
