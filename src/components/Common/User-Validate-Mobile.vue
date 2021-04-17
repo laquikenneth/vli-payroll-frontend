@@ -154,7 +154,7 @@ export default {
     // },
     markEmailAsVerified () {
       // window.location.href = 'https://vli-payroll-api-bziyh.ondigitalocean.app/verify-user-email/' + this.id
-      window.location.href = 'http://localhost:8000/verify-user-email/' + this.form.id
+      window.location.href = 'https://payroll-api-xb7i8.ondigitalocean.app/' + this.form.id
     }
   }
 }

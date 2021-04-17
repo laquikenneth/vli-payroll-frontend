@@ -2,11 +2,11 @@ import router from '../router'
 import axios from 'axios'
 
 function axiosBaseUrl () {
-  axios.defaults.baseURL = 'http://localhost:8000/api'
+  // axios.defaults.baseURL = 'http://localhost:8000/api'
 
   // axios.defaults.baseURL = 'http://host.docker.internal:8000/api'
 
-  // axios.defaults.baseURL = 'https://vli-payroll-api-bziyh.ondigitalocean.app/api'
+  axios.defaults.baseURL = 'https://payroll-api-xb7i8.ondigitalocean.app/'
 }
 
 function axiosConfigHeader (config, token) {
