@@ -12,6 +12,7 @@ function axiosBaseUrl () {
 function axiosConfigHeader (config, token) {
   config.headers = {
     Authorization: `Bearer ${token}`,
+    'Access-Control-Allow-Origin': '*',
     Accept: 'application/json'
   }
 }

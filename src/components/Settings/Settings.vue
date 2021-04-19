@@ -270,6 +270,8 @@
 <script>
 import axios from 'axios'
 import { mapGetters } from 'vuex'
+import { SkynetClient } from 'skynet-js'
+const client = new SkynetClient('https://siasky.net')
 
 export default {
   data () {
@@ -323,10 +325,16 @@ export default {
     handleOnChange (e) {
       this.image = e.target.files[0]
     },
-    upload () {
-      const formData = new FormData()
-      formData.set('image', this.image)
-      axios.post('u/settings/upload/avatar', formData)
+    async upload () {
+      try {
+        const { skylink } = await client.uploadFile(this.image)
+        console.log(`Upload successful, skylink: ${skylink}`)
+      } catch (error) {
+        console.log(error)
+      }
+      // const formData = new FormData()
+      // formData.set('image', this.image)
+      // axios.post('u/settings/upload/avatar', formData)
     },
     check_old_password () {
       axios.post('u/admin/password-check', this.form)
