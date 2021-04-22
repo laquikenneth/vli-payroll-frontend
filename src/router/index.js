@@ -299,7 +299,7 @@ const routes = [
       },
       {
         path: 'profile/:username',
-        name: 'User-Profile',
+        name: 'Employee-Profile',
         component: Profile,
         meta: {
           guard: 'User',

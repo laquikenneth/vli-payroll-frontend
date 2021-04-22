@@ -160,7 +160,7 @@
 
               <v-list dense>
 
-                <v-list-item link :to="{ name: 'User-Profile', params: { username: user.username} }">
+                <v-list-item link :to="{ name: 'Employee-Profile', params: { username: user.username} }">
 
                   <v-list-item-avatar>
 
