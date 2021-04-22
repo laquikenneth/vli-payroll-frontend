@@ -47,6 +47,7 @@
                   readonly
                   dense
                   filled
+                  :error-messages="messages.email"
                 />
 
               </v-col>
@@ -64,6 +65,7 @@
                   dense
                   outlined
                   label='Company Name'
+                  :error-messages="messages.co_name_"
                   required
                 />
 
@@ -82,6 +84,7 @@
                   dense
                   outlined
                   label='Address'
+                  :error-messages="messages.address_"
                   required
                 />
 
@@ -96,6 +99,7 @@
                   dense
                   outlined
                   label='Zip Code'
+                  :error-messages="messages.zip_code"
                   required
                 />
 
@@ -114,6 +118,7 @@
                   dense
                   outlined
                   label='Employee Code'
+                  :error-messages="messages.empl_cde"
                   required
                 />
 
@@ -132,6 +137,7 @@
                   dense
                   outlined
                   label='First Name'
+                  :error-messages="messages.frst_nme"
                   required
                 />
 
@@ -146,6 +152,7 @@
                   dense
                   outlined
                   label='Last Name'
+                  :error-messages="messages.last_nme"
                   required
                 />
 
@@ -164,6 +171,7 @@
                   dense
                   outlined
                   label='Position'
+                  :error-messages="messages.position"
                   required
                 />
 
@@ -184,6 +192,7 @@
                   label='Mobile Number'
                   required
                   maxlength="11"
+                  :error-messages="messages.mobile__"
                   counter
                 />
 
@@ -194,15 +203,21 @@
             <!-- Submit Button -->
             <v-card-actions>
 
-              <v-btn
+              <!-- <v-btn
                 block
                 medium
                 color="primary"
                 :disabled="!formHasErrors || btn_disabled"
                 @click="submit"
+              > -->
+              <v-btn
+                block
+                medium
+                color="primary"
+                @click="submit"
               >
 
-     Submit
+                Submit
 
               </v-btn>
 
@@ -294,6 +309,18 @@ export default {
           value => value.length === 11 || 'Mobile number must be 11 digits'
         ]
       },
+      messages: {
+        email: [],
+        co_name_: [],
+        address_: [],
+        zip_code: [],
+        empl_cde: [],
+        frst_nme: [],
+        last_nme: [],
+        position: [],
+        mobile__: []
+      },
+      errors: null,
       btn_disabled: false,
       loading: false,
       multiLine: true,
@@ -326,7 +353,11 @@ export default {
           this.loading = false
           this.$router.push({ name: 'Registered-Success' })
         })
-        .catch(e => {
+        .catch(error => {
+          this.errors = error.response.data.errors
+          Object.keys(this.errors).forEach(key => {
+            this.messages[key] = this.errors[key]
+          })
           this.btn_disabled = false
         })
     },

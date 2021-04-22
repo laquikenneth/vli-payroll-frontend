@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 // import App from '../App.vue'
 import EntryPoint from '../components/Common/Entrypoint'
 import Settings from '../views/Settings/Settings'
+import Profile from '../views/Profile/Profile'
 import SubscriberEmailVerified from '../components/Common/Subscriber-Email-Verified'
 import SubscriberRegisterSuccess from '../components/Common/Subscriber-Register-Success'
 import UserEmailVerfied from '../components/Common/User-Email-Verified'
@@ -269,9 +270,18 @@ const routes = [
     component: EmployeeDashboard,
     children: [
       {
-        path: '/payroll/history',
+        path: 'payroll/history',
         name: 'Employee-Payroll-History',
         component: EmployeePayrollHistory,
+        meta: {
+          guard: 'User',
+          requiresAuth: true
+        }
+      },
+      {
+        path: 'profile/:username',
+        name: 'User-Profile',
+        component: Profile,
         meta: {
           guard: 'User',
           requiresAuth: true
@@ -283,14 +293,14 @@ const routes = [
         component: Settings,
         meta: {
           guard: 'User',
-          requiresAuth: true
+          requiresAuth: false
         }
       }
     ],
     meta: {
       guard: 'User',
       isAdmin: false,
-      requiresAuth: true
+      requiresAuth: false
     }
   },
   {

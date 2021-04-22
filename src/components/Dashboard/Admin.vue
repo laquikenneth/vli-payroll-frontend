@@ -162,7 +162,7 @@
 
                   <v-list-item-avatar>
 
-                    <v-img :src="user.image_id" alt="John" />
+                    <v-img :src="user.image_url" alt="John" />
 
                   </v-list-item-avatar>
 
@@ -367,6 +367,9 @@ export default {
   },
   mounted () {
     this.$store.dispatch('AUTH_USER', 'User')
+    this.$root.$on('newProfileImage', (payload) => {
+      this.user.image_url = payload
+    })
   },
   methods: {
     // authenticatedUser () {

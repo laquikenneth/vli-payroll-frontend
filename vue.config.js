@@ -3,7 +3,12 @@ module.exports = {
     'vuetify'
   ],
   devServer: {
-    disableHostCheck: true
-    // proxy: 'http://localhost:8080'
+    // proxy: {
+    //   '^/api': {
+    //     target: 'http://host.docker.internal:8000',
+    //     ws: true,
+    //     changeOrigin: true
+    //   }
+    // }
   }
 }

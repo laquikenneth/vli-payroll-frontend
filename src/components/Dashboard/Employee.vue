@@ -5,6 +5,7 @@
     <!-- nav bar -->
     <v-navigation-drawer
       v-model="drawer"
+      bottom
       app
     >
 
@@ -159,11 +160,13 @@
 
               <v-list dense>
 
-                <v-list-item link>
+                <v-list-item link :to="{ name: 'User-Profile', params: { username: user.username} }">
 
                   <v-list-item-avatar>
 
-                    <img :src="user.image_id" alt="John">
+                    <img :src="user.image_url" alt="John">
+
+                    <!-- <img :src="" -->
 
                   </v-list-item-avatar>
 
@@ -346,6 +349,12 @@ export default {
   },
   mounted () {
     this.$store.dispatch('AUTH_USER', 'User')
+    if (this.user.is_admin === 'T') {
+      this.$router.push({ name: 'Admin-Dashboard' })
+    }
+    this.$root.$on('newProfileImage', (payload) => {
+      this.user.image_url = payload
+    })
   },
   methods: {
     signout () {
@@ -354,6 +363,8 @@ export default {
         location.reload()
       })
     }
+  },
+  created () {
   }
 }
 </script>

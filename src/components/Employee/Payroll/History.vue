@@ -31,12 +31,12 @@
       <v-expansion-panel v-for="header in headers" :key="header.vli_payr_dir" multiple>
 
         <v-expansion-panel-header v-slot="{ open }">
-          <v-row no-gutters>
-            <v-col cols="4">
+          <v-row>
+            <v-col cols="12" md="4">
               ID: {{ header.payr_dir }} (Part  {{ header.part____ }}) <span><v-icon color="teal">mdi-check</v-icon></span>
             </v-col>
             <v-col
-              cols="8"
+              cols="12"
               class="text--secondary"
             >
               <v-fade-transition leave-absolute>
@@ -45,13 +45,13 @@
                   v-else
                   no-gutter
                 >
-                  <v-col cols="4">
+                  <v-col cols="12" md="4">
                     Start Date: {{ header.strt_dte || 'Not set' }}
                   </v-col>
-                  <v-col cols="4">
+                  <v-col cols="12" md="4">
                     Last Date: {{ header.last_dte || 'Not set' }}
                   </v-col>
-                  <v-col cols="4">
+                  <v-col cols="12" md="4">
                     Credit Date: {{ header.credt_dt || 'Not set' }}
                   </v-col>
                 </v-row>
@@ -62,7 +62,7 @@
 
         <v-expansion-panel-content>
           <v-row>
-            <v-col cols="3">
+            <v-col cols="12" md="3">
               <v-text-field
                 v-model="header.strt_dte"
                 label="Start Date"
@@ -74,7 +74,7 @@
               </v-text-field>
             </v-col>
 
-            <v-col cols="3">
+            <v-col cols="12" md="3">
               <v-text-field
                 v-model="header.last_dte"
                 label="Last Date"
@@ -85,7 +85,7 @@
               </v-text-field>
             </v-col>
 
-            <v-col cols="3">
+            <v-col cols="12" md="3">
               <v-text-field
                 v-model="header.credt_dt"
                 label="Credit Date"
@@ -96,7 +96,7 @@
               </v-text-field>
             </v-col>
 
-            <v-col cols="3">
+            <v-col cols="12" md="3">
               <v-text-field
                 v-model="header.remarks_"
                 label="Remarks"
@@ -111,7 +111,7 @@
 
           <v-row>
 
-            <v-col cols="3">
+            <v-col cols="12" md="3">
 
               <v-text-field
                 :value="formatNumber(header.grosspay)"
@@ -126,7 +126,7 @@
 
             </v-col>
 
-            <v-col cols="3">
+            <v-col cols="12" md="3">
 
               <v-text-field
                 :value="formatNumber(header.deductn_)"
@@ -141,7 +141,7 @@
 
             </v-col>
 
-            <v-col cols="3">
+            <v-col cols="12" md="3">
 
               <v-text-field
                 :value="formatNumber(header.net_pay_)"

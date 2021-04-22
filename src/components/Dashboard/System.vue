@@ -331,6 +331,9 @@ export default {
   },
   mounted () {
     this.$store.dispatch('AUTH_USER', 'System')
+    this.$root.$on('newProfileImage', (payload) => {
+      this.user.image_url = payload
+    })
   },
   methods: {
     signout () {

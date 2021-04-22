@@ -26,6 +26,7 @@
 
                 <!-- email -->
                 <v-text-field
+                  type="email"
                   v-model="form.email"
                   :rules="rules.email"
                   dense
@@ -144,7 +145,7 @@ export default {
               this.loading = false
               this.btn_disabled = false
               this.snackbar = true
-              this.snackbarText = error.response.data.message
+              this.snackbarText = error.response.data.errors.email[0]
               reject(error)
             })
         })

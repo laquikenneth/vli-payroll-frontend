@@ -9,21 +9,71 @@
     >
 
       <v-toolbar-title>Settings</v-toolbar-title>
+
     </v-toolbar>
 
     <v-list
       two-line
       subheader
     >
-      <v-subheader>General</v-subheader>
 
-      <v-form @submit.prevent="upload">
+      <v-container>
 
-        <input type="file" @change="handleOnChange">
+        <image-input v-model="avatar">
 
-        <v-btn type="submit">Upload</v-btn>
+          <div slot="activator">
 
-      </v-form>
+            <v-avatar
+              size="150px"
+              v-ripple
+              v-if="!avatar"
+              class="grey lighten-3 mb-3"
+            >
+
+              <!-- <span>Change Avatar</span> -->
+              <v-img :src="user.image_url" alt="avatar" />
+
+            </v-avatar>
+
+            <v-avatar
+              size="150px"
+              v-ripple
+              v-else
+              class="mb-3"
+            >
+              <v-img :src="avatar.imageURL" alt="avatar" />
+
+            </v-avatar>
+
+          </div>
+
+        </image-input>
+
+        <v-slide-x-transition>
+
+          <div v-if="avatar && saved == false">
+
+            <v-btn
+              class="primary"
+              @click="upload()"
+              :loading="saving"
+            >
+
+              Save Avatar
+
+            </v-btn>
+
+          </div>
+
+        </v-slide-x-transition>
+
+      </v-container>
+      <!-- <v-form @submit.prevent="upload"> -->
+      <!-- <input type="file" id="file" ref="file" @change="handleFileUpload()">
+
+      <v-btn @click="upload()" type="submit">Upload</v-btn> -->
+
+      <!-- </v-form> -->
 
       <v-list-item>
         <v-list-item-content>
@@ -49,74 +99,6 @@
     >
       <v-subheader>Admin</v-subheader>
 
-      <!-- <v-list-item-group
-        v-model="settings"
-        multiple
-      > -->
-        <!-- <v-list-item>
-          <template v-slot:default="{ active, }">
-            <v-list-item-action>
-              <v-checkbox
-                :input-value="active"
-                color="primary"
-              ></v-checkbox>
-            </v-list-item-action>
-
-            <v-list-item-content>
-              <v-list-item-title>Notifications</v-list-item-title>
-              <v-list-item-subtitle>Allow notifications</v-list-item-subtitle>
-            </v-list-item-content>
-          </template>
-        </v-list-item> -->
-
-        <!-- <v-list-item>
-          <template v-slot:default="{ active }">
-            <v-list-item-action>
-              <v-checkbox
-                :input-value="active"
-                color="primary"
-              ></v-checkbox>
-            </v-list-item-action>
-
-            <v-list-item-content>
-              <v-list-item-title>Sound</v-list-item-title>
-              <v-list-item-subtitle>Hangouts message</v-list-item-subtitle>
-            </v-list-item-content>
-          </template>
-        </v-list-item> -->
-
-        <!-- <v-list-item>
-          <template v-slot:default="{ active }">
-            <v-list-item-action>
-              <v-checkbox
-                :input-value="active"
-                color="primary"
-              ></v-checkbox>
-            </v-list-item-action>
-
-            <v-list-item-content>
-              <v-list-item-title>Video sounds</v-list-item-title>
-              <v-list-item-subtitle>Hangouts video call</v-list-item-subtitle>
-            </v-list-item-content>
-          </template>
-        </v-list-item> -->
-
-        <!-- <v-list-item>
-          <template v-slot:default="{ active }">
-            <v-list-item-action>
-              <v-checkbox
-                :input-value="active"
-                color="primary"
-              ></v-checkbox>
-            </v-list-item-action>
-
-            <v-list-item-content>
-              <v-list-item-title>Invites</v-list-item-title>
-              <v-list-item-subtitle>Notify when receiving invites</v-list-item-subtitle>
-            </v-list-item-content>
-          </template>
-        </v-list-item> -->
-      <!-- </v-list-item-group> -->
     </v-list>
   </v-card>
 
@@ -270,16 +252,30 @@
 <script>
 import axios from 'axios'
 import { mapGetters } from 'vuex'
-import { SkynetClient } from 'skynet-js'
-const client = new SkynetClient('https://siasky.net')
+import ImageInput from './components/ImageInput.vue'
+// import { SkynetClient } from 'skynet-js'
+
+// // Set a custom user agent.
+// const customUserAgent = 'Sia-Agent'
+
+// // Set an upload progress tracker.
+// const onUploadProgress = (progress, { loaded, total }) => {
+//   console.info(`Progress ${Math.round(progress * 100)}%`)
+// }
+
+// const client = new SkynetClient('https://siasky.net', { customUserAgent, onUploadProgress })
 
 export default {
+  name: 'Settings',
+  components: {
+    ImageInput: ImageInput
+  },
   data () {
     return {
       settings: [],
       dialog: false,
       error: '',
-      image: '',
+      file: '',
       message_array: [],
       confirm_message: [],
       multiLine: true,
@@ -298,6 +294,9 @@ export default {
         ]
 
       },
+      avatar: null,
+      saving: false,
+      saved: false,
       show_old: false,
       show_new: false,
       btn_disabled: false,
@@ -318,23 +317,36 @@ export default {
       user: 'AUTHENTICATED_USER'
     })
   },
+  watch: {
+    avatar: {
+      handler: function () {
+        this.saved = false
+      },
+      deep: true
+    }
+  },
   methods: {
+    uploadImage () {
+      this.saving = true
+      setTimeout(() => this.savedAvatar(), 1000)
+    },
+    savedAvatar () {
+      this.saving = false
+      this.saved = true
+    },
     showDialog () {
       this.dialog = true
     },
-    handleOnChange (e) {
-      this.image = e.target.files[0]
+    handleFileUpload () {
+      this.file = this.$refs.file.files[0]
     },
-    async upload () {
-      try {
-        const { skylink } = await client.uploadFile(this.image)
-        console.log(`Upload successful, skylink: ${skylink}`)
-      } catch (error) {
-        console.log(error)
-      }
-      // const formData = new FormData()
-      // formData.set('image', this.image)
-      // axios.post('u/settings/upload/avatar', formData)
+    upload () {
+      this.saving = true
+      setTimeout(() => this.savedAvatar(), 1000)
+      axios.post('u/settings/upload/avatar', this.avatar.formData)
+        .then(() => {
+          this.$root.$emit('newProfileImage', this.avatar.imageURL)
+        })
     },
     check_old_password () {
       axios.post('u/admin/password-check', this.form)
@@ -374,6 +386,9 @@ export default {
           this.snackbarText = error.response.data.message
         })
     }
+  },
+  created () {
+    axios.defaults.headers.common.Authorization = null
   }
 }
 </script>
