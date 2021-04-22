@@ -3,7 +3,13 @@ module.exports = {
     'vuetify'
   ],
   devServer: {
-    public: 'https://vli-xk3s4.ondigitalocean.app'
+    compress: true,
+    allowedHosts: [
+      '0.0.0.0',
+      'https://vli-xk3s4.ondigitalocean.app',
+      'https://payroll-api-xb7i8.ondigitalocean.app'
+    ]
+    // public: 'https://vli-xk3s4.ondigitalocean.app'
     // proxy: {
     //   '^/api': {
     //     target: 'http://host.docker.internal:8000',
