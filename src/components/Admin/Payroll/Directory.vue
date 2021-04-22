@@ -34,12 +34,12 @@
 
         <!-- <v-expansion-panel-header v-slot="{ open }" @click="retrieve_other_info(directory.cntrl_no)"> -->
         <v-expansion-panel-header v-slot="{ open }">
-          <v-row no-gutters>
-            <v-col cols="4">
+          <v-row>
+            <v-col cols="12" md="4">
               ID: {{ directory.cntrl_no }} ({{ directory.payr_dir }} - Part  {{ directory.part____ }}) <span><v-icon color="teal">mdi-check</v-icon></span>
             </v-col>
             <v-col
-              cols="8"
+              cols="12"
               class="text--secondary"
             >
               <v-fade-transition leave-absolute>
@@ -48,13 +48,13 @@
                   v-else
                   no-gutter
                 >
-                  <v-col cols="4">
+                  <v-col cols="12" md="4">
                     Start Date: {{ directory.strt_dte || 'Not set' }}
                   </v-col>
-                  <v-col cols="4">
+                  <v-col cols="12" md="4">
                     Last Date: {{ directory.last_dte || 'Not set' }}
                   </v-col>
-                  <v-col cols="4">
+                  <v-col cols="12" md="4">
                     Credit Date: {{ directory.credt_dt || 'Not set' }}
                   </v-col>
                 </v-row>
@@ -65,7 +65,7 @@
 
         <v-expansion-panel-content>
           <v-row>
-            <v-col cols="3">
+            <v-col cols="12" md="3">
               <v-text-field
                 v-model="directory.strt_dte"
                 label="Start Date"
@@ -77,7 +77,7 @@
               </v-text-field>
             </v-col>
 
-            <v-col cols="3">
+            <v-col cols="12" md="3">
               <v-text-field
                 v-model="directory.last_dte"
                 label="Last Date"
@@ -88,7 +88,7 @@
               </v-text-field>
             </v-col>
 
-            <v-col cols="3">
+            <v-col cols="12" md="3">
               <v-text-field
                 v-model="directory.credt_dt"
                 label="Credit Date"
@@ -99,7 +99,7 @@
               </v-text-field>
             </v-col>
 
-            <v-col cols="3">
+            <v-col cols="12" md="3">
               <v-text-field
                 v-model="directory.remarks_"
                 label="Remarks"
@@ -114,7 +114,7 @@
 
           <v-row>
 
-            <v-col cols="3">
+            <v-col cols="12" md="3">
 
               <v-text-field
                 :value="formatNumber(directory.grosspay)"
@@ -128,7 +128,7 @@
 
             </v-col>
 
-            <v-col cols="3">
+            <v-col cols="12" md="3">
 
               <v-text-field
                 :value="formatNumber(directory.deduction)"
@@ -142,7 +142,7 @@
 
             </v-col>
 
-            <v-col cols="3">
+            <v-col cols="12" md="3">
 
               <v-text-field
                 :value="formatNumber(directory.netpay)"
@@ -156,7 +156,7 @@
 
             </v-col>
 
-            <v-col cols="3">
+            <v-col cols="12" md="3">
 
               <v-text-field
                 v-model="directory.count"

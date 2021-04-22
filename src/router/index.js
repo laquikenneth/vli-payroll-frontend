@@ -155,6 +155,15 @@ const routes = [
           guard: 'System',
           requiresAuth: true
         }
+      },
+      {
+        path: 'profile/:username',
+        name: 'System-Profile',
+        component: Profile,
+        meta: {
+          guard: 'System',
+          requiresAuth: true
+        }
       }
     ],
     meta: {
@@ -256,7 +265,17 @@ const routes = [
           guard: 'User',
           requiresAuth: true
         }
+      },
+      {
+        path: 'profile/:username',
+        name: 'User-Profile',
+        component: Profile,
+        meta: {
+          guard: 'User',
+          requiresAuth: true
+        }
       }
+
     ],
     meta: {
       guard: 'User',

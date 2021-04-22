@@ -161,11 +161,11 @@
 
               <v-list dense>
 
-                <v-list-item link>
+                <v-list-item link :to="{ name: 'System-Profile', params: { username: user.email } }">
 
                   <v-list-item-avatar>
 
-                    <img :src="images.profile" alt="John">
+                    <img :src="user.image_url" alt="John">
 
                   </v-list-item-avatar>
 
