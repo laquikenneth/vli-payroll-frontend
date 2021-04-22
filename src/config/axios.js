@@ -6,9 +6,9 @@ function axiosBaseUrl () {
 
   // axios.defaults.baseURL = 'http://host.docker.internal:8000/api'
 
-  axios.defaults.baseURL = 'http://192.168.1.7:8000/api'
+  // axios.defaults.baseURL = 'http://192.168.1.7:8000/api'
 
-  // axios.defaults.baseURL = 'https://payroll-api-xb7i8.ondigitalocean.app/api'
+  axios.defaults.baseURL = 'https://payroll-api-xb7i8.ondigitalocean.app/api'
 }
 
 function axiosConfigHeader (config, token) {
