@@ -4,7 +4,8 @@ module.exports = {
   ],
   devServer: {
     compress: true,
-    host: '0.0.0.0'
+    host: '0.0.0.0',
+    disableHostCheck: true
     // public: 'https://vli-xk3s4.ondigitalocean.app'
     // proxy: {
     //   '^/api': {
