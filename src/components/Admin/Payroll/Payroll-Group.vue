@@ -18,12 +18,12 @@
 
         <!-- <v-expansion-panel-header v-slot="{ open }" @click="retrieve_other_info(directory.cntrl_no)"> -->
         <v-expansion-panel-header v-slot="{ open }">
-          <v-row no-gutters>
-            <v-col cols="4">
-              ID: {{ group.payr_grp }}
+          <v-row>
+            <v-col cols="12" md="4">
+              ID: {{ group.cntrl_no }} ({{ group.payr_grp }})
             </v-col>
             <v-col
-              cols="8"
+              cols="12"
             >
               <v-fade-transition leave-absolute>
                 <span v-if="open">Description: {{ group.descript }}</span>
@@ -41,21 +41,15 @@
         </v-expansion-panel-header>
 
         <v-expansion-panel-content>
+
           <v-row>
-            <v-col cols="3">
-
-            </v-col>
-
-          </v-row>
-
-          <v-row class="mt-n5">
 
             <v-col>
 
               <v-btn
                 medium
                 class="mr-2"
-                :to="{ name: 'Admin-Payroll-Directory', params: { id: group.payr_grp } }"
+                :to="{ name: 'Admin-Payroll-Directory', params: { id: group.cntrl_no } }"
               >
 
                 View

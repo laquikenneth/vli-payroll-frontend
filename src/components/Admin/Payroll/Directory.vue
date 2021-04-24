@@ -306,7 +306,7 @@ export default {
     payroll_directories () {
       axios.get('u/payroll/directories', {
         params: {
-          vli_payr_grp: this.payr_dir
+          vli_payr_grp: this.$route.params.id
         }
       })
         .then(response => {
