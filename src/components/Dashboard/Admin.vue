@@ -5,6 +5,7 @@
     <!-- nav bar -->
     <v-navigation-drawer
       v-model="drawer"
+      bottom
       app
     >
 
