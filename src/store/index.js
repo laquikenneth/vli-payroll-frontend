@@ -8,6 +8,7 @@ export default new Vuex.Store({
   state: {
     user: '',
     email: '',
+    is_admin: '',
     token: localStorage.getItem('u_t') || '',
     systemToken: localStorage.getItem('s_t') || null,
     cacheToken: null,
@@ -16,6 +17,9 @@ export default new Vuex.Store({
     auth_message: null
   },
   getters: {
+    AUTHENTICATED_TYPE (state) {
+      return state.is_admin
+    },
     AUTHENTICATED_USER (state) {
       return state.user
     },
@@ -34,6 +38,9 @@ export default new Vuex.Store({
     }
   },
   mutations: {
+    SET_AUTHENTICATED_TYPE (state, payload) {
+      state.is_admin = payload
+    },
     SET_AUTHENTICATED_USER (state, payload) {
       state.user = payload
     },
@@ -70,6 +77,23 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    async AUTH_TYPE (context) {
+      try {
+        if (context.getters.loggedIn) {
+          return new Promise((resolve, reject) => {
+            axios.get('u/type')
+              .then(response => {
+                context.commit('SET_AUTHENTICATED_TYPE', response.data)
+                resolve(response)
+              })
+              .catch(error => {
+                reject(error)
+              })
+          })
+        }
+      } catch (error) {
+      }
+    },
     async AUTH_USER (context, guard) {
       // user
       try {

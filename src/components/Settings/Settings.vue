@@ -17,7 +17,71 @@
       subheader
     >
 
-      <v-container>
+    <v-list-item  v-if="is_admin === 'T' && this.$route.name === 'Admin-Settings'">
+
+      <v-list-item-content>
+
+        <v-list-item-title>Change Company Logo</v-list-item-title>
+
+          <v-container>
+
+            <image-input v-model="avatar">
+
+              <div slot="activator">
+
+                <v-avatar
+                  size="100px"
+                  v-ripple
+                  v-if="!avatar"
+                  class="grey lighten-3 mb-3 ml-2"
+                >
+
+                  <!-- <span>Change Avatar</span> -->
+                  <v-img :src="user.company_logo_url" alt="avatar"/>
+
+                </v-avatar>
+
+                <v-avatar
+                  size="100px"
+                  v-ripple
+                  v-else
+                  class="mb-3 ml-2"
+                >
+                  <v-img :src="avatar.imageURL" alt="avatar"/>
+
+                </v-avatar>
+
+              </div>
+
+            </image-input>
+
+            <v-slide-x-transition>
+
+              <div
+                v-if="avatar && saved == false"
+                class="mt-2"
+              >
+
+                <v-btn
+                  class="primary mb-3"
+                  @click="upload()"
+                  :loading="saving"
+                >
+
+                  Save Avatar
+
+                </v-btn>
+
+              </div>
+
+            </v-slide-x-transition>
+          </v-container>
+
+      </v-list-item-content>
+
+    </v-list-item>
+
+      <!-- <v-container>
 
         <image-input v-model="avatar">
 
@@ -30,7 +94,6 @@
               class="grey lighten-3 mb-3"
             >
 
-              <!-- <span>Change Avatar</span> -->
               <v-img :src="user.image_url" alt="avatar" />
 
             </v-avatar>
@@ -67,8 +130,9 @@
 
         </v-slide-x-transition>
 
-      </v-container>
+      </v-container> -->
       <!-- <v-form @submit.prevent="upload"> -->
+
       <!-- <input type="file" id="file" ref="file" @change="handleFileUpload()">
 
       <v-btn @click="upload()" type="submit">Upload</v-btn> -->
@@ -78,7 +142,8 @@
       <v-list-item>
         <v-list-item-content>
           <v-list-item-title>Password</v-list-item-title>
-          <v-list-item-subtitle><span><a @click="showDialog">Change password</a></span></v-list-item-subtitle>
+          <v-spacer/>
+          <v-list-item-subtitle><span class="ml-3"><a @click="showDialog">Change password</a></span></v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
 
@@ -92,14 +157,14 @@
 
     <v-divider></v-divider>
 
-    <v-list
+    <!-- <v-list
       subheader
       two-line
       flat
     >
       <v-subheader>Admin</v-subheader>
 
-    </v-list>
+    </v-list> -->
   </v-card>
 
     <v-row justify="center">
@@ -252,7 +317,8 @@
 <script>
 import axios from 'axios'
 import { mapGetters } from 'vuex'
-import ImageInput from './components/ImageInput.vue'
+import ImageInput from '../Settings/components/ImageInput'
+// import ImageInput from './components/ImageInput.vue'
 // import { SkynetClient } from 'skynet-js'
 
 // // Set a custom user agent.
@@ -314,7 +380,8 @@ export default {
   computed: {
     ...mapGetters({
       // map `this.doneCount` to `this.$store.getters.doneTodosCount`
-      user: 'AUTHENTICATED_USER'
+      user: 'AUTHENTICATED_USER',
+      is_admin: 'AUTHENTICATED_TYPE'
     })
   },
   watch: {
@@ -343,9 +410,9 @@ export default {
     upload () {
       this.saving = true
       setTimeout(() => this.savedAvatar(), 1000)
-      axios.post('u/settings/upload/avatar', this.avatar.formData)
+      axios.post('u/settings/upload/company/avatar', this.avatar.formData)
         .then(() => {
-          this.$root.$emit('newProfileImage', this.avatar.imageURL)
+          this.$root.$emit('newCompanyLogo', this.avatar.imageURL)
         })
     },
     check_old_password () {

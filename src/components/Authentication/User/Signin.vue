@@ -178,14 +178,15 @@ export default {
           this.loading = false
           this.readonly = true
           if (!this.error) {
-            this.$store.dispatch('AUTH_USER', 'User')
-              .then(() => {
-                if (this.user.is_admin === 'T') {
-                  this.$router.push({ name: 'Admin-Dashboard' })
-                } else {
-                  this.$router.push({ name: 'Employee-Dashboard' })
-                }
-              })
+            this.$router.push({ name: 'Employee-Dashboard' })
+            // this.$store.dispatch('AUTH_USER', 'User')
+            //   .then(() => {
+            //     if (this.user.is_admin === 'T') {
+            //       this.$router.push({ name: 'Admin-Dashboard' })
+            //     } else {
+            //       this.$router.push({ name: 'Employee-Dashboard' })
+            //     }
+            //   })
           } else {
             this.btn_disabled = false
             this.readonly = false

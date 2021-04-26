@@ -134,6 +134,7 @@ export default {
         { text: 'Gross Pay', value: 'grosspay', sortable: true },
         { text: 'Deduction', value: 'deductn_', sortable: true },
         { text: 'Net Pay', value: 'net_pay_', sortable: true },
+        { text: 'Email Address', value: 'email', sortable: true },
         { text: 'Action', value: 'action', sortable: false }
       ],
       payroll: []

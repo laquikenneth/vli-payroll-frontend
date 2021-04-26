@@ -55,6 +55,16 @@
 
       <v-container>
 
+        <v-avatar
+          size="120px"
+          class="grey lighten-3 mb-3 ml-2 mt-2"
+        >
+
+          <!-- <span>Change Avatar</span> -->
+          <v-img :src="form.image_url" alt="avatar"/>
+
+        </v-avatar>
+
         <v-form
           ref='form'
           v-model="formHasErrors"
@@ -64,7 +74,7 @@
 
             <v-col cols='12'>
 
-              <h4>Basic Information (#{{ this.form.cntrl_no }})</h4>
+              <h4>Personal Information (#{{ this.form.cntrl_no }})</h4>
 
             </v-col>
 
@@ -406,6 +416,7 @@ export default {
         midl_nme: '',
         email: '',
         username: '',
+        image_url: '',
         mobile__: '',
         password: '',
         is_admin: '',
@@ -485,7 +496,7 @@ export default {
           this.snackbarText = error.response.data.message
         })
     },
-    async subscriber () {
+    async employee () {
       try {
         this.loading = true
         if (this.$store.getters.loggedIn) {
@@ -541,7 +552,7 @@ export default {
     }
   },
   created () {
-    this.subscriber()
+    this.employee()
   }
 }
 </script>

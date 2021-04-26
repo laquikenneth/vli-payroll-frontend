@@ -21,7 +21,7 @@
 
           <v-list-item-avatar>
 
-            <img :src="images.company">
+            <img :src="user.company_logo_url">
 
           </v-list-item-avatar>
 
@@ -303,6 +303,7 @@ export default {
       drawer: null,
       menu: false,
       loading: false,
+      is_admin: '',
       username: 'Joan Visto',
       co_name_: 'Virtual Logic Inc.',
       co_sname: 'VLI',
@@ -349,9 +350,15 @@ export default {
   },
   mounted () {
     this.$store.dispatch('AUTH_USER', 'User')
-    if (this.user.is_admin === 'T') {
-      this.$router.push({ name: 'Admin-Dashboard' })
-    }
+    this.$store.dispatch('AUTH_TYPE')
+    //   .then(response => {
+    //     if (response.data === 'T') {
+    //       this.$router.push({ name: 'Admin-Dashboard' })
+    //     }
+    //   })
+    // if (this.user.is_admin === 'T') {
+    //   this.$router.push({ name: 'Admin-Dashboard' })
+    // }
     this.$root.$on('newProfileImage', (payload) => {
       this.user.image_url = payload
     })

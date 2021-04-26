@@ -36,32 +36,31 @@
 
       </template>
 
-      <template v-slot:item.image_id="{ item }">
+      <!-- <template v-slot:item.image_url="{ item }">
 
         <v-avatar
-          size="36"
+          size="40"
         >
 
           <v-img
-            :src="item.image_id"
-            alt="John"
+            :src="item.image_url"
+            lazy-src="https://vli.s3.filebase.com/static-image/default.jpg"
           />
 
         </v-avatar>
 
-      </template>
+      </template> -->
 
       <template v-slot:item.action="{ item }">
 
         <v-btn
-          @click="send_payslip(item)"
           icon
           :to="{ name: 'Admin-MasterFile-Edit', params: { id: item.cntrl_no } }"
         >
 
           <v-icon>
 
-            mdi-pencil-outline
+            mdi-eye-outline
 
           </v-icon>
 
@@ -85,16 +84,16 @@ export default {
       loading: false,
       search: '',
       headers: [
-        { text: 'Profile', value: 'image_id' },
         {
-          text: 'Employee #',
-          align: 'left',
-          sortable: true,
-          value: 'empl_cde'
+          text: 'Employee Code',
+          value: 'empl_cde',
+          sortable: true
         },
         { text: 'Last Name', value: 'last_nme', sortable: true },
         { text: 'First Name', value: 'frst_nme', sortable: true },
         { text: 'Middle Name', value: 'midl_nme', sortable: true },
+        { text: 'Email', value: 'email', sortable: true },
+        { text: 'Mobile Number', value: 'mobile__' },
         { text: 'Action', value: 'action', sortable: false }
       ],
       masterfile: []

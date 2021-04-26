@@ -172,7 +172,7 @@ const routes = [
     }
   },
   {
-    path: '/admin/dashboard',
+    path: '/admin',
     name: 'Admin-Dashboard',
     component: AdminDashboard,
     children: [
@@ -204,7 +204,7 @@ const routes = [
         }
       },
       {
-        path: 'admin/masterfile',
+        path: 'masterfile',
         name: 'Admin-Masterfile',
         component: AdminMasterfile,
         meta: {
@@ -213,7 +213,7 @@ const routes = [
         }
       },
       {
-        path: 'admin/masterfile/:id',
+        path: 'masterfile/:id',
         name: 'Admin-MasterFile-Edit',
         component: AdminMasterFileEdit,
         meta: {
@@ -298,7 +298,7 @@ const routes = [
         }
       },
       {
-        path: 'profile/:username',
+        path: 'profile',
         name: 'Employee-Profile',
         component: Profile,
         meta: {

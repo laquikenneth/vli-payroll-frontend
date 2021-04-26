@@ -22,7 +22,7 @@
           <v-list-item-avatar>
 
             <img
-              :src="images.company"
+              :src="user.company_logo_url"
             >
 
           </v-list-item-avatar>
@@ -275,6 +275,7 @@
 </template>
 
 <script>
+// import axios from 'axios'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -287,6 +288,7 @@ export default {
       username: 'Joan Visto',
       co_name_: 'Virtual Logic Inc.',
       co_sname: 'VLI',
+      is_admin: 'F',
       images: {
         company: require('@/assets/discord.png'),
         profile: require('@/assets/discord.png')
@@ -368,8 +370,17 @@ export default {
   },
   mounted () {
     this.$store.dispatch('AUTH_USER', 'User')
+    this.$store.dispatch('AUTH_TYPE')
+      .then(response => {
+        if (response.data === 'F') {
+          this.$router.push({ name: 'Employee-Dashboard' })
+        }
+      })
     this.$root.$on('newProfileImage', (payload) => {
       this.user.image_url = payload
+    })
+    this.$root.$on('newCompanyLogo', (payload) => {
+      this.user.company_logo_url = payload
     })
   },
   methods: {
@@ -384,9 +395,14 @@ export default {
     }
   },
   created () {
-    if (this.user.is_admin !== 'T') {
-      this.$router.push({ name: 'Employee-Dashboard' })
-    }
+    // axios.get('u/type')
+    //   .then(response => {
+    //     this.is_admin = response.data
+    //   })
+    // if (this.is_admin !== 'F') {
+    //   this.$router.push({ name: 'Employee-Dashboard' })
+    // }
+    // console.log(this.is_admin)
   }
 }
 </script>

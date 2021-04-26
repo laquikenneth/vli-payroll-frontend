@@ -96,6 +96,7 @@
                   label="Email"
                   dense
                   outlined
+                  readonly
                 />
 
               </v-col>
@@ -111,6 +112,7 @@
                   label="Mobile Number"
                   dense
                   outlined
+                  readonly
                 />
 
               </v-col>
@@ -123,7 +125,7 @@
 
                 <v-col class="text-right">
 
-                  <v-btn class="primary">
+                  <v-btn class="primary" @click="update_profile()">
 
                     Save
 
@@ -139,17 +141,41 @@
 
         </v-sheet>
 
-        <v-divider class="mt-8"></v-divider>
+        <!-- <v-divider class="mt-8"></v-divider> -->
 
-        <v-btn class="primary mt-5">
+        <!-- <v-btn class="primary mt-5">
 
           Change Password
 
-        </v-btn>
+        </v-btn> -->
 
       </v-container>
 
     </v-card>
+
+    <v-snackbar
+      v-model="snackbar"
+      :multi-line="multiLine"
+    >
+
+      {{ snackbarText }}
+
+      <template v-slot:action="{ attrs }">
+
+        <v-btn
+          color="red"
+          text
+          v-bind="attrs"
+          @click="snackbar= false"
+        >
+
+          Close
+
+        </v-btn>
+
+      </template>
+
+    </v-snackbar>
 
   </div>
 
@@ -169,7 +195,13 @@ export default {
     return {
       avatar: null,
       saving: false,
-      saved: false
+      saved: false,
+      multiLine: true,
+      snackbar: false,
+      snackbarText: '',
+      form: {
+        username: ''
+      }
     }
   },
   computed: {
@@ -197,6 +229,15 @@ export default {
       axios.post('u/settings/upload/avatar', this.avatar.formData)
         .then(() => {
           this.$root.$emit('newProfileImage', this.avatar.imageURL)
+        })
+    },
+    update_profile () {
+      axios.post('u/profile/username/update', {
+        username: this.user.username
+      })
+        .then(() => {
+          this.snackbar = true
+          this.snackbarText = 'Successfully Updated!'
         })
     }
   }

@@ -16,7 +16,7 @@
 
       <v-spacer />
 
-        <v-btn class="mr-2"
+        <!-- <v-btn class="mr-2"
           medium
           color="primary"
           :disabled="!formHasErrors || btn_disabled"
@@ -25,7 +25,7 @@
 
           Save
 
-        </v-btn>
+        </v-btn> -->
 
         <v-btn
           medium
@@ -474,13 +474,14 @@
 
     </v-container>
 
-   </v-card>
+    </v-card>
 
   </div>
 
 </template>
 
 <script>
+import moment from 'moment'
 import axios from 'axios'
 
 export default {
@@ -511,9 +512,9 @@ export default {
         co_sname: '',
         login_limit: '4',
         admin_limit: '1',
-        strt_trial: '',
-        last_trial: '',
-        status__: '',
+        strt_trial: moment().format('YYYY-MM-DD'),
+        last_trial: moment().add(7, 'days').format('YYYY-MM-DD'),
+        status__: '1',
         disabled: 'F',
         client_token: ''
       },
