@@ -136,6 +136,7 @@
           <v-text-field
             v-model="form.email"
             label="Email"
+            :error-messages="messages.email"
             dense
             outlined
             filled
@@ -199,6 +200,7 @@
             v-model="form.co_sname"
             label="Company Short Name"
             :rules="rules.co_sname"
+            :error-messages="messages.co_sname"
             dense
             outlined
             required
@@ -506,6 +508,7 @@ export default {
       valid_form: false,
       valid_form_2: false,
       valid_form_3: false,
+      errors: '',
       client: {},
       form: {
         co_name_: '',
@@ -517,6 +520,10 @@ export default {
         status__: '1',
         disabled: 'F',
         client_token: ''
+      },
+      messages: {
+        email: [],
+        co_sname: []
       },
       strt_trial_Menu: false,
       last_trial_Menu: false,
@@ -608,7 +615,11 @@ export default {
                 resolve(response)
               })
               .catch(error => {
-                reject(error)
+                this.errors = error.response.data.errors
+                Object.keys(this.errors).forEach(key => {
+                  this.messages[key] = this.errors[key]
+                })
+                this.btn_disabled = false
               })
           })
         }
