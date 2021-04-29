@@ -23,7 +23,7 @@
         no-gutters
       >
         <v-col class="grow">
-          Please click on the link that we sent to your email account ({{ this.email }}) to verify your email and continue the registration process. <a ref="">Resend Email</a>
+          Please click on the link that we sent to your email account ({{ this.email }}) to verify your email and continue the registration process.
         </v-col>
       </v-row>
     </v-alert>

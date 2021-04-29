@@ -145,7 +145,8 @@ export default {
               this.loading = false
               this.btn_disabled = false
               this.snackbar = true
-              this.snackbarText = error.response.data.errors.email[0]
+              // this.snackbarText = error.response.data.errors.email[0] // uncomment this if using signupRequest
+              this.snackbarText = error.response.data.email
               reject(error)
             })
         })
