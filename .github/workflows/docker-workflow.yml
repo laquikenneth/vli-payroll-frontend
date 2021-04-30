@@ -9,6 +9,13 @@ jobs:
     steps:
       - name: Check out the repo
         uses: actions/checkout@v2
+        run: |
+          if [ -f docker-compose.test.yml ]; then
+            docker-compose --file docker-compose.test.yml build
+            docker-compose --file docker-compose.test.yml run sut
+          else
+            docker build . --file Dockerfile.production
+          fi
       - name: Push to Docker Hub
         uses: docker/build-push-action@v1
         with:
