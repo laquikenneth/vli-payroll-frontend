@@ -1,17 +1,11 @@
-FROM node:14.15-alpine
-
-# https://github.com/webplug-lab/vue-dockerize.git
-
+FROM node:14.15-alpine as build-stage
 WORKDIR /app
-
-COPY ./package*.json ./ 
-
+COPY package*.json ./
 RUN npm install
+COPY ./ .
+RUN npm run build
 
-RUN npm install -g @vue/cli
-
-COPY . ./
-
-RUN chmod g+s /app
-
-CMD [ "npm", "run", "serve" ]
+FROM nginx as production-stage
+RUN mkdir /app
+COPY --from=build-stage /app/dist /app
+COPY nginx.conf /etc/nginx/nginx.conf
