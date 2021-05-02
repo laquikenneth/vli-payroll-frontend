@@ -1,4 +1,4 @@
-# VIrtual Logic Web App
+# Virtual Logic Inc Web App
 
 ## Project setup
 ```
