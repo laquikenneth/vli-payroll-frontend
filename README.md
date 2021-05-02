@@ -1,4 +1,4 @@
-# vli-payroll-frontend
+# Virtual Logic Web App
 
 ## Project setup
 ```
