@@ -1,4 +1,4 @@
-# VLI Web App
+# VIrtual Logic Web App
 
 ## Project setup
 ```
